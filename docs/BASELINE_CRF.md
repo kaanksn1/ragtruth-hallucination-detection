@@ -133,6 +133,12 @@ SHA-256'sını içerir. Tahminden önce bunlar doğrulanır. Mevcut eğitim
 checkpoint/sonuçlarının veya tahmin dosyasının üzerine sessizce yazılmaz.
 Job, model dosyalarını da beklenen çıktılara ekleyip hash'lerini kaydeder.
 
+Windows'ta `Masaüstü` gibi ASCII dışı yollar CRFsuite'in native dosya API'sinde
+sorun çıkarabilir. Eğitim dosyası ASCII adlı geçici klasörde oluşturulup Python
+ile gerçek hedefine kopyalanır; yükleme bellekteki model baytlarıyla yapılır.
+Modelin gerçekten yazıldığı kontrol edilir. Geçici klasörün kendisi de ASCII
+olmalı; mevcut makinenin standart Windows temp klasörü bu koşulu sağlar.
+
 Kısa koşumun validation tahminlerini aynı alt kümede yeniden üretmek için:
 
 ```powershell

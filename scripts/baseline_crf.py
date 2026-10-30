@@ -24,7 +24,9 @@ import argparse
 import json
 import platform
 import re
+import shutil
 import sys
+import tempfile
 import time
 from pathlib import Path
 
@@ -271,6 +273,27 @@ def type_slug(label_type: str) -> str:
     return label_type.lower().replace(" ", "_")
 
 
+def train_to_file(trainer, path: Path) -> None:
+    """Stage native Windows output through an ASCII filename; Python copies it safely.
+
+    CRFsuite's native filename API can silently fail on paths such as Masaüstü.
+    Temporary files are scoped to this call, and model existence is checked.
+    """
+    if sys.platform == "win32" and not str(path).isascii():
+        with tempfile.TemporaryDirectory(prefix="ragtruth-crf-") as directory:
+            temporary = Path(directory) / "model.crfsuite"
+            if not str(temporary).isascii():
+                raise ValueError("CRFsuite on Windows needs an ASCII TMP/TEMP directory")
+            trainer.train(str(temporary))
+            if not temporary.is_file() or temporary.stat().st_size == 0:
+                raise RuntimeError("CRFsuite did not write a model file")
+            shutil.copyfile(temporary, path)
+    else:
+        trainer.train(str(path))
+    if not path.is_file() or path.stat().st_size == 0:
+        raise RuntimeError("CRFsuite did not write a model file")
+
+
 def train_variant(pycrfsuite, examples, grid, training, use_source, novelty_window, model_root: Path) -> dict:
     """Train every grid setting for each type; data is appended once per type and reused."""
     stats = {setting_name(s): {} for s in grid}
@@ -290,7 +313,7 @@ def train_variant(pycrfsuite, examples, grid, training, use_source, novelty_wind
             path = model_root / setting_name(setting) / f"{type_slug(label_type)}.crfsuite"
             path.parent.mkdir(parents=True, exist_ok=True)
             start = time.perf_counter()
-            trainer.train(str(path))
+            train_to_file(trainer, path)
             last = trainer.logparser.last_iteration or {}
             stats[setting_name(setting)][label_type] = {
                 "train_seconds": time.perf_counter() - start, "feature_append_seconds": append_seconds,
@@ -302,11 +325,40 @@ def train_variant(pycrfsuite, examples, grid, training, use_source, novelty_wind
     return stats
 
 
+class _MemoryTagger:
+    """Keep the native model's borrowed bytes alive until its tagger is closed."""
+
+    def __init__(self, pycrfsuite, value):
+        self._model_bytes = value
+        self._native = pycrfsuite.Tagger()
+        self._native.open_inmemory(self._model_bytes)
+
+    def __getattr__(self, name):
+        return getattr(self._native, name)
+
+    def close(self):
+        native = self.__dict__.get("_native")
+        if native is not None:
+            native.close()
+            self._native = None
+        self._model_bytes = None
+
+    def __del__(self):
+        try:
+            self.close()
+        except Exception:
+            pass
+
+
 def open_taggers(pycrfsuite, model_dir: Path) -> dict:
     taggers = {}
     for label_type in LABEL_TYPES:
-        tagger = pycrfsuite.Tagger()
-        tagger.open(str(model_dir / f"{type_slug(label_type)}.crfsuite"))
+        path = model_dir / f"{type_slug(label_type)}.crfsuite"
+        if sys.platform == "win32" and not str(path).isascii():
+            tagger = _MemoryTagger(pycrfsuite, path.read_bytes())
+        else:
+            tagger = pycrfsuite.Tagger()
+            tagger.open(str(path))
         taggers[label_type] = tagger
     return taggers
 

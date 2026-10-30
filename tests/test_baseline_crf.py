@@ -139,7 +139,7 @@ class TinyTrainingTests(unittest.TestCase):
             config["training"]["min_feature_frequency"] = 1
             config_path = Path(tmp) / "crf.json"
             config_path.write_text(json.dumps(config), encoding="utf-8")
-            out = Path(tmp) / "run"
+            out = Path(tmp) / "Masaüstü" / "run"
             CRF.main(["train", "--config", str(config_path), "--output", str(out)])
 
             summary = json.loads((out / "crf_summary.json").read_text(encoding="utf-8"))

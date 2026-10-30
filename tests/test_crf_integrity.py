@@ -117,6 +117,32 @@ class DataIntegrityTests(unittest.TestCase):
 
 
 class PredictionIntegrityTests(unittest.TestCase):
+    def test_nonascii_windows_paths_use_ascii_training_file_and_memory_loading(self):
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / "Masaüstü"
+            target.mkdir()
+
+            def native_train(filename):
+                self.assertTrue(filename.isascii())
+                Path(filename).write_bytes(b"checkpoint fixture")
+
+            fake = SimpleNamespace(Trainer=None, Tagger=lambda: SimpleNamespace(
+                open=Mock(side_effect=AssertionError("must not pass non-ASCII filename to native loader")),
+                open_inmemory=Mock()))
+            with patch.object(CRF.sys, "platform", "win32"):
+                for t in CRF.LABEL_TYPES:
+                    CRF.train_to_file(SimpleNamespace(train=native_train), target / f"{CRF.type_slug(t)}.crfsuite")
+                taggers = CRF.open_taggers(fake, target)
+            for tagger in taggers.values():
+                tagger.open.assert_not_called()
+                tagger.open_inmemory.assert_called_once_with(b"checkpoint fixture")
+
+    def test_silent_native_training_failure_is_reported_immediately(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "missing.crfsuite"
+            with self.assertRaisesRegex(RuntimeError, "did not write a model"):
+                CRF.train_to_file(SimpleNamespace(train=lambda filename: None), path)
+
     def test_missing_o_label_has_full_positive_marginals(self):
         tagger = SimpleNamespace(tag=Mock(return_value=["B"]), labels=lambda: ["B"],
                                  marginal=Mock(side_effect=AssertionError("O does not exist")))

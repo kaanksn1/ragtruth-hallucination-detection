@@ -143,9 +143,15 @@ kaydedildi. Gerçek verili pilot, 2/4. kişilerin veri/model teslimlerini bekliy
 
 ## Yeniden çalıştırma
 
+[Veri indirme ve merkezî koşum rehberi](docs/RUNNING.md) Serdar'ın entegrasyon
+bölümünü açıklar. `scripts/run_job.py`, ekipten gelecek model komutlarını
+sırayla çalıştırıp config/kod/veri kimliğini ve başarısızlık loglarını saklar.
+Bu katman model implementasyonu değildir.
+
 Bağımsız RAGTruth deposunun kökünden, Python 3.12 ile:
 
 ```powershell
+python scripts/download_data.py
 python scripts/inspect_training_data.py
 python -m unittest discover -s tests -v
 ```

@@ -6,5 +6,10 @@
     "dataset/source_info.jsonl",
     "LICENSE"
   ],
+  "sha256": {
+    "response.jsonl": "e4c2e4ac24fff676d8984cc61c35d791612fadc58015335d97dd632375e18073",
+    "source_info.jsonl": "0dffc26ea9f3c1c3d7c7e8336b56ef1646e3cec876edffcca3c9c624d12d578b",
+    "LICENSE": "b7fd7d6bdfe0cbba63c63a310914beb4a4acb8bf08da73849219f45385f5b244"
+  },
   "paper": "https://aclanthology.org/2024.acl-long.585/"
 }

@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "name": "gpu-smoke-256",
+  "stage": "hardware_smoke",
+  "split": "synthetic",
+  "seed": 42,
+  "inputs": [],
+  "command": [
+    "{python}", "scripts/gpu_smoke.py", "--sequence-length", "256",
+    "--batch-size", "2", "--warmup-steps", "2", "--steps", "5",
+    "--seed", "{seed}", "--output", "{run_dir}/gpu_smoke.json"
+  ],
+  "expected_outputs": ["gpu_smoke.json"],
+  "timeout_seconds": 180
+}

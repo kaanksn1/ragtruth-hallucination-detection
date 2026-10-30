@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "model": "linear-chain CRF (CRFsuite, L-BFGS); one O/B/I tagger per annotation type",
+  "processed_dir": "data/processed",
+  "quality_filter": "good",
+  "features": {
+    "source_features": true,
+    "novelty_window": 3
+  },
+  "training": {
+    "algorithm": "lbfgs",
+    "max_iterations": 150,
+    "possible_transitions": true,
+    "min_feature_frequency": 2
+  },
+  "grid": [
+    {"c1": 0.1, "c2": 0.01},
+    {"c1": 0.1, "c2": 0.1},
+    {"c1": 0.1, "c2": 1.0}
+  ],
+  "decoding": {
+    "posterior_thresholds": [0.5, 0.4, 0.3, 0.2, 0.15, 0.1, 0.05]
+  },
+  "response_only_control": true
+}

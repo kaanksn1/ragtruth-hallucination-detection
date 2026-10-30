@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "name": "crf-validation",
+  "stage": "train",
+  "split": "train",
+  "seed": 42,
+  "inputs": [
+    "configs/crf.json",
+    "data/splits/split_summary_v1.json",
+    "data/processed/train.jsonl",
+    "data/processed/crf_train.jsonl",
+    "data/processed/validation.jsonl",
+    "data/processed/crf_validation.jsonl"
+  ],
+  "command": [
+    "{python}", "scripts/baseline_crf.py", "train", "--config", "configs/crf.json",
+    "--seed", "{seed}", "--output", "{run_dir}"
+  ],
+  "expected_outputs": ["crf_summary.json", "crf_report.md", "validation_predictions.jsonl",
+                       "validation_predictions_response_only.jsonl"],
+  "timeout_seconds": 10800
+}

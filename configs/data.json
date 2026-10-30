@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "seed": 42,
+  "validation_fraction": 0.15,
+  "stratify_by": ["task_type", "source_dataset"],
+  "group_same_content_sources": true,
+  "manifest": "data/splits/split_manifest_v1.csv",
+  "summary": "data/splits/split_summary_v1.json",
+  "processed_dir": "data/processed",
+  "report_json": "docs/data_report.json",
+  "report_md": "docs/DATA_REPORT.md",
+  "samples_dir": "data/samples",
+  "default_quality_filter": "good"
+}

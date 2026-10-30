@@ -53,19 +53,44 @@ def read_records(processed_dir, split, manifest, with_labels=True, limit=None):
 def verify_data(config, splits):
     summary_path = Path(config["split_summary"])
     summary = json.loads(summary_path.read_text(encoding="utf-8"))
-    identity = {str(summary_path): sha256_file(summary_path),
-                config["split_manifest"]: sha256_file(Path(config["split_manifest"]))}
+    # Stable roles let the same checkpoint move between Windows and WSL paths.
+    identity = {"split_summary": sha256_file(summary_path),
+                "split_manifest": sha256_file(Path(config["split_manifest"]))}
     for split in splits:
         path = Path(config["processed_dir"]) / f"{split}.jsonl"
         actual = sha256_file(path)
         if summary["processed_sha256"].get(path.name) != actual:
             raise ValueError(f"{path} differs from split summary; run shared data preparation")
-        identity[str(path)] = actual
+        identity[path.name] = actual
     return identity
 
 
 def checkpoint_files(path):
     return [p for p in Path(path).rglob("*") if p.is_file()]
+
+
+def verify_validation_identity(saved, identity):
+    expected = saved.get("metadata", {}).get("data_sha256", {})
+    if any(not expected.get(name) or expected[name] != identity.get(name)
+           for name in ("split_summary", "split_manifest", "validation.jsonl")):
+        raise ValueError("validation differs from the saved checkpoint's data identity")
+
+
+def verify_frozen_inputs(args, inputs):
+    required = [ROOT / "transformer.py", Path(__file__), ROOT / "scripts/run_job.py",
+                ROOT / "ragtruth_data/data.py", ROOT / "ragtruth_data/features.py",
+                ROOT / "ragtruth_data/alignment.py", ROOT / "ragtruth_data/schema.py",
+                ROOT / "requirements-transformer.txt", args.processed_dir / "test.jsonl",
+                args.manifest, args.checkpoint / "checkpoint.json", *checkpoint_files(args.checkpoint)]
+    # Check membership first, before opening potentially absent test data/weights.
+    for path in required:
+        resolved = path.resolve()
+        if not resolved.is_relative_to(ROOT) or resolved.relative_to(ROOT).as_posix() not in inputs:
+            raise ValueError("frozen test job must hash all Transformer code, checkpoint and test input files")
+    for path in required:
+        relative = path.resolve().relative_to(ROOT).as_posix()
+        if inputs[relative] != sha256_file(path):
+            raise ValueError(f"frozen job must declare unchanged input {relative}")
 
 
 def write_json(path, value):
@@ -81,6 +106,8 @@ def cmd_train(args):
         config["device"] = args.device
     if args.seed is not None:
         config["seed"] = args.seed
+    if args.epochs is not None:
+        config["epochs"] = args.epochs
     tr.validate_config(config)
     identity = verify_data(config, ("train", "validation"))
     records = {split: read_records(config["processed_dir"], split, config["split_manifest"], limit=limit)
@@ -156,11 +183,7 @@ def cmd_predict(args):
         if args.limit is not None:
             raise ValueError("official test predictions cannot be limited")
         frozen_inputs = require_frozen_test_job(ROOT, args.invocation)
-        required = [args.processed_dir / "test.jsonl", args.manifest, *checkpoint_files(args.checkpoint)]
-        for path in required:
-            relative = path.resolve().relative_to(ROOT).as_posix()
-            if frozen_inputs.get(relative) != sha256_file(path):
-                raise ValueError(f"frozen job must declare unchanged input {relative}")
+        verify_frozen_inputs(args, frozen_inputs)
     if args.output.exists():
         raise FileExistsError("refusing to overwrite existing predictions")
     import transformer as tr
@@ -170,8 +193,9 @@ def cmd_predict(args):
     # Runtime device is portable; inference behavior/threshold always comes from the checkpoint.
     device = tr.choose_device(args.device or "auto")
     if args.split == "validation":
-        verify_data(dict(config, processed_dir=str(args.processed_dir), split_manifest=str(args.manifest),
-                         split_summary=str(args.split_summary)), ("validation",))
+        identity = verify_data(dict(config, processed_dir=str(args.processed_dir), split_manifest=str(args.manifest),
+                                    split_summary=str(args.split_summary)), ("validation",))
+        verify_validation_identity(saved, identity)
     records = read_records(args.processed_dir, args.split, args.manifest, with_labels=False, limit=args.limit)
     model, tokenizer, saved = tr.load_checkpoint(args.checkpoint, device)
     config = dict(saved["config"])
@@ -199,6 +223,7 @@ def main(argv=None):
 
     train.add_argument("--limit-train", type=positive)
     train.add_argument("--limit-validation", type=positive)
+    train.add_argument("--epochs", type=positive, help="Override the epoch budget, e.g. one epoch for a bounded pilot")
     predict = sub.add_parser("predict")
     predict.add_argument("--checkpoint", type=Path, required=True)
     predict.add_argument("--split", choices=("validation", "test"), required=True)

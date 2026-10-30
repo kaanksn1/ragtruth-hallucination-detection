@@ -12,6 +12,8 @@ import json
 import math
 from pathlib import Path
 import random
+import re
+import time
 
 import torch
 from torch import nn
@@ -51,6 +53,8 @@ def validate_config(config):
         raise ValueError("gradient_checkpointing must be boolean")
     if not config["model_name"] or not config["revision"]:
         raise ValueError("model_name and revision must be recorded")
+    if not isinstance(config["revision"], str) or not re.fullmatch(r"[0-9a-f]{40}", config["revision"]):
+        raise ValueError("revision must be a pinned 40-character Hub commit SHA")
 
 
 def seed_everything(seed):
@@ -187,6 +191,10 @@ def run_epoch(model, loader, device, config, optimizer=None):
     """
     training = optimizer is not None
     model.train(training)
+    if device.type == "cuda":
+        torch.cuda.synchronize(device)
+        torch.cuda.reset_peak_memory_stats(device)
+    started = time.perf_counter()
     total_loss = total_tokens = windows = steps = skipped = 0
     pending_tokens = pending_batches = 0
     if training:
@@ -225,8 +233,14 @@ def run_epoch(model, loader, device, config, optimizer=None):
         if training and pending_tokens:
             step(pending_tokens)
             steps += 1
+    if device.type == "cuda":
+        torch.cuda.synchronize(device)
+    elapsed = time.perf_counter() - started
     return {"loss": total_loss / total_tokens if total_tokens else None, "answer_tokens": total_tokens,
-            "windows": windows, "optimizer_steps": steps, "empty_batches_skipped": skipped}
+            "windows": windows, "optimizer_steps": steps, "empty_batches_skipped": skipped,
+            "elapsed_seconds": elapsed, "answer_tokens_per_second": total_tokens / elapsed if elapsed else None,
+            "peak_allocated_bytes": torch.cuda.max_memory_allocated(device) if device.type == "cuda" else None,
+            "peak_reserved_bytes": torch.cuda.max_memory_reserved(device) if device.type == "cuda" else None}
 
 
 def decode_record(record, features, scores, config):

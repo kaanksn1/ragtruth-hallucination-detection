@@ -13,8 +13,8 @@ Ekip davetleri 30 Ekim'de gönderildi; katılım için GitHub davetini kabul etm
 Başlangıç görünürlüğü private'tır.
 
 Bu bağımsız depo yeni projenin başlangıç alanıdır. BANKING77 dosyaları, deneyleri ve
-kişisel katkı raporları bu çalışma sırasında değiştirilmedi. Veri ve CRF kodu
-teslim edildi. 31 Ekim'de 1. kişinin PC'sinde 300 train / 100 validation cevabıyla
+kişisel katkı raporları bu çalışma sırasında değiştirilmedi. Veri, CRF ve Transformer
+kodu teslim edildi. 31 Ekim'de 1. kişinin PC'sinde 300 train / 100 validation cevabıyla
 kısa CRF doğrulaması geçti; tam eğitim, nihai sonuç analizi ve sunum bekliyor.
 Resmî test değerlendirmesi yapılmadı.
 29 Ekim'de sentetik girdilerle GPU forward/backward/optimizer kontrolü yapıldı;
@@ -141,7 +141,8 @@ veya mevcut ortamla uyumlu, kaydı tutulmuş bir kullanım yolu seçilmeli.
 
 29 Ekim'de aynı ortamda 256 ve 512 tokenlık sentetik encoder/optimizer
 kontrolleri geçti. [GPU hazırlığı ve ölçüm sınırları](docs/GPU_READINESS.md)
-kaydedildi. Gerçek Transformer GPU pilotu 4. kişinin model teslimini bekliyor.
+kaydedildi. Transformer teslimi incelendi; gerçek pretrained modelin GPU pilotu
+için [sınırlı merkezî job](configs/jobs/transformer_pilot.json) hazır. Henüz çalıştırılmadı.
 
 ## Yeniden çalıştırma
 
@@ -188,3 +189,5 @@ eğitim/tahmin CLI'ı ve küçük testler eklendi. Kurulum, pencereleme/loss
 kararları, checkpoint ve 1. kişinin GPU koşum komutları:
 [TRANSFORMER.md](docs/TRANSFORMER.md). Küçük CPU kontrolleri tamamlandı;
 pretrained modelin GPU pilotu, tam eğitim ve başarı değerlendirmesi bekliyor.
+[Merkezî inceleme ve düzeltmeler](docs/TRANSFORMER_INTEGRATION.md) veri/checkpoint
+kimliği, test protokolü ve mevcut ROCm ortamıyla uyumu açıklar.

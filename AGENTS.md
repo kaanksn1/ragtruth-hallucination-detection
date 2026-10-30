@@ -49,3 +49,9 @@ The user assigned review, fixes and necessary additions to person 3's new CRF
 delivery, including its tests, run contracts and integration documentation.
 Personal analysis/slides remain with person 3; person 4's implementation and
 person 5's common evaluation remain with their owners.
+
+## Explicit Transformer review/fix assignment — 2026-10-31
+
+The user assigned review and bug fixes for person 4's pushed Transformer
+delivery, including regression tests and central-run integration. This does
+not reassign person 4's model analysis/slides or person 5's common evaluation.

@@ -4,6 +4,11 @@ Kod teslimi: 31 Ekim 2026. Tam eğitim, gerçek pretrained modelin GPU pilotu ve
 başarı ölçümü henüz yapılmadı. Tam train/predict koşumları 1. kişinin PC'sinde
 çalıştırılır. Bu belge deney sonucunu veya donmuş test protokolünü temsil etmez.
 
+Merkezî incelemede veri/checkpoint eşlemesi ve test girdileri kontrolü düzeltildi;
+bağımlılık mevcut ortamda doğrulanan Transformers **4.57.6** ile sabitlendi.
+[Güncel doğrulama ve kalan işler](TRANSFORMER_INTEGRATION.md). Aşağıdaki ilk
+teslim/CPU ölçümleri 4. kişinin kendi ortamındaki tarihsel kayıtlardır.
+
 ## Dosya teslimi
 
 | Dosya | Değişiklik |
@@ -190,15 +195,19 @@ python scripts/download_data.py
 python scripts/prepare_data.py
 ```
 
-Önceden sınırlandırılmış gerçek model pilotu **yalnız 1. kişinin PC'sinde**:
+Önceden sınırlandırılmış gerçek model pilotu **yalnız 1. kişinin PC'sinde**,
+repo kökünde merkezî kayıtla:
 
 ```powershell
-python scripts/transformer.py train --config configs/transformer.json --device cuda --limit-train 8 --limit-validation 4 --output outputs/transformer-pilot
+python scripts/run_job.py configs/jobs/transformer_pilot.json
 ```
 
-Bu komut config'teki 3 epoch'u yalnız sınırlı örneklerde çalıştırır. Model
-ağırlıklarını ilk kez indirir. GPU belleği/süre ölçümü ve gerekirse epoch,
-max_length, batch/precision ayarları 1. kişi tarafından pilotta yapılır.
+Bu komut `--epochs 1`, 8 train / 4 validation ve GPU zorunluluğuyla sınırlıdır;
+mevcut full config değişmez. İlk kez çalışırken sabit revision'ın model
+ağırlıklarının indirilmesi gerekir. GPU belleği, süre ve cevap-token hızı her
+train/validation bölümünde summary'ye yazılır. Kısa pilot bütün uzunluk
+dağılımını temsil etmez; 2048-token en kötü durumu veya tam eğitim süresini
+garanti etmez. Gerekirse batch/precision/max_length ayarları pilotta kaydedilir.
 
 Tam GPU eğitimi, güncel Git clone içinde merkezî kayıtla:
 
@@ -234,6 +243,13 @@ Checkpoint: `encoder/` HF config+safetensors, `tokenizer/`, `head.safetensors`,
 indirilmez. Eğitimdeki threshold/aggregation/tokenizer/pencere ayarları korunur.
 CPU tahminde BF16 yerine FP32 kullanılır. Mevcut çıktıların üzerine yazılmaz.
 
+Validation tahmininde yalnız dosya ile summary'nin birbirine uyması yeterli
+değildir: validation, manifest ve summary hash'leri checkpoint'in eğitim
+kaydındaki kimlikle de eşleşir. Kimlik anahtarları bilgisayar yolundan bağımsız
+rollerdir; aynı dosyalar Windows ve WSL arasında taşınabilir. İlk teslimin eski
+yol anahtarlı checkpoint'leri CLI validation için bu kimliği sağlamaz; bu
+inceleme öncesinde merkezî tam eğitim checkpoint'i üretilmemişti.
+
 Checkpoint biçimi v2'dir. Encoder, tokenizer ve sınıflandırıcı dosyalarının
 SHA-256 değerleri `checkpoint.json` içinde saklanır; eksik, eklenmiş veya
 değişmiş dosyalar model yüklenmeden reddedilir. Label sırası da doğrulanır.
@@ -258,12 +274,13 @@ Gold dosyaları korunur; tahminde gold alanlarına erişilmez.
 
 Resmî test doğrudan CLI ile çalıştırılamaz. Protokol dondurulup commit edildikten
 sonra `run_job` üzerinden tam komut ve veri/manifest/checkpoint dosyaları hash'leri
-doğrulanmalıdır. Test için limit bayrağı kabul edilmez; hazır final-test job'u
+doğrulanmalıdır. Model/eğitim CLI'ı, ortak veri/hizalama kodu ve requirements
+dosyaları da donmuş girdiler arasında bulunmalıdır. Test için limit bayrağı kabul edilmez; hazır final-test job'u
 veya protokol onayı bu teslimin parçası değildir.
 
 ## Test sonucu ve sınırlar
 
-31 Ekim 2026 güncel main tabanlı clone'daki Windows CPU kontrolü:
+4. kişinin 31 Ekim 2026 tarihli ilk teslim clone'undaki Windows CPU kontrolü:
 **95 test; 92 geçti, 3 atlandı, 0 hata**. Transformer testlerinin **20'si geçti**.
 Atlanan üç mevcut test ham/işlenmiş tam RAGTruth dosyalarını gerektiriyor;
 bu dosyalar yerelde yok. CRF, veri hizalama,

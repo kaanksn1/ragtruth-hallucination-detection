@@ -176,8 +176,8 @@ bütün tam train ve model tahmin koşumları 1. kişinin PC'sindedir.**
 
 ## Dosya sahipliği ve önerilen branch'ler
 
-Veri ve CRF uygulamaları teslim edildi; Transformer ve ortak değerlendirme
-alanları henüz ilgili üyelerin teslimini bekliyor.
+Veri, CRF ve Transformer uygulamaları teslim edildi. Model sahiplerinin tam
+koşum sonrası analiz/slaytları ve 5. kişinin ortak değerlendirme teslimi bekliyor.
 
 | Kişi | Önerilen kod/belge alanı | Branch |
 |---|---|---|

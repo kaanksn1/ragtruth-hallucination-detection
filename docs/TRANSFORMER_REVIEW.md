@@ -1,5 +1,10 @@
 # Transformer PR öncesi kontrol — 31 Ekim 2026
 
+Bu dosya 4. kişinin PR öncesi ortamını ve kontrollerini kaydeder. Teslim artık
+[PR #4](https://github.com/kaanksn1/ragtruth-hallucination-detection/pull/4)
+üzerindedir. Sonraki repo sahibi incelemesi, düzeltmeler ve güncel test durumu:
+[TRANSFORMER_INTEGRATION.md](TRANSFORMER_INTEGRATION.md).
+
 İnceleme tabanı: `origin/main = 987a18bd6515ba0e3370b582c39c342626423fe5`.
 Branch: `feature/ragtruth-transformer`. Clone ve son fetch başarılı.
 Tam eğitim, commit, push veya Pull Request açılmadı.

@@ -138,3 +138,16 @@ içindedir. Resmî test ve gerçek Transformer GPU pilotu yapılmadı.
 `run_job`, doğrulanmış çocuk sürece `RAGTRUTH_RUN_RECORD` yolunu verir. CRF'nin
 resmî test çağrısı bu kayıtta aynı komut ve donmuş protokol bulunduğunu tekrar
 doğrular. Bu kayıt, daha önce tanımlanan protokolü ve gerçek çalıştırma komutunu eşleştirir.
+
+## Transformer tesliminin merkezî incelemesi — 31 Ekim 2026
+
+4. kişinin model/CLI teslimi incelendi; veri kimliği ve donmuş test girdileri
+kontrolü düzeltildi. 26 Transformer testi, gerçek tokenizer hizalaması ve
+küçük rastgele ModernBERT ile 2048-token RX 7800 XT kod kontrolü geçti.
+Bu GPU kontrolü pretrained encoder belleğini veya tam eğitim hızını ölçmez.
+Mevcut ROCm ortamının paketleri değiştirilmedi; requirements 4.57.6 ile uyumlu.
+
+Pretrained gerçek pilot job'ı hazır ve henüz çalıştırılmadı; önce sabit
+revision'ın model ağırlıkları indirilmeli. Sonraki komut ve sonuçların
+sınırları [TRANSFORMER_INTEGRATION.md](TRANSFORMER_INTEGRATION.md) içinde.
+Tam eğitim ve resmî test başlatılmadı; ortak scorer 5. kişiden bekleniyor.

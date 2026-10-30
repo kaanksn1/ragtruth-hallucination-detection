@@ -7,6 +7,14 @@ henüz yapılmadı.** Bu kontrol repo sahibinin donanım/koşum sorumluluğudur;
 31 Ekim'de gerçek verinin küçük bir bölümüyle yapılan CRF CPU doğrulaması
 [BASELINE_CRF.md](BASELINE_CRF.md) içinde kayıtlıdır; GPU modeli/pilotu değildir.
 
+31 Ekim merkezî Transformer incelemesi: 4. kişinin koduyla iki katmanlı,
+rastgele ağırlıklı küçük ModernBERT, RX 7800 XT'de FP32/SDPA ve gradient
+checkpointing ile 2048-token tek optimizer adımını geçti. Süre/allocator
+kayıtları üretildi (`outputs/transformer_gpu_review.json`); bu küçük modelden
+tam encoder belleği/hızı tahmini yapılmadı. Gerçek tokenizer testleri de geçti.
+[Pretrained model pilot job'ı](../configs/jobs/transformer_pilot.json) hazır;
+henüz çalıştırılmadı. Ayrıntı: [merkezî inceleme](TRANSFORMER_INTEGRATION.md).
+
 ## Yapılan işlem
 
 Mevcut WSL/PyTorch ortamında, varsayılan DistilBERT boyutlarında rastgele

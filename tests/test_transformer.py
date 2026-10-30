@@ -318,13 +318,16 @@ class DataContractTests(unittest.TestCase):
     def test_synthetic_train_validation_checkpoint_predict_cli_pipeline(self):
         # Only two synthetic records; AutoModel download replaced with tiny random ModernBERT.
         cfg_path = self.path / "config.json"
-        cfg_path.write_text(json.dumps(self.cfg), encoding="utf-8")
+        cfg_path.write_text(json.dumps(dict(self.cfg, epochs=3)), encoding="utf-8")
         output = self.path / "run"
         with patch.object(tr.HallucinationTransformer, "from_pretrained", side_effect=lambda _: tiny_model()), \
              patch.object(tr.AutoTokenizer, "from_pretrained", return_value=offline_tokenizer()), redirect_stdout(io.StringIO()):
-            self.assertEqual(cli.main(["train", "--config", str(cfg_path), "--output", str(output)]), 0)
+            self.assertEqual(cli.main(["train", "--config", str(cfg_path), "--epochs", "1",
+                                       "--output", str(output)]), 0)
         summary = json.loads((output / "transformer_summary.json").read_text(encoding="utf-8"))
         self.assertEqual(summary["status"], "complete")
+        self.assertEqual(summary["config"]["epochs"], 1)
+        self.assertEqual(len(summary["epochs"]), 1)
         self.assertEqual(summary["epochs"][0]["train"]["optimizer_steps"], 1)
         predicted = self.path / "again.jsonl"
         with redirect_stdout(io.StringIO()):

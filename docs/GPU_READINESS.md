@@ -1,8 +1,11 @@
 # GPU hazırlığı — 29 Ekim 2026
 
-Durum: **Sentetik donanım kontrolü geçti. Gerçek RAGTruth veri/model pilotu
+Durum: **Sentetik donanım kontrolü geçti. Gerçek Transformer GPU pilotu
 henüz yapılmadı.** Bu kontrol repo sahibinin donanım/koşum sorumluluğudur;
 2. kişinin veri hazırlığını veya 4. kişinin model uygulamasını tamamlamaz.
+
+31 Ekim'de gerçek verinin küçük bir bölümüyle yapılan CRF CPU doğrulaması
+[BASELINE_CRF.md](BASELINE_CRF.md) içinde kayıtlıdır; GPU modeli/pilotu değildir.
 
 ## Yapılan işlem
 

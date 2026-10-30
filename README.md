@@ -13,8 +13,10 @@ Ekip davetleri 30 Ekim'de gönderildi; katılım için GitHub davetini kabul etm
 Başlangıç görünürlüğü private'tır.
 
 Bu bağımsız depo yeni projenin başlangıç alanıdır. BANKING77 dosyaları, deneyleri ve
-kişisel katkı raporları bu çalışma sırasında değiştirilmedi. Henüz bir RAGTruth
-modeli eğitilmedi, sunum hazırlanmadı ve resmî test değerlendirmesi yapılmadı.
+kişisel katkı raporları bu çalışma sırasında değiştirilmedi. Veri ve CRF kodu
+teslim edildi. 31 Ekim'de 1. kişinin PC'sinde 300 train / 100 validation cevabıyla
+kısa CRF doğrulaması geçti; tam eğitim, nihai sonuç analizi ve sunum bekliyor.
+Resmî test değerlendirmesi yapılmadı.
 29 Ekim'de sentetik girdilerle GPU forward/backward/optimizer kontrolü yapıldı;
 bu işlem gerçek veriyle model eğitimi veya başarı deneyi değildir.
 
@@ -94,12 +96,12 @@ Kullanıcının kararı: **bütün tam eğitimler kendi bilgisayarında çalış
 | Kişi | Ana sorumluluk |
 |---|---|
 | 1 — Serdar / `kaanksn1` | GPU ortamı, merkezî eğitim/tahmin koşumları, entegrasyon ve küçük demo |
-| 2 — Adnan / `adnan-demir` | Veri inceleme, kaynak bazlı split, ortak etiket/offset hazırlığı ve pencere eşlemesi |
-| 3 — Samed / `SmtOrtakaya` | CRF baseline, kendi deney ayarları ve baseline hata analizi |
-| 4 — Kemal / `kemalarif` | Kaynak bağlamlı küçük Transformer, tahmini karakter aralıklarına dönüştürme ve model analizi |
+| 2 — Samed / `SmtOrtakaya` | Veri inceleme, kaynak bazlı split, ortak etiket/offset hazırlığı ve pencere eşlemesi |
+| 3 — Kemal / `kemalarif` | CRF baseline, kendi deney ayarları ve baseline hata analizi |
+| 4 — Adnan / `adnan-demir` | Kaynak bağlamlı küçük Transformer, tahmini karakter aralıklarına dönüştürme ve model analizi |
 | 5 — Ozan / `serhandenizhan` | Ortak değerlendirme, 2–3 karşılaştırma grafiği, slaytları birleştirme ve sunum |
 
-İsimler önceki projedeki sırayla eşleştirildi. Başlangıç adımları:
+İsimler P2'deki veri ve CRF teslimlerinde belirtilen kişi sırasıyla eşleştirildi. Başlangıç adımları:
 [ekip için GitHub rehberi](docs/GITHUB_START.md).
 
 Herkes kendi bölümünün açıklamasını, en az üç hata örneğini (uygunsa), 1–2
@@ -139,7 +141,7 @@ veya mevcut ortamla uyumlu, kaydı tutulmuş bir kullanım yolu seçilmeli.
 
 29 Ekim'de aynı ortamda 256 ve 512 tokenlık sentetik encoder/optimizer
 kontrolleri geçti. [GPU hazırlığı ve ölçüm sınırları](docs/GPU_READINESS.md)
-kaydedildi. Gerçek verili pilot, 2/4. kişilerin veri/model teslimlerini bekliyor.
+kaydedildi. Gerçek Transformer GPU pilotu 4. kişinin model teslimini bekliyor.
 
 ## Yeniden çalıştırma
 
@@ -169,7 +171,8 @@ Resmî test etiketlerini incelemez veya onlarla model seçmez.
 - **Downstream Task:** Context-Grounded Hallucination Span Detection and Typing
   (Token Classification)
 
-Canlı tabloya yazılmadı; görev kontenjanı ve hocanın kabulü henüz doğrulanmadı.
+Kullanıcının aktardığına göre hoca gönderilen proje planı e-postasına “tamam”
+tepkisi verdi. Canlı tabloya buradan yazılmadı; görev kontenjanı ayrıca kontrol edilmedi.
 
 ## Değerlendirme disiplini
 

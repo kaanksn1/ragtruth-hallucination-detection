@@ -1,0 +1,2 @@
+# 3. kişi CRF baseline. Install with: python -m pip install -r requirements-crf.txt
+python-crfsuite==0.9.12

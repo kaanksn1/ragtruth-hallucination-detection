@@ -96,18 +96,37 @@ Hiçbir anotasyon silinmez veya birleştirilmez. `implicit_true` ve `due_to_null
 - **Cevap kesilmez:** Cevap tek başına sığmazsa örtüşen parçalara bölünür.
 - **Kaynak pencereleri:** Kaynak, `context_stride` token kadar (en fazla yarım pencere) örtüşen pencerelere bölünür. Kaynağın her karakteri en az bir pencerede görülür (test edildi).
 - **Pencere seçimi yalnız model girdilerine bakar:** `window_policy="best"`, cevabın içerik kelimeleriyle en çok örtüşen kaynak penceresini seçer. Gold anotasyon kullanılmaz; bu da test edildi.
-- **Etiketler:** Yalnız cevap token'larında doludur, diğer konumlarda `-100` olur:
+- **Etiketler:** Yalnız cevap token'larında doludur; diğer konumlar tamsayı
+  hedeflerde `-100`, ham `labels_multi` özelliklerinde `None` olur:
   - `labels_any`: 0/1
   - `labels_bio`: O/B/I
   - `labels_multi`: 4 tür × 0/1, örtüşme korunur
   - `labels_bio_by_type`: tür başına O/B/I
 - **Ek alanlar:** `response_mask`, `response_offsets` (mutlak karakter konumu), `source_char_span`.
+- **Dört tür için batch:** `pad_batch(..., label_key="labels_multi", return_tensors="pt")`
+  hedefleri `float32 [batch, sequence, 4]` olarak döndürür. Tür sırası
+  `schema.LABEL_TYPES` sırasıdır. Kaynak/özel token/padding konumları sıfır
+  vektörüyle doldurulur; **BCE kaybı yalnız `response_mask == 1` konumlarında
+  hesaplanır.** Cevap içindeki sıfır vektörleri geçerli negatif hedeflerdir.
+  Tamsayı BIO/ikili hedeflerin dtype ve `-100` kuralı korunur.
 - **Pencereden cevaba eşleme:** `aggregate_window_scores(len(response), features, token_scores, "min")` karakter başına skor verir. Her tür için ayrı çağrılır.
   - `min` kuralı: Kanıtı herhangi bir pencerede bulunan token işaretli kalmaz.
   - Bölünmüş cevap parçaları ortalanır.
   - `char_scores_to_spans` eşikle `{start, end, label_type}` span'lerine çevirir. Son dönüştürme kararı 4. kişinindir.
 
 Pencere ölçümleri ve öneri: [DATA_WINDOWING.md](DATA_WINDOWING.md).
+
+Dört tür için loss örneği (`logits` modelin `[batch, sequence, 4]` çıktısıdır):
+
+```python
+batch = pad_batch(features, tokenizer.pad_token_id, label_key="labels_multi", return_tensors="pt")
+mask = batch["response_mask"].bool()
+loss = torch.nn.functional.binary_cross_entropy_with_logits(logits[mask], batch["labels"][mask])
+```
+
+Model sahibi logits/hedef/maskeyi aynı cihaza taşır ve en az bir cevap tokenı
+bulunduğunu kontrol eder. `labels_multi` için tamsayı hedeflerdeki `ignore_index`
+kuralı kullanılmaz; cevap maskesi gerekir.
 
 ## Lisans
 

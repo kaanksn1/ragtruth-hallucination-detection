@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "name": "transformer-pilot",
+  "stage": "pilot",
+  "split": "train",
+  "seed": 42,
+  "inputs": [
+    "configs/transformer.json",
+    "requirements-transformer.txt",
+    "transformer.py",
+    "scripts/transformer.py",
+    "scripts/run_job.py",
+    "ragtruth_data/data.py",
+    "ragtruth_data/features.py",
+    "ragtruth_data/alignment.py",
+    "ragtruth_data/schema.py",
+    "data/splits/split_manifest_v1.csv",
+    "data/splits/split_summary_v1.json",
+    "data/processed/train.jsonl",
+    "data/processed/validation.jsonl"
+  ],
+  "command": [
+    "{python}", "scripts/transformer.py", "train", "--config", "configs/transformer.json",
+    "--seed", "{seed}", "--device", "cuda", "--epochs", "1",
+    "--limit-train", "8", "--limit-validation", "4", "--output", "{run_dir}"
+  ],
+  "expected_outputs": ["transformer_summary.json", "validation_predictions.jsonl"],
+  "timeout_seconds": 3600
+}

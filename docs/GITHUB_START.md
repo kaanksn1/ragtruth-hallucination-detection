@@ -42,4 +42,5 @@ Ham veri, büyük checkpoint, `.venv`, API anahtarı veya kişisel dosya yüklem
 Hazırlanmış validation manifesti ve raporlar küçük, sürümlü dosyalar olmalı.
 Veri ve CRF kodları teslim edildi. CRF'nin 300/100 kısa merkezî doğrulaması
 geçti; tam eğitim ve model sahibinin nihai analizi bekliyor. Transformer kodu
-ve ortak değerlendirme teslimleri ilgili üyelerden gelecek.
+teslim edildi ve incelendi; gerçek model GPU pilotu/tam eğitim bekliyor.
+Ortak değerlendirme kodu 5. kişiden gelecek.

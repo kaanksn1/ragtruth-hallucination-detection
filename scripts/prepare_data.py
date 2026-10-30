@@ -119,12 +119,12 @@ def main(argv=None) -> int:
         "processed_sha256": out_hashes,
     }
     summ = ROOT / cfg["summary"]
-    summ.write_text(json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    summ.write_text(json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
     print("wrote", cfg["summary"])
 
     trainval = [r for r in records if r["split"] in ("train", "validation")]
     report = analysis.full_report(trainval, group_of, test_counts)
-    (ROOT / cfg["report_json"]).write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    (ROOT / cfg["report_json"]).write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
     (ROOT / cfg["report_md"]).write_text(analysis.render_markdown(report, summary), encoding="utf-8", newline="\n")
     print("wrote", cfg["report_json"], "and", cfg["report_md"])
 

@@ -82,7 +82,7 @@ def main(argv=None):
         report["by_max_length"][str(L)] = measure(tok, records, L, args.context_stride)
         print(L, json.dumps(report["by_max_length"][str(L)]), flush=True)
     out = args.output or ROOT / "docs" / f"window_report_{args.tokenizer.replace('/', '__')}.json"
-    out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8", newline="\n")
     print("wrote", out)
 
 

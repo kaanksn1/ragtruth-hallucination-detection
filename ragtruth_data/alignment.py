@@ -160,7 +160,8 @@ def encode_with_windows(
     """Encode one record as (response, source window) pairs.
 
     The response comes first and is only split if it alone is too long; the
-    source is split into windows that overlap by ``context_stride`` tokens, so
+    source is split into windows that overlap by ``context_stride`` tokens
+    (at most half a window, so long responses cannot make windows crawl), and
     every source character is seen by at least one window. Window choice uses
     model inputs only (no labels).
 
@@ -233,7 +234,10 @@ def encode_with_windows(
             if not c_offs or ctx_end >= c_ends[-1]:
                 break
             last = bisect.bisect_right(c_ends, ctx_end) - 1
-            i, wi = max(i + 1, last + 1 - context_stride), wi + 1
+            # overlap never exceeds half of what this window covered, so every
+            # window moves forward by at least half a window
+            overlap = min(context_stride, max(0, (last + 1 - i) // 2))
+            i, wi = max(i + 1, last + 1 - overlap), wi + 1
             if i >= len(c_offs):
                 break
     return features

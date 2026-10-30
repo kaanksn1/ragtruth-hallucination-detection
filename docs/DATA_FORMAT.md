@@ -94,7 +94,7 @@ Hiçbir anotasyon silinmez veya birleştirilmez. `implicit_true` ve `due_to_null
 
 - **Giriş sırası:** cevap + kaynak penceresi; cevap önce gelir. Hangi token'ın neye ait olduğu tokenizer'ın `sequence_ids()` çıktısından okunur.
 - **Cevap kesilmez:** Cevap tek başına sığmazsa örtüşen parçalara bölünür.
-- **Kaynak pencereleri:** Kaynak, `context_stride` token kadar örtüşen pencerelere bölünür. Kaynağın her karakteri en az bir pencerede görülür (test edildi).
+- **Kaynak pencereleri:** Kaynak, `context_stride` token kadar (en fazla yarım pencere) örtüşen pencerelere bölünür. Kaynağın her karakteri en az bir pencerede görülür (test edildi).
 - **Pencere seçimi yalnız model girdilerine bakar:** `window_policy="best"`, cevabın içerik kelimeleriyle en çok örtüşen kaynak penceresini seçer. Gold anotasyon kullanılmaz; bu da test edildi.
 - **Etiketler:** Yalnız cevap token'larında doludur, diğer konumlarda `-100` olur:
   - `labels_any`: 0/1

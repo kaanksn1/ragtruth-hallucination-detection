@@ -153,6 +153,23 @@ class WindowTests(unittest.TestCase):
             for l in gold:
                 self.assertTrue(any(p["start"] <= l["start"] and l["end"] <= p["end"] for p in pred))
 
+    def test_overlap_is_capped_so_windows_always_advance(self):
+        # long response leaves little room for the source; a stride bigger than
+        # that room must not make the windows crawl forward token by token
+        tok = FakeFastTokenizer()
+        response = "The restaurant opened in 1999 and serves Indian food. " * 6
+        source = "Santa Barbara Indian kitchen, open since 2004. " * 60
+        n_src = len(tok(source, add_special_tokens=False)["input_ids"])
+        feats = encode_with_windows(tok, response, source, None, max_length=160, context_stride=128,
+                                    min_context_tokens=40)
+        budget = 160 - 3 - len(tok(response, add_special_tokens=False)["input_ids"])
+        self.assertLessEqual(len(feats), n_src // (budget // 2) + 2)
+        covered = [False] * len(source)
+        for f in feats:
+            s, e = f["source_char_span"]
+            covered[s:e] = [True] * (e - s)
+        self.assertTrue(all(covered[c] for c, ch in enumerate(source) if not ch.isspace()))
+
     def test_min_rule_clears_tokens_supported_in_any_window(self):
         feats = encode_with_windows(FakeFastTokenizer(), RESP, "Margot died before Anne. " * 30, LABELS,
                                     max_length=64, context_stride=8, min_context_tokens=16)

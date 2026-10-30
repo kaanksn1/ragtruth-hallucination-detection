@@ -36,3 +36,9 @@ personal contribution reports as part of this new project.
 For changes to this project's integrity-inspection code, run:
 `python -m unittest discover -s tests -v` from the standalone RAGTruth repository
 root. Documentation-only task assignments do not require retraining models.
+
+## Explicit bug-fix assignment — 2026-10-30
+
+The user assigned the owner to fix person 2's `labels_multi` batch conversion
+bug, including regression tests and its data-contract documentation. This does
+not reassign the rest of person 2's data work or person 4's model implementation.

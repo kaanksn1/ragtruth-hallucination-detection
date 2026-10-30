@@ -1,0 +1,2966 @@
+source_id,group_id,task_type,source_dataset,official_split,split,n_responses
+11316,g11316,Summary,CNN/DM,train,train,6
+11317,g11317,Summary,CNN/DM,test,test,6
+11318,g11318,Summary,CNN/DM,train,validation,6
+11319,g11319,Summary,CNN/DM,train,train,6
+11320,g11320,Summary,CNN/DM,train,train,6
+11321,g11321,Summary,CNN/DM,train,train,6
+11322,g11322,Summary,CNN/DM,train,validation,6
+11323,g11323,Summary,CNN/DM,test,test,6
+11332,g11332,Summary,CNN/DM,test,test,6
+11333,g11333,Summary,CNN/DM,train,validation,6
+11334,g11334,Summary,CNN/DM,train,train,6
+11335,g11335,Summary,CNN/DM,train,train,6
+11336,g11336,Summary,CNN/DM,train,train,6
+11337,g11337,Summary,CNN/DM,train,train,6
+11338,g11338,Summary,CNN/DM,train,train,6
+11348,g11348,Summary,CNN/DM,train,train,6
+11349,g11349,Summary,CNN/DM,test,test,6
+11350,g11350,Summary,CNN/DM,train,train,6
+11351,g11351,Summary,CNN/DM,train,train,6
+11353,g11353,Summary,CNN/DM,test,test,6
+11354,g11354,Summary,CNN/DM,train,train,6
+11355,g11355,Summary,CNN/DM,test,test,6
+11356,g11356,Summary,CNN/DM,test,test,6
+11364,g11364,Summary,CNN/DM,train,train,6
+11365,g11365,Summary,CNN/DM,train,train,6
+11366,g11366,Summary,CNN/DM,test,test,6
+11367,g11367,Summary,CNN/DM,train,validation,6
+11368,g11368,Summary,CNN/DM,train,train,6
+11369,g11369,Summary,CNN/DM,train,train,6
+11370,g11370,Summary,CNN/DM,test,test,6
+11371,g11371,Summary,CNN/DM,train,train,6
+11380,g11380,Summary,CNN/DM,train,train,6
+11381,g11381,Summary,CNN/DM,train,train,6
+11382,g11382,Summary,CNN/DM,train,train,6
+11383,g11383,Summary,CNN/DM,test,test,6
+11384,g11384,Summary,CNN/DM,test,test,6
+11385,g11385,Summary,CNN/DM,train,train,6
+11386,g11386,Summary,CNN/DM,train,train,6
+11395,g11395,Summary,CNN/DM,test,test,6
+11396,g11396,Summary,CNN/DM,train,train,6
+11397,g11397,Summary,CNN/DM,train,validation,6
+11398,g11398,Summary,CNN/DM,train,validation,6
+11399,g11399,Summary,CNN/DM,train,validation,6
+11400,g11400,Summary,CNN/DM,test,test,6
+11401,g11401,Summary,CNN/DM,train,train,6
+11402,g11402,Summary,CNN/DM,train,train,6
+11410,g11410,Summary,CNN/DM,test,test,6
+11411,g11411,Summary,CNN/DM,train,train,6
+11412,g11412,Summary,CNN/DM,train,train,6
+11413,g11413,Summary,CNN/DM,train,train,6
+11414,g11414,Summary,CNN/DM,train,train,6
+11415,g11415,Summary,CNN/DM,train,train,6
+11416,g11416,Summary,CNN/DM,train,train,6
+11425,g11425,Summary,CNN/DM,train,train,6
+11426,g11426,Summary,CNN/DM,train,train,6
+11427,g11427,Summary,CNN/DM,train,train,6
+11428,g11428,Summary,CNN/DM,train,train,6
+11429,g11429,Summary,CNN/DM,train,train,6
+11430,g11430,Summary,CNN/DM,train,train,6
+11768,g11768,Summary,CNN/DM,test,test,6
+11769,g11769,Summary,CNN/DM,train,validation,6
+11770,g11770,Summary,CNN/DM,train,train,6
+11771,g11771,Summary,CNN/DM,train,train,6
+11772,g11772,Summary,CNN/DM,train,train,6
+11773,g11773,Summary,CNN/DM,train,train,6
+11774,g11774,Summary,CNN/DM,train,train,6
+11775,g11775,Summary,CNN/DM,train,train,6
+11776,g11776,Summary,CNN/DM,train,train,6
+11777,g11777,Summary,CNN/DM,train,validation,6
+11778,g11778,Summary,CNN/DM,train,validation,6
+11779,g11779,Summary,CNN/DM,test,test,6
+11780,g11780,Summary,CNN/DM,train,validation,6
+11781,g11781,Summary,CNN/DM,train,train,6
+11782,g11782,Summary,CNN/DM,train,train,6
+11783,g11783,Summary,CNN/DM,train,train,6
+11784,g11784,Summary,CNN/DM,train,validation,6
+11785,g11785,Summary,CNN/DM,train,train,6
+11786,g11786,Summary,CNN/DM,train,train,6
+11787,g11787,Summary,CNN/DM,train,train,6
+11788,g11788,Summary,CNN/DM,train,train,6
+11789,g11789,Summary,CNN/DM,train,train,6
+11790,g11790,Summary,CNN/DM,train,train,6
+11791,g11791,Summary,CNN/DM,test,test,6
+11792,g11792,Summary,CNN/DM,train,train,6
+11793,g11793,Summary,CNN/DM,train,train,6
+11794,g11794,Summary,CNN/DM,train,train,6
+11795,g11795,Summary,CNN/DM,test,test,6
+11796,g11796,Summary,CNN/DM,train,train,6
+11797,g11797,Summary,CNN/DM,train,train,6
+11798,g11798,Summary,CNN/DM,train,train,6
+11799,g11799,Summary,CNN/DM,train,train,6
+11800,g11800,Summary,CNN/DM,train,train,6
+11801,g11801,Summary,CNN/DM,train,train,6
+11802,g11802,Summary,CNN/DM,train,train,6
+11803,g11803,Summary,CNN/DM,train,train,6
+11804,g11804,Summary,CNN/DM,train,train,6
+11805,g11805,Summary,CNN/DM,train,train,6
+11806,g11806,Summary,CNN/DM,train,train,6
+11807,g11807,Summary,CNN/DM,train,train,6
+11808,g11808,Summary,CNN/DM,test,test,6
+11809,g11809,Summary,CNN/DM,train,train,6
+11810,g11810,Summary,CNN/DM,train,train,6
+11811,g11811,Summary,CNN/DM,train,train,6
+11812,g11812,Summary,CNN/DM,train,train,6
+11813,g11813,Summary,CNN/DM,train,train,6
+11814,g11814,Summary,CNN/DM,train,train,6
+11815,g11815,Summary,CNN/DM,train,train,6
+11816,g11816,Summary,CNN/DM,train,train,6
+11817,g11817,Summary,CNN/DM,test,test,6
+11818,g11818,Summary,CNN/DM,train,train,6
+11819,g11819,Summary,CNN/DM,train,train,6
+11821,g11821,Summary,CNN/DM,test,test,6
+11822,g11822,Summary,CNN/DM,train,train,6
+11823,g11823,Summary,CNN/DM,train,train,6
+11824,g11824,Summary,CNN/DM,train,train,6
+11825,g11825,Summary,CNN/DM,train,train,6
+11826,g11826,Summary,CNN/DM,test,test,6
+11827,g11827,Summary,CNN/DM,train,train,6
+11828,g11828,Summary,CNN/DM,train,train,6
+11829,g11829,Summary,CNN/DM,train,train,6
+11830,g11830,Summary,CNN/DM,train,train,6
+11831,g11831,Summary,CNN/DM,train,train,6
+11832,g11832,Summary,CNN/DM,train,validation,6
+11833,g11833,Summary,CNN/DM,train,train,6
+11834,g11834,Summary,CNN/DM,train,train,6
+11835,g11835,Summary,CNN/DM,train,train,6
+11836,g11836,Summary,CNN/DM,train,validation,6
+11837,g11837,Summary,CNN/DM,train,validation,6
+11838,g11838,Summary,CNN/DM,test,test,6
+11839,g11839,Summary,CNN/DM,test,test,6
+11840,g11840,Summary,CNN/DM,test,test,6
+11841,g11841,Summary,CNN/DM,train,train,6
+11842,g11842,Summary,CNN/DM,train,train,6
+11843,g11843,Summary,CNN/DM,train,train,6
+11844,g11844,Summary,CNN/DM,train,train,6
+11845,g11845,Summary,CNN/DM,train,train,6
+11846,g11846,Summary,CNN/DM,train,train,6
+11847,g11847,Summary,CNN/DM,train,train,6
+11848,g11848,Summary,CNN/DM,train,train,6
+11849,g11849,Summary,CNN/DM,train,train,6
+11850,g11850,Summary,CNN/DM,train,train,6
+11851,g11851,Summary,CNN/DM,train,validation,6
+11852,g11852,Summary,CNN/DM,train,train,6
+11853,g11853,Summary,CNN/DM,train,train,6
+11854,g11854,Summary,CNN/DM,train,train,6
+11855,g11855,Summary,CNN/DM,train,train,6
+11856,g11856,Summary,CNN/DM,train,train,6
+11857,g11857,Summary,CNN/DM,train,train,6
+11858,g11858,Summary,CNN/DM,test,test,6
+11859,g11859,Summary,CNN/DM,train,train,6
+11860,g11860,Summary,CNN/DM,test,test,6
+11861,g11861,Summary,CNN/DM,train,validation,6
+11862,g11862,Summary,CNN/DM,train,train,6
+11863,g11863,Summary,CNN/DM,train,train,6
+11864,g11864,Summary,CNN/DM,train,train,6
+11865,g11865,Summary,CNN/DM,train,train,6
+11866,g11866,Summary,CNN/DM,train,train,6
+11867,g11867,Summary,CNN/DM,train,validation,6
+11869,g11869,Summary,CNN/DM,train,train,6
+11870,g11870,Summary,CNN/DM,test,test,6
+11871,g11871,Summary,CNN/DM,train,train,6
+11872,g11872,Summary,CNN/DM,train,validation,6
+11873,g11873,Summary,CNN/DM,test,test,6
+11874,g11874,Summary,CNN/DM,train,validation,6
+11875,g11875,Summary,CNN/DM,test,test,6
+11876,g11876,Summary,CNN/DM,train,validation,6
+11877,g11877,Summary,CNN/DM,test,test,6
+11878,g11878,Summary,CNN/DM,train,validation,6
+11879,g11879,Summary,CNN/DM,train,train,6
+11880,g11880,Summary,CNN/DM,test,test,6
+11881,g11881,Summary,CNN/DM,train,validation,6
+11882,g11882,Summary,CNN/DM,train,train,6
+11883,g11883,Summary,CNN/DM,train,validation,6
+11884,g11884,Summary,CNN/DM,train,train,6
+11885,g11885,Summary,CNN/DM,train,validation,6
+11886,g11886,Summary,CNN/DM,train,train,6
+11887,g11887,Summary,CNN/DM,train,train,6
+11888,g11888,Summary,CNN/DM,test,test,6
+11889,g11889,Summary,CNN/DM,train,train,6
+11890,g11890,Summary,CNN/DM,train,train,6
+11891,g11891,Summary,CNN/DM,train,train,6
+11892,g11892,Summary,CNN/DM,train,train,6
+11893,g11893,Summary,CNN/DM,train,train,6
+11894,g11894,Summary,CNN/DM,train,validation,6
+11895,g11895,Summary,CNN/DM,train,train,6
+11896,g11896,Summary,CNN/DM,train,validation,6
+11897,g11897,Summary,CNN/DM,train,validation,6
+11898,g11898,Summary,CNN/DM,train,train,6
+11899,g11899,Summary,CNN/DM,train,train,6
+11900,g11900,Summary,CNN/DM,test,test,6
+11901,g11901,Summary,CNN/DM,train,validation,6
+11902,g11902,Summary,CNN/DM,train,validation,6
+11903,g11903,Summary,CNN/DM,train,train,6
+11904,g11904,Summary,CNN/DM,train,train,6
+11905,g11905,Summary,CNN/DM,train,train,6
+11906,g11906,Summary,CNN/DM,train,train,6
+11907,g11907,Summary,CNN/DM,train,train,6
+11908,g11908,Summary,CNN/DM,test,test,6
+11909,g11909,Summary,CNN/DM,train,train,6
+11910,g11910,Summary,CNN/DM,test,test,6
+11911,g11911,Summary,CNN/DM,test,test,6
+11912,g11912,Summary,CNN/DM,train,train,6
+11913,g11913,Summary,CNN/DM,train,train,6
+11914,g11914,Summary,CNN/DM,train,train,6
+11915,g11915,Summary,CNN/DM,train,train,6
+11916,g11916,Summary,CNN/DM,train,train,6
+11917,g11917,Summary,CNN/DM,train,train,6
+11918,g11918,Summary,CNN/DM,train,train,6
+11919,g11919,Summary,CNN/DM,train,train,6
+11920,g11920,Summary,CNN/DM,train,train,6
+11921,g11921,Summary,CNN/DM,train,train,6
+11922,g11922,Summary,CNN/DM,test,test,6
+11923,g11923,Summary,CNN/DM,train,train,6
+11924,g11924,Summary,CNN/DM,train,train,6
+11925,g11925,Summary,CNN/DM,train,train,6
+11926,g11926,Summary,CNN/DM,train,train,6
+11927,g11927,Summary,CNN/DM,train,train,6
+11928,g11928,Summary,CNN/DM,train,train,6
+11929,g11929,Summary,CNN/DM,train,train,6
+11930,g11930,Summary,CNN/DM,train,validation,6
+11931,g11931,Summary,CNN/DM,train,train,6
+11932,g11932,Summary,CNN/DM,test,test,6
+11933,g11933,Summary,CNN/DM,train,train,6
+11934,g11934,Summary,CNN/DM,train,train,6
+11935,g11935,Summary,CNN/DM,train,train,6
+11936,g11936,Summary,CNN/DM,train,train,6
+11937,g11937,Summary,CNN/DM,train,train,6
+11938,g11938,Summary,CNN/DM,train,train,6
+11939,g11939,Summary,CNN/DM,train,validation,6
+11940,g11940,Summary,CNN/DM,train,train,6
+11941,g11941,Summary,CNN/DM,train,train,6
+11942,g11942,Summary,CNN/DM,train,train,6
+11943,g11943,Summary,CNN/DM,train,train,6
+11944,g11944,Summary,CNN/DM,train,validation,6
+11945,g11945,Summary,CNN/DM,test,test,6
+11946,g11946,Summary,CNN/DM,train,train,6
+11947,g11947,Summary,CNN/DM,train,train,6
+11948,g11948,Summary,CNN/DM,test,test,6
+11949,g11949,Summary,CNN/DM,train,train,6
+11950,g11950,Summary,CNN/DM,train,train,6
+11951,g11951,Summary,CNN/DM,train,train,6
+11952,g11952,Summary,CNN/DM,train,train,6
+11953,g11953,Summary,CNN/DM,train,train,6
+11954,g11954,Summary,CNN/DM,train,train,6
+11955,g11955,Summary,CNN/DM,train,validation,6
+11956,g11956,Summary,CNN/DM,train,validation,6
+11957,g11957,Summary,CNN/DM,train,train,6
+11958,g11958,Summary,CNN/DM,train,validation,6
+11959,g11959,Summary,CNN/DM,train,train,6
+11960,g11960,Summary,CNN/DM,train,train,6
+11961,g11961,Summary,CNN/DM,train,train,6
+11962,g11962,Summary,CNN/DM,train,train,6
+11963,g11963,Summary,CNN/DM,train,train,6
+11964,g11964,Summary,CNN/DM,train,train,6
+11965,g11965,Summary,CNN/DM,train,train,6
+11966,g11966,Summary,CNN/DM,train,train,6
+11967,g11967,Summary,CNN/DM,train,validation,6
+11968,g11968,Summary,CNN/DM,train,train,6
+11969,g11969,Summary,CNN/DM,train,train,6
+11970,g11970,Summary,CNN/DM,train,train,6
+11971,g11971,Summary,CNN/DM,train,train,6
+11972,g11972,Summary,CNN/DM,train,validation,6
+11973,g11973,Summary,CNN/DM,train,validation,6
+11974,g11974,Summary,CNN/DM,train,validation,6
+11975,g11975,Summary,CNN/DM,train,train,6
+11976,g11976,Summary,CNN/DM,train,train,6
+11977,g11977,Summary,CNN/DM,train,train,6
+11978,g11978,Summary,CNN/DM,train,train,6
+11979,g11979,Summary,CNN/DM,test,test,6
+11980,g11980,Summary,CNN/DM,train,train,6
+11981,g11981,Summary,CNN/DM,train,train,6
+11982,g11982,Summary,CNN/DM,train,train,6
+11983,g11983,Summary,CNN/DM,train,train,6
+11984,g11984,Summary,CNN/DM,train,train,6
+11985,g11985,Summary,CNN/DM,train,train,6
+11986,g11986,Summary,CNN/DM,train,train,6
+11987,g11987,Summary,CNN/DM,train,train,6
+11988,g11988,Summary,CNN/DM,train,train,6
+11989,g11989,Summary,CNN/DM,train,train,6
+11991,g11991,Summary,CNN/DM,test,test,6
+11992,g11992,Summary,CNN/DM,train,train,6
+11993,g11993,Summary,CNN/DM,train,train,6
+11994,g11994,Summary,CNN/DM,train,train,6
+11995,g11995,Summary,CNN/DM,train,train,6
+11996,g11996,Summary,CNN/DM,train,train,6
+11997,g11997,Summary,CNN/DM,train,train,6
+11998,g11998,Summary,CNN/DM,train,train,6
+11999,g11999,Summary,CNN/DM,train,train,6
+12000,g12000,Summary,CNN/DM,train,train,6
+12001,g12001,Summary,CNN/DM,train,train,6
+12002,g12002,Summary,CNN/DM,train,train,6
+12003,g12003,Summary,CNN/DM,train,train,6
+12004,g12004,Summary,CNN/DM,train,validation,6
+12005,g12005,Summary,CNN/DM,train,train,6
+12006,g12006,Summary,CNN/DM,train,train,6
+12007,g12007,Summary,CNN/DM,train,train,6
+12008,g12008,Summary,CNN/DM,test,test,6
+12009,g12009,Summary,CNN/DM,train,train,6
+12010,g12010,Summary,CNN/DM,train,train,6
+12011,g12011,Summary,CNN/DM,train,train,6
+12012,g12012,Summary,CNN/DM,train,train,6
+12013,g12013,Summary,CNN/DM,train,train,6
+12014,g12014,Summary,CNN/DM,train,train,6
+12015,g12015,Summary,CNN/DM,train,train,6
+12016,g12016,Summary,CNN/DM,train,train,6
+12017,g12017,Summary,CNN/DM,train,validation,6
+12018,g12018,Summary,CNN/DM,train,train,6
+12019,g12019,Summary,CNN/DM,train,train,6
+12020,g12020,Summary,CNN/DM,train,train,6
+12021,g12021,Summary,CNN/DM,train,validation,6
+12022,g12022,Summary,CNN/DM,train,validation,6
+12023,g12023,Summary,CNN/DM,train,train,6
+12024,g12024,Summary,CNN/DM,train,train,6
+12025,g12025,Summary,CNN/DM,train,train,6
+12026,g12026,Summary,CNN/DM,train,train,6
+12027,g12027,Summary,CNN/DM,train,validation,6
+12028,g12028,Summary,CNN/DM,train,train,6
+12029,g12029,Summary,CNN/DM,train,train,6
+12030,g12030,Summary,CNN/DM,train,train,6
+12031,g12031,Summary,CNN/DM,train,train,6
+12032,g12032,Summary,CNN/DM,train,train,6
+12033,g12033,Summary,CNN/DM,train,train,6
+12034,g12034,Summary,CNN/DM,train,train,6
+12035,g12035,Summary,CNN/DM,train,validation,6
+12036,g12036,Summary,CNN/DM,train,train,6
+12037,g12037,Summary,CNN/DM,train,train,6
+12038,g12038,Summary,CNN/DM,train,train,6
+12039,g12039,Summary,CNN/DM,train,train,6
+12040,g12040,Summary,CNN/DM,train,train,6
+12041,g12041,Summary,CNN/DM,train,train,6
+12042,g12042,Summary,CNN/DM,train,train,6
+12043,g12043,Summary,CNN/DM,train,train,6
+12044,g12044,Summary,CNN/DM,train,validation,6
+12045,g12045,Summary,CNN/DM,train,train,6
+12046,g12046,Summary,CNN/DM,train,train,6
+12047,g12047,Summary,CNN/DM,train,train,6
+12048,g12048,Summary,CNN/DM,train,train,6
+12049,g12049,Summary,CNN/DM,train,validation,6
+12050,g12050,Summary,CNN/DM,train,train,6
+12051,g12051,Summary,CNN/DM,train,train,6
+12052,g12052,Summary,CNN/DM,train,train,6
+12053,g12053,Summary,CNN/DM,train,train,6
+12054,g12054,Summary,CNN/DM,train,train,6
+12055,g12055,Summary,CNN/DM,train,train,6
+12056,g12056,Summary,CNN/DM,train,train,6
+12057,g12057,Summary,CNN/DM,train,validation,6
+12058,g12058,Summary,CNN/DM,train,train,6
+12059,g12059,Summary,CNN/DM,train,train,6
+12060,g12060,Summary,CNN/DM,test,test,6
+12061,g12061,Summary,CNN/DM,train,train,6
+12062,g12062,Summary,CNN/DM,train,train,6
+12063,g12063,Summary,CNN/DM,train,train,6
+12064,g12064,Summary,CNN/DM,train,train,6
+12065,g12065,Summary,CNN/DM,train,train,6
+12066,g12066,Summary,CNN/DM,train,train,6
+12067,g12067,Summary,CNN/DM,train,train,6
+12068,g12068,Summary,CNN/DM,test,test,6
+12069,g12069,Summary,CNN/DM,train,train,6
+12070,g12070,Summary,CNN/DM,train,train,6
+12071,g12071,Summary,CNN/DM,train,train,6
+12072,g12072,Summary,CNN/DM,train,train,6
+12073,g12073,Summary,CNN/DM,test,test,6
+12074,g12074,Summary,CNN/DM,train,train,6
+12075,g12075,Summary,CNN/DM,train,train,6
+12076,g12076,Summary,CNN/DM,train,train,6
+12077,g12077,Summary,CNN/DM,train,train,6
+12078,g12078,Summary,CNN/DM,train,train,6
+12079,g12079,Summary,CNN/DM,train,train,6
+12080,g12080,Summary,CNN/DM,train,train,6
+12081,g12081,Summary,CNN/DM,train,train,6
+12082,g12082,Summary,CNN/DM,train,train,6
+12083,g12083,Summary,CNN/DM,train,train,6
+12084,g12084,Summary,CNN/DM,train,train,6
+12085,g12084,Summary,CNN/DM,train,train,6
+12086,g12086,Summary,CNN/DM,train,train,6
+12087,g12087,Summary,CNN/DM,train,train,6
+12088,g12088,Summary,CNN/DM,train,train,6
+12089,g12089,Summary,CNN/DM,train,train,6
+12090,g12090,Summary,CNN/DM,train,train,6
+12091,g12091,Summary,CNN/DM,train,train,6
+12092,g12092,Summary,CNN/DM,train,validation,6
+12093,g12093,Summary,CNN/DM,train,train,6
+12094,g12094,Summary,CNN/DM,train,validation,6
+12161,g12161,QA,MARCO,train,validation,6
+12162,g12162,QA,MARCO,train,train,6
+12163,g12163,QA,MARCO,train,train,6
+12164,g12164,QA,MARCO,train,validation,6
+12165,g12165,QA,MARCO,train,train,6
+12166,g12166,QA,MARCO,train,validation,6
+12167,g12167,QA,MARCO,test,test,6
+12168,g12168,QA,MARCO,train,train,6
+12169,g12169,QA,MARCO,train,train,6
+12170,g12170,QA,MARCO,train,train,6
+12171,g12171,QA,MARCO,train,train,6
+12172,g12172,QA,MARCO,train,train,6
+12173,g12173,QA,MARCO,train,train,6
+12174,g12174,QA,MARCO,train,train,6
+12175,g12175,QA,MARCO,train,train,6
+12176,g12176,QA,MARCO,train,train,6
+12177,g12177,QA,MARCO,test,test,6
+12178,g12178,QA,MARCO,train,train,6
+12179,g12179,QA,MARCO,train,train,6
+12180,g12180,QA,MARCO,train,train,6
+12181,g12181,QA,MARCO,train,validation,6
+12182,g12182,QA,MARCO,test,test,6
+12183,g12183,QA,MARCO,test,test,6
+12184,g12184,QA,MARCO,train,train,6
+12185,g12185,QA,MARCO,train,train,6
+12187,g12187,QA,MARCO,train,train,6
+12188,g12188,QA,MARCO,train,train,6
+12189,g12189,QA,MARCO,train,train,6
+12190,g12190,QA,MARCO,train,train,6
+12191,g12191,QA,MARCO,train,train,6
+12192,g12192,QA,MARCO,train,train,6
+12193,g12193,QA,MARCO,train,train,6
+12194,g12194,QA,MARCO,train,validation,6
+12195,g12195,QA,MARCO,train,train,6
+12196,g12196,QA,MARCO,train,validation,6
+12197,g12197,QA,MARCO,train,train,6
+12198,g12198,QA,MARCO,train,train,6
+12199,g12199,QA,MARCO,train,train,6
+12200,g12200,QA,MARCO,train,validation,6
+12201,g12201,QA,MARCO,train,train,6
+12202,g12202,QA,MARCO,train,train,6
+12203,g12203,QA,MARCO,train,train,6
+12204,g12204,QA,MARCO,train,train,6
+12205,g12205,QA,MARCO,train,train,6
+12206,g12206,QA,MARCO,train,train,6
+12207,g12207,QA,MARCO,train,train,6
+12208,g12208,QA,MARCO,train,validation,6
+12209,g12209,QA,MARCO,train,validation,6
+12210,g12210,QA,MARCO,train,train,6
+12211,g12211,QA,MARCO,train,validation,6
+12212,g12212,QA,MARCO,train,train,6
+12213,g12213,QA,MARCO,train,train,6
+12214,g12214,QA,MARCO,train,validation,6
+12215,g12215,QA,MARCO,train,train,6
+12216,g12216,QA,MARCO,train,train,6
+12217,g12217,QA,MARCO,train,validation,6
+12218,g12218,QA,MARCO,test,test,6
+12219,g12219,QA,MARCO,train,train,6
+12220,g12220,QA,MARCO,train,validation,6
+12221,g12221,QA,MARCO,train,train,6
+12222,g12222,QA,MARCO,train,train,6
+12223,g12223,QA,MARCO,train,train,6
+12224,g12224,QA,MARCO,train,train,6
+12225,g12225,QA,MARCO,train,train,6
+12226,g12226,QA,MARCO,train,train,6
+12227,g12227,QA,MARCO,train,validation,6
+12228,g12228,QA,MARCO,test,test,6
+12229,g12229,QA,MARCO,train,train,6
+12230,g12230,QA,MARCO,train,train,6
+12231,g12231,QA,MARCO,train,train,6
+12232,g12232,QA,MARCO,train,train,6
+12233,g12233,QA,MARCO,train,train,6
+12234,g12234,QA,MARCO,test,test,6
+12235,g12235,QA,MARCO,train,train,6
+12236,g12236,QA,MARCO,test,test,6
+12237,g12237,QA,MARCO,train,train,6
+12238,g12238,QA,MARCO,train,train,6
+12239,g12239,QA,MARCO,train,train,6
+12240,g12240,QA,MARCO,train,train,6
+12241,g12241,QA,MARCO,train,train,6
+12242,g12242,QA,MARCO,train,train,6
+12243,g12243,QA,MARCO,test,test,6
+12244,g12244,QA,MARCO,train,train,6
+12245,g12245,QA,MARCO,train,train,6
+12246,g12246,QA,MARCO,train,train,6
+12247,g12247,QA,MARCO,train,train,6
+12248,g12248,QA,MARCO,train,validation,6
+12249,g12249,QA,MARCO,train,validation,6
+12250,g12250,QA,MARCO,train,train,6
+12251,g12251,QA,MARCO,train,train,6
+12252,g12252,QA,MARCO,test,test,6
+12253,g12253,QA,MARCO,train,validation,6
+12254,g12254,QA,MARCO,train,train,6
+12255,g12255,QA,MARCO,train,train,6
+12256,g12256,QA,MARCO,train,train,6
+12257,g12257,QA,MARCO,train,validation,6
+12258,g12258,QA,MARCO,train,train,6
+12259,g12259,QA,MARCO,train,train,6
+12260,g12260,QA,MARCO,train,validation,6
+12261,g12261,QA,MARCO,train,train,6
+12262,g12262,QA,MARCO,train,train,6
+12263,g12263,QA,MARCO,train,validation,6
+12264,g12264,QA,MARCO,test,test,6
+12265,g12265,QA,MARCO,train,train,6
+12266,g12266,QA,MARCO,train,train,6
+12267,g12267,QA,MARCO,train,train,6
+12268,g12268,QA,MARCO,train,train,6
+12269,g12269,QA,MARCO,test,test,6
+12270,g12270,QA,MARCO,train,train,6
+12271,g12271,QA,MARCO,train,train,6
+12272,g12272,QA,MARCO,train,validation,6
+12273,g12273,QA,MARCO,test,test,6
+12274,g12274,QA,MARCO,train,validation,6
+12275,g12275,QA,MARCO,train,train,6
+12276,g12276,QA,MARCO,train,train,6
+12277,g12277,QA,MARCO,train,train,6
+12278,g12278,QA,MARCO,train,validation,6
+12279,g12279,QA,MARCO,train,validation,6
+12280,g12280,QA,MARCO,train,train,6
+12281,g12281,QA,MARCO,train,train,6
+12282,g12282,QA,MARCO,train,train,6
+12283,g12283,QA,MARCO,train,train,6
+12284,g12284,QA,MARCO,train,train,6
+12285,g12285,QA,MARCO,train,train,6
+12286,g12286,QA,MARCO,train,train,6
+12287,g12287,QA,MARCO,test,test,6
+12288,g12288,QA,MARCO,train,train,6
+12289,g12289,QA,MARCO,train,train,6
+12290,g12290,QA,MARCO,train,validation,6
+12291,g12291,QA,MARCO,test,test,6
+12292,g12292,QA,MARCO,train,train,6
+12293,g12293,QA,MARCO,train,train,6
+12294,g12294,QA,MARCO,train,train,6
+12295,g12295,QA,MARCO,train,train,6
+12296,g12296,QA,MARCO,train,train,6
+12297,g12297,QA,MARCO,train,train,6
+12298,g12298,QA,MARCO,train,train,6
+12299,g12299,QA,MARCO,train,validation,6
+12300,g12300,QA,MARCO,test,test,6
+12301,g12301,QA,MARCO,train,train,6
+12302,g12302,QA,MARCO,train,train,6
+12303,g12303,QA,MARCO,train,validation,6
+12304,g12304,QA,MARCO,train,validation,6
+12305,g12305,QA,MARCO,test,test,6
+12306,g12306,QA,MARCO,train,train,6
+12307,g12307,QA,MARCO,test,test,6
+12308,g12308,QA,MARCO,test,test,6
+12309,g12309,QA,MARCO,test,test,6
+12310,g12310,QA,MARCO,train,train,6
+12311,g12311,QA,MARCO,train,train,6
+12312,g12312,QA,MARCO,train,validation,6
+12313,g12313,QA,MARCO,train,train,6
+12314,g12314,QA,MARCO,test,test,6
+12315,g12315,QA,MARCO,train,validation,6
+12316,g12316,QA,MARCO,train,validation,6
+12317,g12317,QA,MARCO,train,train,6
+12318,g12318,QA,MARCO,train,train,6
+12319,g12319,QA,MARCO,train,validation,6
+12320,g12320,QA,MARCO,train,validation,6
+12321,g12321,QA,MARCO,train,train,6
+12322,g12322,QA,MARCO,train,train,6
+12323,g12323,QA,MARCO,train,train,6
+12324,g12324,QA,MARCO,train,train,6
+12325,g12325,QA,MARCO,train,train,6
+12326,g12326,QA,MARCO,train,train,6
+12327,g12327,QA,MARCO,train,train,6
+12328,g12328,QA,MARCO,train,train,6
+12329,g12329,QA,MARCO,train,train,6
+12330,g12330,QA,MARCO,train,train,6
+12331,g12331,QA,MARCO,train,train,6
+12332,g12332,QA,MARCO,train,train,6
+12333,g12333,QA,MARCO,train,train,6
+12334,g12334,QA,MARCO,test,test,6
+12335,g12335,QA,MARCO,test,test,6
+12336,g12336,QA,MARCO,train,train,6
+12337,g12337,QA,MARCO,train,train,6
+12338,g12338,QA,MARCO,train,train,6
+12339,g12339,QA,MARCO,train,train,6
+12340,g12340,QA,MARCO,train,train,6
+12341,g12341,QA,MARCO,train,validation,6
+12342,g12342,QA,MARCO,test,test,6
+12343,g12343,QA,MARCO,train,train,6
+12344,g12344,QA,MARCO,test,test,6
+12345,g12345,QA,MARCO,train,train,6
+12346,g12346,QA,MARCO,train,train,6
+12347,g12347,QA,MARCO,train,train,6
+12348,g12348,QA,MARCO,train,train,6
+12349,g12349,QA,MARCO,train,train,6
+12350,g12350,QA,MARCO,train,validation,6
+12351,g12351,QA,MARCO,train,train,6
+12352,g12352,QA,MARCO,train,train,6
+12353,g12353,QA,MARCO,train,train,6
+12354,g12354,QA,MARCO,train,train,6
+12355,g12355,QA,MARCO,train,train,6
+12356,g12356,QA,MARCO,train,train,6
+12357,g12357,QA,MARCO,train,train,6
+12358,g12358,QA,MARCO,test,test,6
+12359,g12359,QA,MARCO,train,train,6
+12360,g12360,QA,MARCO,train,train,6
+12361,g12361,QA,MARCO,train,train,6
+12362,g12362,QA,MARCO,train,train,6
+12363,g12363,QA,MARCO,train,train,6
+12364,g12364,QA,MARCO,test,test,6
+12365,g12365,QA,MARCO,train,validation,6
+12366,g12366,QA,MARCO,train,train,6
+12367,g12367,QA,MARCO,test,test,6
+12368,g12368,QA,MARCO,train,train,6
+12369,g12369,QA,MARCO,train,train,6
+12370,g12370,QA,MARCO,train,train,6
+12371,g12371,QA,MARCO,train,train,6
+12372,g12372,QA,MARCO,test,test,6
+12373,g12373,QA,MARCO,train,train,6
+12374,g12374,QA,MARCO,train,train,6
+12375,g12375,QA,MARCO,train,train,6
+12376,g12376,QA,MARCO,train,train,6
+12377,g12377,QA,MARCO,train,train,6
+12378,g12378,QA,MARCO,train,train,6
+12379,g12379,QA,MARCO,train,train,6
+12380,g12380,QA,MARCO,train,train,6
+12381,g12381,QA,MARCO,train,train,6
+12382,g12382,QA,MARCO,train,validation,6
+12383,g12383,QA,MARCO,train,train,6
+12384,g12384,QA,MARCO,train,train,6
+12385,g12385,QA,MARCO,train,train,6
+12386,g12386,QA,MARCO,train,train,6
+12387,g12387,QA,MARCO,train,train,6
+12388,g12388,QA,MARCO,train,train,6
+12389,g12389,QA,MARCO,train,train,6
+12390,g12390,QA,MARCO,train,validation,6
+12391,g12391,QA,MARCO,test,test,6
+12392,g12392,QA,MARCO,train,validation,6
+12393,g12393,QA,MARCO,train,validation,6
+12394,g12394,QA,MARCO,train,train,6
+12395,g12395,QA,MARCO,train,train,6
+12396,g12396,QA,MARCO,train,train,6
+12397,g12397,QA,MARCO,train,train,6
+12399,g12399,QA,MARCO,train,train,6
+12400,g12400,QA,MARCO,train,train,6
+12401,g12401,QA,MARCO,train,train,6
+12402,g12402,QA,MARCO,train,train,6
+12403,g12403,QA,MARCO,train,train,6
+12404,g12404,QA,MARCO,train,train,6
+12405,g12405,QA,MARCO,train,train,6
+12406,g12406,QA,MARCO,train,train,6
+12409,g12409,QA,MARCO,train,train,6
+12410,g12410,QA,MARCO,train,train,6
+12411,g12411,QA,MARCO,train,train,6
+12412,g12412,QA,MARCO,train,train,6
+12413,g12413,QA,MARCO,train,train,6
+12414,g12414,QA,MARCO,test,test,6
+12415,g12415,QA,MARCO,train,validation,6
+12416,g12416,QA,MARCO,train,train,6
+12417,g12417,QA,MARCO,train,train,6
+12418,g12418,QA,MARCO,train,train,6
+12419,g12419,QA,MARCO,train,train,6
+12420,g12420,QA,MARCO,train,train,6
+12421,g12421,QA,MARCO,train,train,6
+12422,g12422,QA,MARCO,test,test,6
+12423,g12423,QA,MARCO,test,test,6
+12425,g12425,QA,MARCO,train,validation,6
+12426,g12426,QA,MARCO,train,train,6
+12427,g12427,QA,MARCO,train,train,6
+12428,g12428,QA,MARCO,train,train,6
+12429,g12429,QA,MARCO,train,train,6
+12430,g12430,QA,MARCO,train,train,6
+12431,g12431,QA,MARCO,train,train,6
+12432,g12432,QA,MARCO,train,train,6
+12433,g12433,QA,MARCO,train,train,6
+12434,g12434,QA,MARCO,train,validation,6
+12435,g12435,QA,MARCO,train,validation,6
+12436,g12436,QA,MARCO,train,train,6
+12437,g12437,QA,MARCO,train,validation,6
+12438,g12438,QA,MARCO,train,train,6
+12439,g12439,QA,MARCO,train,train,6
+12440,g12440,QA,MARCO,train,train,6
+12441,g12441,QA,MARCO,train,train,6
+12442,g12442,QA,MARCO,train,train,6
+12443,g12443,QA,MARCO,train,train,6
+12444,g12444,QA,MARCO,train,train,6
+12445,g12445,QA,MARCO,train,train,6
+12446,g12446,QA,MARCO,train,train,6
+12447,g12447,QA,MARCO,train,validation,6
+12448,g12448,QA,MARCO,train,train,6
+12449,g12449,QA,MARCO,train,train,6
+12450,g12450,QA,MARCO,train,train,6
+12451,g12451,QA,MARCO,train,train,6
+12452,g12452,QA,MARCO,train,validation,6
+12453,g12453,QA,MARCO,train,train,6
+12454,g12454,QA,MARCO,train,train,6
+12455,g12455,QA,MARCO,test,test,6
+12456,g12456,QA,MARCO,train,train,6
+12457,g12457,QA,MARCO,train,train,6
+12458,g12458,QA,MARCO,train,train,6
+12459,g12459,QA,MARCO,train,validation,6
+12460,g12460,QA,MARCO,train,train,6
+13476,g13476,Summary,Recent News,train,validation,6
+13477,g13477,Summary,Recent News,train,validation,6
+13478,g13478,Summary,Recent News,train,train,6
+13479,g13479,Summary,Recent News,train,train,6
+13480,g13480,Summary,Recent News,train,train,6
+13481,g13481,Summary,Recent News,test,test,6
+13482,g13482,Summary,Recent News,train,train,6
+13483,g13483,Summary,Recent News,train,train,6
+13484,g13484,Summary,Recent News,train,train,6
+13485,g13485,Summary,Recent News,train,validation,6
+13486,g13486,Summary,Recent News,train,train,6
+13487,g13487,Summary,Recent News,train,train,6
+13488,g13488,Summary,Recent News,train,train,6
+13489,g13489,Summary,Recent News,train,train,6
+13490,g13490,Summary,Recent News,train,train,6
+13491,g13491,Summary,Recent News,train,train,6
+13492,g13492,Summary,Recent News,test,test,6
+13493,g13493,Summary,Recent News,train,train,6
+13494,g13494,Summary,Recent News,train,train,6
+13495,g13495,Summary,Recent News,test,test,6
+13496,g13496,Summary,Recent News,train,train,6
+13497,g13497,Summary,Recent News,train,train,6
+13498,g13498,Summary,Recent News,train,train,6
+13499,g13499,Summary,Recent News,test,test,6
+13500,g13500,Summary,Recent News,train,train,6
+13501,g13501,Summary,Recent News,train,train,6
+13502,g13502,Summary,Recent News,train,train,6
+13503,g13503,Summary,Recent News,test,test,6
+13504,g13504,Summary,Recent News,train,train,6
+13505,g13505,Summary,Recent News,train,train,6
+13506,g13506,Summary,Recent News,train,validation,6
+13507,g13507,Summary,Recent News,train,train,6
+13508,g13508,Summary,Recent News,train,train,6
+13509,g13509,Summary,Recent News,train,validation,6
+13510,g13510,Summary,Recent News,train,train,6
+13511,g13511,Summary,Recent News,train,train,6
+13512,g13512,Summary,Recent News,train,train,6
+13513,g13513,Summary,Recent News,train,train,6
+13514,g13514,Summary,Recent News,train,train,6
+13515,g13515,Summary,Recent News,train,train,6
+13516,g13516,Summary,Recent News,train,train,6
+13517,g13517,Summary,Recent News,train,train,6
+13518,g13518,Summary,Recent News,train,validation,6
+13519,g13519,Summary,Recent News,train,train,6
+13520,g13520,Summary,Recent News,train,train,6
+13521,g13521,Summary,Recent News,train,train,6
+13522,g13522,Summary,Recent News,test,test,6
+13523,g13523,Summary,Recent News,train,train,6
+13524,g13524,Summary,Recent News,train,train,6
+13525,g13525,Summary,Recent News,train,train,6
+13526,g13526,Summary,Recent News,train,train,6
+13527,g13527,Summary,Recent News,train,validation,6
+13528,g13528,Summary,Recent News,train,train,6
+13529,g13529,Summary,Recent News,train,train,6
+13530,g13530,Summary,Recent News,train,train,6
+13531,g13531,Summary,Recent News,train,train,6
+13532,g13532,Summary,Recent News,train,train,6
+13533,g13533,Summary,Recent News,train,validation,6
+13534,g13534,Summary,Recent News,train,train,6
+13535,g13535,Summary,Recent News,test,test,6
+13536,g13536,Summary,Recent News,train,train,6
+13537,g13537,Summary,Recent News,train,validation,6
+13538,g13538,Summary,Recent News,train,train,6
+13539,g13539,Summary,Recent News,train,train,6
+13540,g13540,Summary,Recent News,train,validation,6
+13541,g13541,Summary,Recent News,train,validation,6
+13542,g13542,Summary,Recent News,train,train,6
+13543,g13543,Summary,Recent News,train,train,6
+13544,g13544,Summary,Recent News,train,train,6
+13545,g13545,Summary,Recent News,train,train,6
+13546,g13546,Summary,Recent News,train,train,6
+13547,g13547,Summary,Recent News,train,train,6
+13548,g13548,Summary,Recent News,train,train,6
+13549,g13549,Summary,Recent News,train,validation,6
+13550,g13550,Summary,Recent News,train,train,6
+13551,g13551,Summary,Recent News,train,train,6
+13552,g13552,Summary,Recent News,train,train,6
+13553,g13553,Summary,Recent News,train,train,6
+13554,g13554,Summary,Recent News,test,test,6
+13555,g13555,Summary,Recent News,train,train,6
+13556,g13556,Summary,Recent News,train,train,6
+13557,g13557,Summary,Recent News,train,train,6
+13558,g13558,Summary,Recent News,test,test,6
+13559,g13559,Summary,Recent News,train,train,6
+13560,g13560,Summary,Recent News,train,train,6
+13561,g13561,Summary,Recent News,train,train,6
+13562,g13562,Summary,Recent News,train,validation,6
+13563,g13563,Summary,Recent News,train,train,6
+13564,g13564,Summary,Recent News,train,train,6
+13565,g13565,Summary,Recent News,train,train,6
+13566,g13566,Summary,Recent News,train,train,6
+13567,g13567,Summary,Recent News,train,validation,6
+13568,g13568,Summary,Recent News,train,train,6
+13569,g13569,Summary,Recent News,test,test,6
+13570,g13570,Summary,Recent News,train,validation,6
+13571,g13571,Summary,Recent News,train,train,6
+13572,g13572,Summary,Recent News,train,train,6
+13573,g13573,Summary,Recent News,train,train,6
+13574,g13574,Summary,Recent News,train,train,6
+13575,g13575,Summary,Recent News,train,validation,6
+13576,g13576,Summary,Recent News,train,train,6
+13577,g13577,Summary,Recent News,test,test,6
+13578,g13578,Summary,Recent News,train,train,6
+13579,g13579,Summary,Recent News,train,train,6
+13580,g13580,Summary,Recent News,train,train,6
+13581,g13581,Summary,Recent News,train,train,6
+13582,g13582,Summary,Recent News,train,train,6
+13583,g13583,Summary,Recent News,test,test,6
+13584,g13584,Summary,Recent News,train,train,6
+13585,g13585,Summary,Recent News,train,validation,6
+13586,g13586,Summary,Recent News,train,train,6
+13587,g13587,Summary,Recent News,train,validation,6
+13588,g13588,Summary,Recent News,train,train,6
+13589,g13589,Summary,Recent News,train,train,6
+13590,g13590,Summary,Recent News,train,train,6
+13591,g13591,Summary,Recent News,train,train,6
+13592,g13592,Summary,Recent News,train,train,6
+13593,g13593,Summary,Recent News,train,train,6
+13594,g13594,Summary,Recent News,train,train,6
+13595,g13595,Summary,Recent News,train,train,6
+13596,g13596,Summary,Recent News,train,validation,6
+13597,g13597,Summary,Recent News,train,train,6
+13598,g13598,Summary,Recent News,train,train,6
+13599,g13599,Data2txt,Yelp,train,train,6
+13600,g13600,Data2txt,Yelp,train,train,6
+13601,g13601,Data2txt,Yelp,test,test,6
+13602,g13602,Data2txt,Yelp,train,train,6
+13603,g13603,Data2txt,Yelp,test,test,6
+13604,g13604,Data2txt,Yelp,test,test,6
+13605,g13605,Data2txt,Yelp,train,train,6
+13606,g13606,Data2txt,Yelp,train,train,6
+13607,g13607,Data2txt,Yelp,train,train,6
+13608,g13608,Data2txt,Yelp,train,train,6
+13609,g13609,Data2txt,Yelp,train,train,6
+13610,g13610,Data2txt,Yelp,train,train,6
+13613,g13613,Data2txt,Yelp,test,test,6
+13614,g13614,Data2txt,Yelp,test,test,6
+13615,g13615,Data2txt,Yelp,train,train,6
+13617,g13617,Data2txt,Yelp,train,train,6
+13618,g13618,Data2txt,Yelp,train,train,6
+13619,g13619,Data2txt,Yelp,test,test,6
+13620,g13620,Data2txt,Yelp,train,train,6
+13621,g13621,Data2txt,Yelp,train,train,6
+13622,g13622,Data2txt,Yelp,train,train,6
+13623,g13623,Data2txt,Yelp,train,train,6
+13627,g13627,Data2txt,Yelp,train,train,6
+13628,g13628,Data2txt,Yelp,train,train,6
+13629,g13629,Data2txt,Yelp,train,train,6
+13630,g13630,Data2txt,Yelp,train,train,6
+13631,g13631,Data2txt,Yelp,train,train,6
+13632,g13632,Data2txt,Yelp,test,test,6
+13633,g13633,Data2txt,Yelp,test,test,6
+13634,g13634,Data2txt,Yelp,train,train,6
+13635,g13635,Data2txt,Yelp,train,train,6
+13636,g13636,Data2txt,Yelp,train,train,6
+13637,g13637,Data2txt,Yelp,test,test,6
+13638,g13638,Data2txt,Yelp,train,validation,6
+13639,g13639,Data2txt,Yelp,train,train,6
+13640,g13640,Data2txt,Yelp,train,train,6
+13641,g13641,Data2txt,Yelp,train,train,6
+13642,g13642,Data2txt,Yelp,train,validation,6
+13643,g13643,Data2txt,Yelp,train,train,6
+13644,g13644,Data2txt,Yelp,train,train,6
+13645,g13645,Data2txt,Yelp,train,validation,6
+13646,g13646,Data2txt,Yelp,train,train,6
+13647,g13647,Data2txt,Yelp,train,validation,6
+13648,g13648,Data2txt,Yelp,train,train,6
+13649,g13649,Data2txt,Yelp,train,train,6
+13650,g13650,Data2txt,Yelp,train,validation,6
+13651,g13651,Data2txt,Yelp,train,train,6
+13652,g13652,Data2txt,Yelp,train,train,6
+13653,g13653,Data2txt,Yelp,train,train,6
+13654,g13654,Data2txt,Yelp,train,train,6
+13655,g13655,Data2txt,Yelp,train,train,6
+13656,g13656,Data2txt,Yelp,train,train,6
+13657,g13657,Data2txt,Yelp,train,train,6
+13658,g13658,Data2txt,Yelp,train,train,6
+13659,g13659,Data2txt,Yelp,train,validation,6
+13660,g13660,Data2txt,Yelp,train,train,6
+13661,g13661,Data2txt,Yelp,train,train,6
+13663,g13663,Data2txt,Yelp,train,train,6
+13664,g13664,Data2txt,Yelp,train,validation,6
+13665,g13665,Data2txt,Yelp,train,train,6
+13666,g13666,Data2txt,Yelp,train,train,6
+13669,g13669,Data2txt,Yelp,test,test,6
+13670,g13670,Data2txt,Yelp,train,train,6
+13671,g13671,Data2txt,Yelp,train,validation,6
+13672,g13672,Data2txt,Yelp,train,train,6
+13673,g13673,Data2txt,Yelp,test,test,6
+13674,g13674,Data2txt,Yelp,train,train,6
+13675,g13675,Data2txt,Yelp,train,train,6
+13676,g13676,Data2txt,Yelp,train,train,6
+13677,g13677,Data2txt,Yelp,train,train,6
+13678,g13678,Data2txt,Yelp,train,train,6
+13679,g13679,Data2txt,Yelp,train,train,6
+13680,g13680,Data2txt,Yelp,train,train,6
+13681,g13681,Data2txt,Yelp,train,train,6
+13682,g13682,Data2txt,Yelp,train,train,6
+13683,g13683,Data2txt,Yelp,train,train,6
+13684,g13684,Data2txt,Yelp,train,train,6
+13685,g13685,Data2txt,Yelp,train,train,6
+13686,g13686,Data2txt,Yelp,train,train,6
+13687,g13687,Data2txt,Yelp,train,train,6
+13688,g13688,Data2txt,Yelp,test,test,6
+13689,g13689,Data2txt,Yelp,train,train,6
+13690,g13690,Data2txt,Yelp,train,train,6
+13691,g13691,Data2txt,Yelp,train,train,6
+13692,g13692,Data2txt,Yelp,train,train,6
+13693,g13693,Data2txt,Yelp,test,test,6
+13695,g13695,Data2txt,Yelp,train,train,6
+13696,g13696,Data2txt,Yelp,train,train,6
+13697,g13697,Data2txt,Yelp,train,train,6
+13698,g13698,Data2txt,Yelp,train,train,6
+13699,g13699,Data2txt,Yelp,train,train,6
+13700,g13700,Data2txt,Yelp,train,validation,6
+13702,g13702,Data2txt,Yelp,train,train,6
+13703,g13703,Data2txt,Yelp,train,train,6
+13704,g13704,Data2txt,Yelp,train,train,6
+13705,g13705,Data2txt,Yelp,train,train,6
+13706,g13706,Data2txt,Yelp,test,test,6
+13707,g13707,Data2txt,Yelp,train,train,6
+13708,g13708,Data2txt,Yelp,test,test,6
+13709,g13709,Data2txt,Yelp,test,test,6
+13710,g13710,Data2txt,Yelp,train,train,6
+13711,g13711,Data2txt,Yelp,train,validation,6
+13712,g13712,Data2txt,Yelp,train,train,6
+13713,g13713,Data2txt,Yelp,test,test,6
+13714,g13714,Data2txt,Yelp,test,test,6
+13715,g13715,Data2txt,Yelp,train,train,6
+13716,g13716,Data2txt,Yelp,train,validation,6
+13717,g13717,Data2txt,Yelp,train,train,6
+13718,g13718,Data2txt,Yelp,train,train,6
+13719,g13719,Data2txt,Yelp,train,train,6
+13720,g13720,Data2txt,Yelp,train,validation,6
+13721,g13721,Data2txt,Yelp,train,train,6
+13722,g13722,Data2txt,Yelp,train,train,6
+13723,g13723,Data2txt,Yelp,train,train,6
+13724,g13724,Data2txt,Yelp,train,train,6
+13725,g13725,Data2txt,Yelp,train,train,6
+13726,g13726,Data2txt,Yelp,train,train,6
+13727,g13727,Data2txt,Yelp,train,train,6
+13728,g13728,Data2txt,Yelp,train,train,6
+13729,g13729,Data2txt,Yelp,train,train,6
+13730,g13730,Data2txt,Yelp,train,train,6
+13731,g13731,Data2txt,Yelp,train,train,6
+13732,g13732,Data2txt,Yelp,train,train,6
+13734,g13734,Data2txt,Yelp,train,validation,6
+13735,g13735,Data2txt,Yelp,train,train,6
+13736,g13736,Data2txt,Yelp,test,test,6
+13737,g13737,Data2txt,Yelp,test,test,6
+13738,g13738,Data2txt,Yelp,train,train,6
+13740,g13740,Data2txt,Yelp,train,train,6
+13741,g13741,Data2txt,Yelp,train,train,6
+13742,g13742,Data2txt,Yelp,train,validation,6
+13743,g13743,Data2txt,Yelp,train,train,6
+13744,g13744,Data2txt,Yelp,train,train,6
+13745,g13745,Data2txt,Yelp,train,train,6
+13746,g13746,Data2txt,Yelp,train,train,6
+13747,g13747,Data2txt,Yelp,train,train,6
+13748,g13748,Data2txt,Yelp,train,train,6
+13749,g13749,Data2txt,Yelp,train,train,6
+13750,g13750,Data2txt,Yelp,train,train,6
+13752,g13752,Data2txt,Yelp,train,train,6
+13753,g13753,Data2txt,Yelp,train,train,6
+13754,g13754,Data2txt,Yelp,train,train,6
+13755,g13755,Data2txt,Yelp,train,train,6
+13756,g13756,Data2txt,Yelp,train,train,6
+13757,g13757,Data2txt,Yelp,train,train,6
+13758,g13758,Data2txt,Yelp,train,train,6
+13759,g13759,Data2txt,Yelp,train,train,6
+13760,g13760,Data2txt,Yelp,train,train,6
+13761,g13761,Data2txt,Yelp,test,test,6
+13762,g13762,Data2txt,Yelp,train,train,6
+13763,g13763,Data2txt,Yelp,train,validation,6
+13764,g13764,Data2txt,Yelp,train,train,6
+13765,g13765,Data2txt,Yelp,train,train,6
+13766,g13766,Data2txt,Yelp,train,train,6
+13767,g13767,Data2txt,Yelp,train,train,6
+13768,g13768,Data2txt,Yelp,train,train,6
+13769,g13769,Data2txt,Yelp,train,train,6
+13770,g13770,Data2txt,Yelp,train,train,6
+13771,g13771,Data2txt,Yelp,train,train,6
+13772,g13772,Data2txt,Yelp,train,train,6
+13773,g13773,Data2txt,Yelp,train,train,6
+13774,g13774,Data2txt,Yelp,train,train,6
+13775,g13775,Data2txt,Yelp,test,test,6
+13776,g13776,Data2txt,Yelp,train,train,6
+13777,g13777,Data2txt,Yelp,train,train,6
+13778,g13778,Data2txt,Yelp,train,train,6
+13779,g13779,Data2txt,Yelp,train,train,6
+13780,g13780,Data2txt,Yelp,train,train,6
+13782,g13782,Data2txt,Yelp,train,train,6
+13783,g13783,Data2txt,Yelp,test,test,6
+13784,g13784,Data2txt,Yelp,train,train,6
+13785,g13785,Data2txt,Yelp,test,test,6
+13786,g13786,Data2txt,Yelp,train,train,6
+13787,g13787,Data2txt,Yelp,train,train,6
+13788,g13788,Data2txt,Yelp,train,validation,6
+13789,g13789,Data2txt,Yelp,train,train,6
+13790,g13790,Data2txt,Yelp,test,test,6
+13791,g13791,Data2txt,Yelp,train,validation,6
+13792,g13792,Data2txt,Yelp,train,train,6
+13793,g13793,Data2txt,Yelp,train,train,6
+13794,g13794,Data2txt,Yelp,train,train,6
+13795,g13795,Data2txt,Yelp,train,train,6
+13796,g13796,Data2txt,Yelp,train,train,6
+13797,g13797,Data2txt,Yelp,train,train,6
+13799,g13799,Summary,Recent News,test,test,6
+13800,g13800,Summary,Recent News,train,train,6
+13801,g13801,Summary,Recent News,train,train,6
+13802,g13802,Summary,Recent News,train,train,6
+13803,g13803,Summary,Recent News,train,train,6
+13804,g13804,Summary,Recent News,train,train,6
+13805,g13805,Summary,Recent News,train,train,6
+13806,g13806,Summary,Recent News,test,test,6
+13807,g13807,Summary,Recent News,train,train,6
+13808,g13808,Summary,Recent News,train,train,6
+13809,g13809,Summary,Recent News,train,train,6
+13810,g13810,Summary,Recent News,train,train,6
+13811,g13811,Summary,Recent News,train,train,6
+13812,g13812,Summary,Recent News,train,train,6
+13813,g13813,Summary,Recent News,train,train,6
+13814,g13814,Summary,Recent News,test,test,6
+13815,g13815,Summary,Recent News,test,test,6
+13816,g13816,Summary,Recent News,test,test,6
+13817,g13817,Summary,Recent News,train,train,6
+13818,g13818,Summary,Recent News,test,test,6
+13819,g13819,Summary,Recent News,train,train,6
+13820,g13820,Summary,Recent News,train,train,6
+13821,g13821,Summary,Recent News,train,train,6
+13822,g13822,Summary,Recent News,train,train,6
+13823,g13823,Summary,Recent News,test,test,6
+13824,g13824,Summary,Recent News,train,train,6
+13825,g13825,Summary,Recent News,train,train,6
+13826,g13826,Summary,Recent News,train,train,6
+13827,g13827,Summary,Recent News,test,test,6
+13828,g13828,Summary,Recent News,train,train,6
+13829,g13829,Summary,Recent News,test,test,6
+13830,g13830,Summary,Recent News,train,train,6
+13831,g13831,Summary,Recent News,train,validation,6
+13832,g13832,Summary,Recent News,train,train,6
+13833,g13833,Summary,Recent News,train,validation,6
+13834,g13834,Summary,Recent News,test,test,6
+13835,g13835,Summary,Recent News,train,train,6
+13836,g13836,Summary,Recent News,train,train,6
+13837,g13837,Summary,Recent News,train,validation,6
+13838,g13838,Summary,Recent News,train,train,6
+13839,g13839,Summary,Recent News,test,test,6
+13840,g13840,Summary,Recent News,test,test,6
+13841,g13841,Summary,Recent News,train,train,6
+13842,g13842,Summary,Recent News,test,test,6
+13843,g13843,Summary,Recent News,test,test,6
+13844,g13844,Summary,Recent News,train,train,6
+13845,g13845,Summary,Recent News,train,train,6
+13846,g13846,Summary,Recent News,test,test,6
+13847,g13847,Summary,Recent News,train,train,6
+13848,g13848,Summary,Recent News,test,test,6
+13849,g13849,Summary,Recent News,train,train,6
+13850,g13850,Summary,Recent News,test,test,6
+13851,g13851,Summary,Recent News,train,validation,6
+13852,g13852,Summary,Recent News,train,train,6
+13853,g13853,Summary,Recent News,train,train,6
+13854,g13854,Summary,Recent News,train,train,6
+13855,g13855,Summary,Recent News,train,train,6
+13856,g13856,Summary,Recent News,train,train,6
+13857,g13857,Summary,Recent News,test,test,6
+13858,g13858,Summary,Recent News,train,train,6
+13859,g13859,Summary,Recent News,train,validation,6
+13860,g13860,Summary,Recent News,train,train,6
+13861,g13861,Summary,Recent News,train,train,6
+13862,g13862,Summary,Recent News,train,train,6
+13863,g13863,Summary,Recent News,train,train,6
+13864,g13864,Summary,Recent News,train,validation,6
+13865,g13865,Summary,Recent News,train,train,6
+13866,g13866,Summary,Recent News,train,train,6
+13867,g13867,Summary,Recent News,train,train,6
+13868,g13868,Summary,Recent News,train,validation,6
+13869,g13869,Summary,Recent News,train,train,6
+13870,g13870,Summary,Recent News,test,test,6
+13871,g13871,Summary,Recent News,train,train,6
+13872,g13872,Summary,Recent News,test,test,6
+13873,g13873,Summary,Recent News,train,train,6
+13874,g13874,Summary,Recent News,test,test,6
+13875,g13875,Summary,Recent News,test,test,6
+13876,g13876,Summary,Recent News,train,validation,6
+13877,g13877,Summary,Recent News,train,train,6
+13878,g13878,Summary,Recent News,train,train,6
+13879,g13879,Summary,Recent News,train,train,6
+13880,g13880,Summary,Recent News,train,train,6
+13881,g13881,Summary,Recent News,test,test,6
+13882,g13882,Summary,Recent News,train,train,6
+13883,g13883,Summary,Recent News,train,train,6
+13884,g13884,Summary,Recent News,train,train,6
+13885,g13885,Summary,Recent News,train,train,6
+13886,g13886,Summary,Recent News,train,train,6
+13887,g13887,Summary,Recent News,test,test,6
+13888,g13888,Summary,Recent News,train,train,6
+13889,g13889,Summary,Recent News,train,train,6
+13890,g13890,Summary,Recent News,train,validation,6
+13891,g13891,Summary,Recent News,train,train,6
+13892,g13892,Summary,Recent News,train,train,6
+13893,g13893,Summary,Recent News,train,train,6
+13894,g13894,Summary,Recent News,test,test,6
+13895,g13895,Summary,Recent News,test,test,6
+13896,g13896,Summary,Recent News,train,validation,6
+13897,g13897,Summary,Recent News,train,train,6
+13898,g13898,Summary,Recent News,train,train,6
+13899,g13899,Summary,Recent News,train,train,6
+13900,g13900,Summary,Recent News,train,train,6
+13901,g13901,Summary,Recent News,train,train,6
+13902,g13902,Summary,Recent News,train,train,6
+13903,g13903,Summary,Recent News,train,train,6
+13904,g13904,Summary,Recent News,train,validation,6
+13905,g13905,Summary,Recent News,train,train,6
+13906,g13906,Summary,Recent News,train,validation,6
+13907,g13907,Summary,Recent News,train,train,6
+13908,g13908,Summary,Recent News,train,train,6
+13909,g13909,Summary,Recent News,train,train,6
+13910,g13910,Summary,Recent News,train,validation,6
+13911,g13911,Summary,Recent News,test,test,6
+13912,g13912,Summary,Recent News,train,train,6
+13913,g13913,Summary,Recent News,train,train,6
+13914,g13914,Summary,Recent News,train,train,6
+13915,g13915,Summary,Recent News,train,train,6
+13916,g13916,Summary,Recent News,test,test,6
+13917,g13917,Summary,Recent News,test,test,6
+13918,g13918,Summary,Recent News,train,train,6
+13919,g13919,Summary,Recent News,train,train,6
+13920,g13920,Summary,Recent News,train,train,6
+13921,g13921,Summary,Recent News,train,validation,6
+13922,g13922,Summary,Recent News,train,train,6
+13923,g13923,Summary,Recent News,train,train,6
+13924,g13924,Summary,Recent News,train,train,6
+13925,g13925,Summary,Recent News,test,test,6
+13926,g13926,Summary,Recent News,test,test,6
+13927,g13927,Summary,Recent News,train,train,6
+13928,g13928,Summary,Recent News,train,train,6
+13929,g13929,Summary,Recent News,train,validation,6
+13930,g13930,Summary,Recent News,train,train,6
+13931,g13931,Summary,Recent News,train,validation,6
+13932,g13932,Summary,Recent News,train,train,6
+13933,g13933,Summary,Recent News,test,test,6
+13934,g13934,Summary,Recent News,train,validation,6
+13935,g13935,Summary,Recent News,test,test,6
+13936,g13936,Summary,Recent News,train,train,6
+13937,g13937,Summary,Recent News,train,train,6
+13938,g13938,Summary,Recent News,train,train,6
+13939,g13939,Summary,Recent News,train,train,6
+13940,g13940,Summary,Recent News,train,train,6
+13941,g13941,Summary,Recent News,train,train,6
+13942,g13942,Summary,Recent News,train,train,6
+13943,g13943,Summary,Recent News,train,train,6
+13944,g13944,Summary,Recent News,train,train,6
+13945,g13945,Summary,Recent News,train,train,6
+13946,g13946,Summary,Recent News,train,train,6
+13947,g13947,Summary,Recent News,train,train,6
+13948,g13948,Summary,Recent News,train,train,6
+13949,g13949,Summary,Recent News,train,train,6
+13950,g13950,Summary,Recent News,train,train,6
+13951,g13951,Summary,Recent News,train,train,6
+13952,g13952,Summary,Recent News,train,train,6
+13953,g13953,Summary,Recent News,train,train,6
+13954,g13954,Summary,Recent News,train,train,6
+13955,g13955,Summary,Recent News,train,train,6
+13956,g13956,Summary,Recent News,train,train,6
+13957,g13957,Summary,Recent News,train,train,6
+13958,g13958,Summary,Recent News,train,train,6
+13959,g13959,Summary,Recent News,train,train,6
+13960,g13960,Summary,Recent News,train,train,6
+13961,g13961,Summary,Recent News,train,train,6
+13962,g13962,Summary,Recent News,test,test,6
+13963,g13963,Summary,Recent News,train,train,6
+13964,g13964,Summary,Recent News,train,validation,6
+13965,g13965,Summary,Recent News,train,train,6
+13967,g13967,Summary,Recent News,train,train,6
+13968,g13968,Summary,Recent News,test,test,6
+13969,g13969,Summary,Recent News,train,train,6
+13970,g13970,Summary,Recent News,train,train,6
+13971,g13971,Summary,Recent News,test,test,6
+13972,g13972,Summary,Recent News,test,test,6
+13973,g13973,Summary,Recent News,train,train,6
+13974,g13974,Summary,Recent News,train,validation,6
+13975,g13975,Summary,Recent News,train,train,6
+13976,g13976,Summary,Recent News,train,train,6
+13977,g13977,Summary,Recent News,train,validation,6
+13978,g13978,Summary,Recent News,train,train,6
+13979,g13979,Summary,Recent News,test,test,6
+13980,g13980,Summary,Recent News,train,train,6
+13981,g13981,Summary,Recent News,train,train,6
+13982,g13982,Summary,Recent News,train,train,6
+13983,g13983,Summary,Recent News,train,validation,6
+13984,g13984,Summary,Recent News,train,train,6
+13985,g13985,Summary,Recent News,train,train,6
+13986,g13986,Summary,Recent News,train,train,6
+13987,g13987,Summary,Recent News,train,train,6
+13988,g13988,Summary,Recent News,train,train,6
+13989,g13989,Summary,Recent News,train,train,6
+13990,g13990,Summary,Recent News,train,train,6
+13991,g13991,Summary,Recent News,train,train,6
+13992,g13992,Data2txt,Yelp,test,test,6
+13994,g13994,Data2txt,Yelp,test,test,6
+13995,g13995,Data2txt,Yelp,test,test,6
+13996,g13996,Data2txt,Yelp,test,test,6
+13997,g13997,Data2txt,Yelp,train,train,6
+13998,g13998,Data2txt,Yelp,train,train,6
+13999,g13999,Data2txt,Yelp,train,train,6
+14000,g14000,Data2txt,Yelp,train,train,6
+14001,g14001,Data2txt,Yelp,train,train,6
+14002,g14002,Data2txt,Yelp,train,train,6
+14003,g14003,Data2txt,Yelp,train,train,6
+14004,g14004,Data2txt,Yelp,train,train,6
+14005,g14005,Data2txt,Yelp,train,train,6
+14006,g14006,Data2txt,Yelp,test,test,6
+14007,g14007,Data2txt,Yelp,train,train,6
+14008,g14008,Data2txt,Yelp,test,test,6
+14009,g14009,Data2txt,Yelp,test,test,6
+14010,g14010,Data2txt,Yelp,train,train,6
+14011,g14011,Data2txt,Yelp,train,train,6
+14012,g14012,Data2txt,Yelp,train,train,6
+14013,g14013,Data2txt,Yelp,train,validation,6
+14015,g14015,Data2txt,Yelp,train,train,6
+14016,g14016,Data2txt,Yelp,train,train,6
+14017,g14017,Data2txt,Yelp,test,test,6
+14018,g14018,Data2txt,Yelp,train,train,6
+14019,g14019,Data2txt,Yelp,test,test,6
+14020,g14020,Data2txt,Yelp,test,test,6
+14021,g14021,Data2txt,Yelp,test,test,6
+14022,g14022,Data2txt,Yelp,test,test,6
+14023,g14023,Data2txt,Yelp,train,train,6
+14024,g14024,Data2txt,Yelp,train,train,6
+14025,g14025,Data2txt,Yelp,train,train,6
+14027,g14027,Data2txt,Yelp,train,train,6
+14028,g14028,Data2txt,Yelp,train,train,6
+14029,g14029,Data2txt,Yelp,train,train,6
+14030,g14030,Data2txt,Yelp,test,test,6
+14031,g14031,Data2txt,Yelp,test,test,6
+14032,g14032,Data2txt,Yelp,train,train,6
+14033,g14033,Data2txt,Yelp,train,train,6
+14034,g14034,Data2txt,Yelp,test,test,6
+14035,g14035,Data2txt,Yelp,test,test,6
+14036,g14036,Data2txt,Yelp,test,test,6
+14037,g14037,Data2txt,Yelp,test,test,6
+14038,g14038,Data2txt,Yelp,test,test,6
+14039,g14039,Data2txt,Yelp,test,test,6
+14040,g14040,Data2txt,Yelp,test,test,6
+14041,g14041,Data2txt,Yelp,train,train,6
+14042,g14042,Data2txt,Yelp,train,train,6
+14043,g14043,Data2txt,Yelp,test,test,6
+14044,g14044,Data2txt,Yelp,train,train,6
+14045,g14045,Data2txt,Yelp,test,test,6
+14046,g14046,Data2txt,Yelp,train,train,6
+14048,g14048,Data2txt,Yelp,train,train,6
+14049,g14049,Data2txt,Yelp,train,train,6
+14051,g14051,Data2txt,Yelp,test,test,6
+14052,g14052,Data2txt,Yelp,test,test,6
+14053,g14053,Data2txt,Yelp,test,test,6
+14054,g14054,Data2txt,Yelp,train,train,6
+14055,g14055,Data2txt,Yelp,train,train,6
+14056,g14056,Data2txt,Yelp,train,train,6
+14057,g14057,Data2txt,Yelp,train,train,6
+14058,g14058,Data2txt,Yelp,train,train,6
+14059,g14059,Data2txt,Yelp,test,test,6
+14060,g14060,Data2txt,Yelp,test,test,6
+14061,g14061,Data2txt,Yelp,train,train,6
+14062,g14062,Data2txt,Yelp,test,test,6
+14063,g14063,Data2txt,Yelp,test,test,6
+14064,g14064,Data2txt,Yelp,train,train,6
+14065,g14065,Data2txt,Yelp,train,train,6
+14066,g14066,Data2txt,Yelp,train,validation,6
+14067,g14067,Data2txt,Yelp,train,train,6
+14068,g14068,Data2txt,Yelp,train,validation,6
+14069,g14069,Data2txt,Yelp,train,train,6
+14070,g14070,Data2txt,Yelp,test,test,6
+14071,g14071,Data2txt,Yelp,train,validation,6
+14072,g14072,Data2txt,Yelp,test,test,6
+14073,g14073,Data2txt,Yelp,train,train,6
+14075,g14075,Data2txt,Yelp,train,train,6
+14076,g14076,Data2txt,Yelp,test,test,6
+14077,g14077,Data2txt,Yelp,test,test,6
+14078,g14078,Data2txt,Yelp,train,train,6
+14079,g14079,Data2txt,Yelp,train,train,6
+14080,g14080,Data2txt,Yelp,test,test,6
+14081,g14081,Data2txt,Yelp,test,test,6
+14082,g14082,Data2txt,Yelp,train,train,6
+14083,g14083,Data2txt,Yelp,train,train,6
+14084,g14084,Data2txt,Yelp,test,test,6
+14085,g14085,Data2txt,Yelp,train,train,6
+14086,g14086,Data2txt,Yelp,test,test,6
+14087,g14087,Data2txt,Yelp,test,test,6
+14088,g14088,Data2txt,Yelp,train,train,6
+14089,g14089,Data2txt,Yelp,train,train,6
+14090,g14090,Data2txt,Yelp,test,test,6
+14091,g14091,Data2txt,Yelp,test,test,6
+14092,g14092,Data2txt,Yelp,train,train,6
+14093,g14093,Data2txt,Yelp,train,train,6
+14094,g14094,Data2txt,Yelp,train,train,6
+14096,g14096,Data2txt,Yelp,train,train,6
+14097,g14097,Data2txt,Yelp,train,train,6
+14098,g14098,Data2txt,Yelp,train,train,6
+14099,g14099,Data2txt,Yelp,train,train,6
+14100,g14100,Data2txt,Yelp,train,train,6
+14101,g14101,Data2txt,Yelp,train,train,6
+14102,g14102,Data2txt,Yelp,train,validation,6
+14103,g14103,Data2txt,Yelp,train,train,6
+14104,g14104,Data2txt,Yelp,train,train,6
+14105,g14105,Data2txt,Yelp,train,train,6
+14106,g14106,Data2txt,Yelp,train,train,6
+14107,g14107,Data2txt,Yelp,train,train,6
+14108,g14108,Data2txt,Yelp,train,train,6
+14109,g14109,Data2txt,Yelp,train,train,6
+14110,g14110,Data2txt,Yelp,train,validation,6
+14111,g14111,Data2txt,Yelp,train,train,6
+14112,g14112,Data2txt,Yelp,train,train,6
+14113,g14113,Data2txt,Yelp,test,test,6
+14114,g14114,Data2txt,Yelp,train,train,6
+14115,g14115,Data2txt,Yelp,train,train,6
+14116,g14116,Data2txt,Yelp,train,train,6
+14117,g14117,Data2txt,Yelp,train,train,6
+14118,g14118,Data2txt,Yelp,train,validation,6
+14119,g14119,Data2txt,Yelp,train,train,6
+14120,g14120,Data2txt,Yelp,train,train,6
+14121,g14121,Data2txt,Yelp,train,train,6
+14122,g14122,Data2txt,Yelp,train,train,6
+14123,g14123,Data2txt,Yelp,test,test,6
+14124,g14124,Data2txt,Yelp,train,validation,6
+14125,g14125,Data2txt,Yelp,train,train,6
+14126,g14126,Data2txt,Yelp,train,train,6
+14127,g14127,Data2txt,Yelp,train,train,6
+14128,g14128,Data2txt,Yelp,train,train,6
+14129,g14129,Data2txt,Yelp,train,train,6
+14130,g14130,Data2txt,Yelp,train,validation,6
+14131,g14131,Data2txt,Yelp,train,train,6
+14132,g14132,Data2txt,Yelp,train,validation,6
+14133,g14133,Data2txt,Yelp,train,train,6
+14134,g14134,Data2txt,Yelp,train,validation,6
+14135,g14135,Data2txt,Yelp,test,test,6
+14136,g14136,Data2txt,Yelp,train,train,6
+14137,g14137,Data2txt,Yelp,train,train,6
+14138,g14138,Data2txt,Yelp,test,test,6
+14139,g14139,Data2txt,Yelp,train,train,6
+14140,g14140,Data2txt,Yelp,train,train,6
+14141,g14141,Data2txt,Yelp,train,train,6
+14142,g14142,Data2txt,Yelp,train,train,6
+14143,g14143,Data2txt,Yelp,train,train,6
+14144,g14144,Data2txt,Yelp,train,train,6
+14145,g14145,Data2txt,Yelp,train,train,6
+14146,g14146,Data2txt,Yelp,train,train,6
+14147,g14147,Data2txt,Yelp,train,validation,6
+14148,g14148,Data2txt,Yelp,train,train,6
+14149,g14149,Data2txt,Yelp,train,validation,6
+14150,g14150,Data2txt,Yelp,train,train,6
+14151,g14151,Data2txt,Yelp,train,train,6
+14152,g14152,Data2txt,Yelp,train,train,6
+14153,g14153,Data2txt,Yelp,train,validation,6
+14154,g14154,Data2txt,Yelp,train,train,6
+14155,g14155,Data2txt,Yelp,train,train,6
+14156,g14156,Data2txt,Yelp,train,train,6
+14157,g14157,Data2txt,Yelp,train,validation,6
+14158,g14158,Data2txt,Yelp,train,train,6
+14159,g14159,Data2txt,Yelp,train,train,6
+14160,g14160,Data2txt,Yelp,train,train,6
+14161,g14161,Data2txt,Yelp,train,train,6
+14162,g14162,Data2txt,Yelp,train,validation,6
+14163,g14163,Data2txt,Yelp,train,validation,6
+14164,g14164,Data2txt,Yelp,train,train,6
+14165,g14165,Data2txt,Yelp,train,train,6
+14166,g14166,Data2txt,Yelp,train,train,6
+14167,g14167,Data2txt,Yelp,train,train,6
+14169,g14169,Data2txt,Yelp,test,test,6
+14171,g14171,Data2txt,Yelp,test,test,6
+14172,g14172,Data2txt,Yelp,train,train,6
+14173,g14173,Data2txt,Yelp,train,train,6
+14174,g14174,Data2txt,Yelp,train,train,6
+14175,g14175,Data2txt,Yelp,train,train,6
+14176,g14176,Data2txt,Yelp,train,train,6
+14177,g14177,Data2txt,Yelp,train,train,6
+14178,g14178,Data2txt,Yelp,train,validation,6
+14179,g14179,Data2txt,Yelp,train,validation,6
+14180,g14180,Data2txt,Yelp,train,train,6
+14181,g14181,Data2txt,Yelp,train,train,6
+14182,g14182,Data2txt,Yelp,train,train,6
+14183,g14183,Data2txt,Yelp,train,train,6
+14184,g14184,Data2txt,Yelp,train,train,6
+14185,g14185,Data2txt,Yelp,train,train,6
+14186,g14186,Data2txt,Yelp,train,train,6
+14187,g14187,Data2txt,Yelp,train,train,6
+14188,g14188,Data2txt,Yelp,train,validation,6
+14189,g14189,Data2txt,Yelp,train,train,6
+14190,g14190,Data2txt,Yelp,train,validation,6
+14192,g14192,Data2txt,Yelp,train,validation,6
+14193,g14193,Data2txt,Yelp,train,train,6
+14194,g14194,Data2txt,Yelp,test,test,6
+14195,g14195,Data2txt,Yelp,train,train,6
+14196,g14196,Data2txt,Yelp,train,train,6
+14197,g14197,Data2txt,Yelp,train,train,6
+14198,g14198,Data2txt,Yelp,train,train,6
+14199,g14199,Data2txt,Yelp,train,train,6
+14200,g14200,Data2txt,Yelp,test,test,6
+14201,g14201,Data2txt,Yelp,train,train,6
+14202,g14202,Data2txt,Yelp,train,train,6
+14203,g14203,Data2txt,Yelp,train,train,6
+14204,g14204,Data2txt,Yelp,train,validation,6
+14205,g14205,Data2txt,Yelp,test,test,6
+14206,g14206,Data2txt,Yelp,train,validation,6
+14207,g14207,Data2txt,Yelp,train,train,6
+14208,g14208,Data2txt,Yelp,train,train,6
+14209,g14209,Data2txt,Yelp,train,train,6
+14210,g14210,Data2txt,Yelp,train,train,6
+14211,g14211,Data2txt,Yelp,train,train,6
+14213,g14213,Data2txt,Yelp,train,train,6
+14214,g14214,Data2txt,Yelp,train,train,6
+14215,g14215,Data2txt,Yelp,train,train,6
+14216,g14216,Data2txt,Yelp,train,train,6
+14218,g14041,Data2txt,Yelp,train,train,6
+14219,g14219,Data2txt,Yelp,test,test,6
+14220,g14220,Data2txt,Yelp,train,train,6
+14221,g14221,Data2txt,Yelp,train,train,6
+14222,g14222,Data2txt,Yelp,train,train,6
+14223,g14223,Data2txt,Yelp,test,test,6
+14224,g14224,Data2txt,Yelp,train,train,6
+14225,g14225,Data2txt,Yelp,train,validation,6
+14226,g14226,Data2txt,Yelp,train,train,6
+14227,g14227,Data2txt,Yelp,train,validation,6
+14228,g14228,Data2txt,Yelp,train,train,6
+14229,g14229,Data2txt,Yelp,train,train,6
+14230,g14230,Data2txt,Yelp,train,train,6
+14231,g14231,Data2txt,Yelp,train,train,6
+14232,g14232,Data2txt,Yelp,train,train,6
+14233,g14233,Data2txt,Yelp,train,train,6
+14234,g14234,Data2txt,Yelp,train,validation,6
+14236,g14236,Data2txt,Yelp,test,test,6
+14237,g14237,Data2txt,Yelp,train,train,6
+14238,g14238,Data2txt,Yelp,train,train,6
+14239,g14239,Data2txt,Yelp,train,train,6
+14241,g14241,Data2txt,Yelp,train,train,6
+14242,g14242,Data2txt,Yelp,train,train,6
+14243,g14243,Data2txt,Yelp,train,train,6
+14244,g14244,Data2txt,Yelp,train,train,6
+14246,g14246,Data2txt,Yelp,train,train,6
+14247,g14247,Data2txt,Yelp,train,train,6
+14248,g14248,Data2txt,Yelp,train,train,6
+14249,g14249,Data2txt,Yelp,test,test,6
+14250,g14250,Data2txt,Yelp,train,train,6
+14251,g14251,Data2txt,Yelp,train,train,6
+14252,g14252,Data2txt,Yelp,train,train,6
+14254,g14254,Data2txt,Yelp,test,test,6
+14255,g14255,Data2txt,Yelp,train,validation,6
+14256,g14256,Data2txt,Yelp,train,train,6
+14257,g14257,Data2txt,Yelp,train,train,6
+14258,g14258,Data2txt,Yelp,train,train,6
+14259,g14259,Data2txt,Yelp,train,train,6
+14260,g14260,Data2txt,Yelp,train,train,6
+14261,g14261,Data2txt,Yelp,train,train,6
+14262,g14262,Data2txt,Yelp,train,train,6
+14263,g14263,Data2txt,Yelp,train,validation,6
+14265,g14265,Data2txt,Yelp,train,train,6
+14266,g14266,Data2txt,Yelp,train,validation,6
+14267,g14267,Data2txt,Yelp,train,train,6
+14268,g14268,Data2txt,Yelp,test,test,6
+14269,g14269,Data2txt,Yelp,train,train,6
+14270,g14270,Data2txt,Yelp,train,train,6
+14271,g14271,Data2txt,Yelp,train,train,6
+14272,g14272,Data2txt,Yelp,train,validation,6
+14273,g14273,Data2txt,Yelp,train,validation,6
+14274,g14274,Data2txt,Yelp,train,train,6
+14275,g14275,Data2txt,Yelp,train,train,6
+14277,g14277,Data2txt,Yelp,train,train,6
+14280,g14280,Data2txt,Yelp,train,train,6
+14281,g14281,Data2txt,Yelp,train,train,6
+14282,g14282,Data2txt,Yelp,test,test,6
+14283,g14283,Data2txt,Yelp,train,train,6
+14284,g14284,Data2txt,Yelp,train,train,6
+14285,g14285,Data2txt,Yelp,train,train,6
+14286,g14286,Data2txt,Yelp,train,train,6
+14288,g14288,Data2txt,Yelp,train,train,6
+14289,g14289,Data2txt,Yelp,test,test,6
+14290,g14290,Data2txt,Yelp,train,train,6
+14291,g14291,Data2txt,Yelp,train,train,6
+14292,g14292,QA,MARCO,train,train,6
+14293,g14293,QA,MARCO,train,train,6
+14294,g14294,QA,MARCO,train,validation,6
+14295,g14295,QA,MARCO,train,train,6
+14296,g14296,QA,MARCO,train,train,6
+14297,g14297,QA,MARCO,train,train,6
+14298,g14298,QA,MARCO,train,validation,6
+14299,g14299,QA,MARCO,train,train,6
+14300,g14300,QA,MARCO,test,test,6
+14301,g14301,QA,MARCO,train,train,6
+14302,g14302,QA,MARCO,train,train,6
+14303,g14303,QA,MARCO,train,train,6
+14304,g14304,QA,MARCO,train,train,6
+14305,g14305,QA,MARCO,train,train,6
+14306,g14306,QA,MARCO,train,train,6
+14307,g14307,QA,MARCO,train,train,6
+14308,g14308,QA,MARCO,train,train,6
+14309,g14309,QA,MARCO,train,train,6
+14310,g14310,QA,MARCO,train,train,6
+14311,g14311,QA,MARCO,train,train,6
+14312,g14312,QA,MARCO,train,train,6
+14313,g14313,QA,MARCO,train,train,6
+14314,g14314,QA,MARCO,train,train,6
+14315,g14315,QA,MARCO,train,train,6
+14316,g14316,QA,MARCO,train,train,6
+14317,g14317,QA,MARCO,train,train,6
+14318,g14318,QA,MARCO,test,test,6
+14319,g14319,QA,MARCO,test,test,6
+14320,g14320,QA,MARCO,train,train,6
+14321,g14321,QA,MARCO,train,train,6
+14322,g14322,QA,MARCO,train,train,6
+14323,g14323,QA,MARCO,test,test,6
+14324,g14324,QA,MARCO,train,train,6
+14325,g14325,QA,MARCO,train,validation,6
+14326,g14326,QA,MARCO,train,train,6
+14327,g14327,QA,MARCO,test,test,6
+14328,g14328,QA,MARCO,train,train,6
+14329,g14329,QA,MARCO,train,validation,6
+14330,g14330,QA,MARCO,train,train,6
+14332,g14332,QA,MARCO,train,train,6
+14333,g14333,QA,MARCO,train,train,6
+14334,g14334,QA,MARCO,test,test,6
+14335,g14335,QA,MARCO,train,validation,6
+14336,g14336,QA,MARCO,train,train,6
+14337,g14337,QA,MARCO,train,train,6
+14338,g14338,QA,MARCO,train,train,6
+14339,g14339,QA,MARCO,test,test,6
+14340,g14340,QA,MARCO,train,validation,6
+14341,g14341,QA,MARCO,train,validation,6
+14342,g14342,QA,MARCO,train,train,6
+14343,g14343,QA,MARCO,train,train,6
+14344,g14344,QA,MARCO,train,train,6
+14345,g14345,QA,MARCO,train,train,6
+14346,g14346,QA,MARCO,train,validation,6
+14347,g14347,QA,MARCO,test,test,6
+14348,g14348,QA,MARCO,train,train,6
+14349,g14349,QA,MARCO,train,validation,6
+14350,g14350,QA,MARCO,train,train,6
+14351,g14351,QA,MARCO,train,train,6
+14352,g14352,QA,MARCO,train,train,6
+14353,g14353,QA,MARCO,test,test,6
+14354,g14354,QA,MARCO,train,train,6
+14355,g14355,QA,MARCO,test,test,6
+14356,g14356,QA,MARCO,train,train,6
+14357,g14357,QA,MARCO,test,test,6
+14358,g14358,QA,MARCO,train,train,6
+14359,g14359,QA,MARCO,train,validation,6
+14360,g14360,QA,MARCO,test,test,6
+14361,g14361,QA,MARCO,train,train,6
+14362,g14362,QA,MARCO,train,train,6
+14363,g14363,QA,MARCO,train,validation,6
+14364,g14364,QA,MARCO,train,train,6
+14365,g14365,QA,MARCO,train,train,6
+14366,g14366,QA,MARCO,test,test,6
+14367,g14367,QA,MARCO,train,train,6
+14368,g14368,QA,MARCO,train,validation,6
+14370,g14370,QA,MARCO,train,train,6
+14371,g14371,QA,MARCO,train,train,6
+14372,g14372,QA,MARCO,train,train,6
+14373,g14373,QA,MARCO,test,test,6
+14374,g14374,QA,MARCO,train,train,6
+14375,g14375,QA,MARCO,test,test,6
+14376,g14376,QA,MARCO,train,train,6
+14377,g14377,QA,MARCO,train,train,6
+14378,g14378,QA,MARCO,train,train,6
+14379,g14379,QA,MARCO,train,train,6
+14380,g14380,QA,MARCO,train,train,6
+14381,g14381,QA,MARCO,train,validation,6
+14382,g14382,QA,MARCO,train,train,6
+14383,g14383,QA,MARCO,train,train,6
+14384,g14384,QA,MARCO,train,train,6
+14385,g14385,QA,MARCO,train,train,6
+14386,g14386,QA,MARCO,train,validation,6
+14387,g14387,QA,MARCO,train,train,6
+14388,g14388,QA,MARCO,train,train,6
+14389,g14389,QA,MARCO,train,train,6
+14390,g14390,QA,MARCO,test,test,6
+14391,g14391,QA,MARCO,test,test,6
+14392,g14392,QA,MARCO,test,test,6
+14393,g14393,QA,MARCO,train,validation,6
+14394,g14394,QA,MARCO,test,test,6
+14395,g14395,QA,MARCO,train,train,6
+14396,g14396,QA,MARCO,test,test,6
+14397,g14397,QA,MARCO,train,train,6
+14398,g14398,QA,MARCO,train,train,6
+14399,g14399,QA,MARCO,train,train,6
+14400,g14400,QA,MARCO,train,train,6
+14401,g14401,QA,MARCO,train,train,6
+14402,g14402,QA,MARCO,train,train,6
+14403,g14403,QA,MARCO,train,validation,6
+14404,g14404,QA,MARCO,test,test,6
+14405,g14405,QA,MARCO,test,test,6
+14406,g14406,QA,MARCO,train,train,6
+14407,g14407,QA,MARCO,train,train,6
+14408,g14408,QA,MARCO,train,train,6
+14409,g14409,QA,MARCO,train,train,6
+14410,g14410,QA,MARCO,test,test,6
+14411,g14411,QA,MARCO,train,validation,6
+14412,g14412,QA,MARCO,train,train,6
+14413,g14413,QA,MARCO,train,train,6
+14414,g14414,QA,MARCO,train,train,6
+14415,g14415,QA,MARCO,train,validation,6
+14416,g14416,QA,MARCO,train,validation,6
+14417,g14417,QA,MARCO,train,validation,6
+14418,g14418,QA,MARCO,test,test,6
+14419,g14419,QA,MARCO,train,train,6
+14420,g14420,QA,MARCO,train,validation,6
+14421,g14421,QA,MARCO,test,test,6
+14422,g14422,QA,MARCO,train,train,6
+14423,g14423,QA,MARCO,train,train,6
+14424,g14424,QA,MARCO,train,train,6
+14425,g14425,QA,MARCO,train,train,6
+14426,g14426,QA,MARCO,train,train,6
+14427,g14427,QA,MARCO,train,train,6
+14428,g14428,QA,MARCO,train,train,6
+14429,g14429,QA,MARCO,train,train,6
+14430,g14430,QA,MARCO,train,train,6
+14431,g14431,QA,MARCO,train,train,6
+14432,g14432,QA,MARCO,train,train,6
+14433,g14433,QA,MARCO,test,test,6
+14434,g14434,QA,MARCO,train,train,6
+14435,g14435,QA,MARCO,test,test,6
+14436,g14436,QA,MARCO,train,validation,6
+14437,g14437,QA,MARCO,train,train,6
+14438,g14438,QA,MARCO,train,train,6
+14439,g14439,QA,MARCO,train,train,6
+14440,g14440,QA,MARCO,train,validation,6
+14441,g14441,QA,MARCO,train,train,6
+14442,g14442,QA,MARCO,train,train,6
+14443,g14443,QA,MARCO,train,train,6
+14444,g14444,QA,MARCO,train,train,6
+14445,g14445,QA,MARCO,test,test,6
+14446,g14446,QA,MARCO,train,train,6
+14447,g14447,QA,MARCO,train,train,6
+14448,g14448,QA,MARCO,train,validation,6
+14449,g14449,QA,MARCO,train,validation,6
+14450,g14450,QA,MARCO,train,train,6
+14451,g14451,QA,MARCO,train,train,6
+14452,g14452,QA,MARCO,train,train,6
+14453,g14453,QA,MARCO,train,train,6
+14454,g14454,QA,MARCO,train,train,6
+14455,g14455,QA,MARCO,train,train,6
+14456,g14456,QA,MARCO,train,train,6
+14457,g14457,QA,MARCO,train,validation,6
+14458,g14458,QA,MARCO,test,test,6
+14459,g14459,QA,MARCO,train,train,6
+14460,g14460,QA,MARCO,train,train,6
+14461,g14461,QA,MARCO,train,validation,6
+14462,g14462,QA,MARCO,train,train,6
+14463,g14463,QA,MARCO,train,train,6
+14464,g14464,QA,MARCO,train,train,6
+14465,g14465,QA,MARCO,train,train,6
+14466,g14466,QA,MARCO,train,train,6
+14467,g14467,QA,MARCO,train,train,6
+14468,g14468,QA,MARCO,test,test,6
+14469,g14469,QA,MARCO,train,validation,6
+14470,g14470,QA,MARCO,test,test,6
+14471,g14471,QA,MARCO,train,train,6
+14472,g14472,QA,MARCO,train,train,6
+14473,g14473,QA,MARCO,train,train,6
+14474,g14474,QA,MARCO,train,train,6
+14476,g14476,QA,MARCO,train,train,6
+14477,g14477,QA,MARCO,train,train,6
+14478,g14478,QA,MARCO,train,train,6
+14479,g14479,QA,MARCO,train,validation,6
+14480,g14480,QA,MARCO,train,train,6
+14481,g14481,QA,MARCO,train,validation,6
+14482,g14482,QA,MARCO,train,train,6
+14483,g14483,QA,MARCO,train,train,6
+14484,g14484,QA,MARCO,train,train,6
+14485,g14485,QA,MARCO,train,train,6
+14486,g14486,QA,MARCO,train,train,6
+14487,g14487,QA,MARCO,train,validation,6
+14488,g14488,QA,MARCO,train,train,6
+14489,g14489,QA,MARCO,train,train,6
+14490,g14490,QA,MARCO,train,train,6
+14491,g14491,QA,MARCO,train,train,6
+14492,g14492,Data2txt,Yelp,train,train,6
+14493,g14493,Data2txt,Yelp,train,train,6
+14494,g14494,Data2txt,Yelp,train,validation,6
+14495,g14495,Data2txt,Yelp,train,train,6
+14496,g14496,Data2txt,Yelp,test,test,6
+14497,g14497,Data2txt,Yelp,train,train,6
+14498,g14498,Data2txt,Yelp,test,test,6
+14499,g14499,Data2txt,Yelp,train,validation,6
+14500,g14500,Data2txt,Yelp,train,train,6
+14501,g14501,Data2txt,Yelp,train,validation,6
+14502,g14502,Data2txt,Yelp,train,train,6
+14503,g14503,Data2txt,Yelp,train,train,6
+14504,g14504,Data2txt,Yelp,test,test,6
+14505,g14505,Data2txt,Yelp,train,train,6
+14506,g14506,Data2txt,Yelp,train,train,6
+14507,g14507,Data2txt,Yelp,train,train,6
+14508,g14508,Data2txt,Yelp,train,validation,6
+14510,g14510,Data2txt,Yelp,train,validation,6
+14511,g14511,Data2txt,Yelp,train,train,6
+14512,g14512,Data2txt,Yelp,train,train,6
+14513,g14513,Data2txt,Yelp,test,test,6
+14514,g14514,Data2txt,Yelp,train,train,6
+14515,g14515,Data2txt,Yelp,test,test,6
+14516,g14516,Data2txt,Yelp,train,validation,6
+14517,g14517,Data2txt,Yelp,train,train,6
+14518,g14518,Data2txt,Yelp,train,train,6
+14519,g14519,Data2txt,Yelp,train,train,6
+14520,g14520,Data2txt,Yelp,train,train,6
+14521,g14521,Data2txt,Yelp,train,validation,6
+14522,g14522,Data2txt,Yelp,train,train,6
+14523,g14523,Data2txt,Yelp,train,validation,6
+14524,g14524,Data2txt,Yelp,test,test,6
+14525,g14525,Data2txt,Yelp,train,train,6
+14526,g14526,Data2txt,Yelp,train,validation,6
+14527,g14527,Data2txt,Yelp,train,train,6
+14528,g14528,Data2txt,Yelp,train,train,6
+14529,g14529,Data2txt,Yelp,train,train,6
+14530,g14530,Data2txt,Yelp,test,test,6
+14531,g14531,Data2txt,Yelp,test,test,6
+14532,g14532,Data2txt,Yelp,test,test,6
+14533,g14533,Data2txt,Yelp,train,train,6
+14534,g14534,Data2txt,Yelp,train,train,6
+14535,g14535,Data2txt,Yelp,train,train,6
+14536,g14536,Data2txt,Yelp,train,train,6
+14537,g14537,Data2txt,Yelp,train,train,6
+14538,g14538,Data2txt,Yelp,train,train,6
+14539,g14539,Data2txt,Yelp,train,train,6
+14540,g14540,Data2txt,Yelp,train,train,6
+14541,g14541,Data2txt,Yelp,test,test,6
+14542,g14542,Data2txt,Yelp,test,test,6
+14543,g14543,Data2txt,Yelp,train,train,6
+14544,g14544,Data2txt,Yelp,train,validation,6
+14545,g14545,Data2txt,Yelp,train,train,6
+14546,g14546,Data2txt,Yelp,test,test,6
+14547,g14547,Data2txt,Yelp,train,train,6
+14548,g14548,Data2txt,Yelp,test,test,6
+14549,g14549,Data2txt,Yelp,train,train,6
+14551,g14551,Data2txt,Yelp,test,test,6
+14552,g14552,Data2txt,Yelp,test,test,6
+14554,g14554,Data2txt,Yelp,train,train,6
+14555,g14555,Data2txt,Yelp,train,train,6
+14556,g14556,Data2txt,Yelp,train,train,6
+14558,g14558,Data2txt,Yelp,train,train,6
+14559,g14559,Data2txt,Yelp,train,train,6
+14560,g14560,Data2txt,Yelp,train,validation,6
+14561,g14561,Data2txt,Yelp,train,train,6
+14562,g14562,Data2txt,Yelp,train,train,6
+14563,g14563,Data2txt,Yelp,train,validation,6
+14564,g14564,Data2txt,Yelp,train,train,6
+14565,g14565,Data2txt,Yelp,train,train,6
+14566,g14566,Data2txt,Yelp,train,train,6
+14567,g14567,Data2txt,Yelp,train,validation,6
+14568,g14568,Data2txt,Yelp,train,train,6
+14569,g14569,Data2txt,Yelp,train,validation,6
+14570,g14570,Data2txt,Yelp,train,train,6
+14571,g14571,Data2txt,Yelp,train,train,6
+14572,g14572,Data2txt,Yelp,train,train,6
+14573,g14573,Data2txt,Yelp,train,train,6
+14575,g14575,Data2txt,Yelp,test,test,6
+14576,g14576,Data2txt,Yelp,train,train,6
+14577,g14577,Data2txt,Yelp,train,train,6
+14578,g14578,Data2txt,Yelp,train,train,6
+14579,g14579,Data2txt,Yelp,train,train,6
+14580,g14580,Data2txt,Yelp,test,test,6
+14581,g14581,Data2txt,Yelp,train,validation,6
+14582,g14582,Data2txt,Yelp,train,train,6
+14583,g14583,Data2txt,Yelp,train,train,6
+14584,g14584,Data2txt,Yelp,train,validation,6
+14585,g14585,Data2txt,Yelp,train,train,6
+14586,g14586,Data2txt,Yelp,train,validation,6
+14587,g14587,Data2txt,Yelp,train,train,6
+14588,g14588,Data2txt,Yelp,train,train,6
+14590,g14590,Data2txt,Yelp,train,train,6
+14591,g14591,Data2txt,Yelp,train,train,6
+14592,g14592,Data2txt,Yelp,test,test,6
+14593,g14593,Data2txt,Yelp,train,validation,6
+14594,g14594,Data2txt,Yelp,train,train,6
+14595,g14595,Data2txt,Yelp,train,train,6
+14596,g14596,Data2txt,Yelp,train,train,6
+14597,g14597,Data2txt,Yelp,train,validation,6
+14598,g14598,Data2txt,Yelp,train,train,6
+14599,g14599,Data2txt,Yelp,train,train,6
+14600,g14600,Data2txt,Yelp,train,train,6
+14601,g14601,Data2txt,Yelp,train,train,6
+14602,g14602,Data2txt,Yelp,train,train,6
+14603,g14603,Data2txt,Yelp,test,test,6
+14604,g14604,Data2txt,Yelp,test,test,6
+14605,g14605,Data2txt,Yelp,test,test,6
+14606,g14606,Data2txt,Yelp,train,train,6
+14607,g14607,Data2txt,Yelp,train,train,6
+14608,g14608,Data2txt,Yelp,train,train,6
+14609,g14609,Data2txt,Yelp,train,train,6
+14610,g14610,Data2txt,Yelp,train,train,6
+14611,g14611,Data2txt,Yelp,train,validation,6
+14612,g14612,Data2txt,Yelp,train,train,6
+14613,g14613,Data2txt,Yelp,train,train,6
+14614,g14614,Data2txt,Yelp,train,train,6
+14615,g14615,Data2txt,Yelp,train,validation,6
+14616,g14616,Data2txt,Yelp,train,validation,6
+14617,g14617,Data2txt,Yelp,train,train,6
+14618,g14618,Data2txt,Yelp,test,test,6
+14619,g14619,Data2txt,Yelp,train,train,6
+14620,g14620,Data2txt,Yelp,train,train,6
+14621,g14621,Data2txt,Yelp,train,train,6
+14622,g14622,Data2txt,Yelp,train,train,6
+14623,g14623,Data2txt,Yelp,train,train,6
+14624,g14624,Data2txt,Yelp,train,train,6
+14625,g14625,Data2txt,Yelp,test,test,6
+14626,g14626,Data2txt,Yelp,train,train,6
+14627,g14627,Data2txt,Yelp,test,test,6
+14628,g14628,Data2txt,Yelp,train,train,6
+14629,g14629,Data2txt,Yelp,train,train,6
+14630,g14630,Data2txt,Yelp,train,train,6
+14631,g14631,Data2txt,Yelp,train,train,6
+14632,g14632,Data2txt,Yelp,train,train,6
+14633,g14633,Data2txt,Yelp,train,train,6
+14634,g14634,Data2txt,Yelp,train,train,6
+14635,g14635,Data2txt,Yelp,train,train,6
+14636,g14636,Data2txt,Yelp,train,validation,6
+14637,g14637,Data2txt,Yelp,train,train,6
+14638,g14638,Data2txt,Yelp,train,train,6
+14639,g14639,Data2txt,Yelp,train,train,6
+14640,g14640,Data2txt,Yelp,train,train,6
+14641,g14641,Data2txt,Yelp,train,train,6
+14642,g14642,Data2txt,Yelp,train,train,6
+14643,g14643,Data2txt,Yelp,train,train,6
+14644,g14644,Data2txt,Yelp,train,train,6
+14645,g14645,Data2txt,Yelp,train,train,6
+14646,g14646,Data2txt,Yelp,train,validation,6
+14647,g14647,Data2txt,Yelp,train,train,6
+14648,g14648,Data2txt,Yelp,train,train,6
+14649,g14649,Data2txt,Yelp,train,train,6
+14651,g14651,Data2txt,Yelp,train,train,6
+14652,g14652,Data2txt,Yelp,train,train,6
+14653,g14653,Data2txt,Yelp,train,train,6
+14654,g14654,Data2txt,Yelp,train,train,6
+14655,g14655,Data2txt,Yelp,train,train,6
+14656,g14656,Data2txt,Yelp,train,train,6
+14657,g14657,Data2txt,Yelp,train,train,6
+14658,g14658,Data2txt,Yelp,train,train,6
+14659,g14659,Data2txt,Yelp,train,validation,6
+14660,g14660,Data2txt,Yelp,train,validation,6
+14661,g14661,Data2txt,Yelp,train,train,6
+14662,g14662,Data2txt,Yelp,train,train,6
+14663,g14663,Data2txt,Yelp,train,train,6
+14664,g14664,Data2txt,Yelp,train,train,6
+14665,g14665,Data2txt,Yelp,train,train,6
+14666,g14666,Data2txt,Yelp,train,train,6
+14667,g14667,Data2txt,Yelp,train,validation,6
+14668,g14668,Data2txt,Yelp,train,train,6
+14669,g14669,Data2txt,Yelp,train,train,6
+14670,g14670,Data2txt,Yelp,train,train,6
+14671,g14671,Data2txt,Yelp,train,validation,6
+14672,g14672,Data2txt,Yelp,train,train,6
+14673,g14673,Data2txt,Yelp,train,train,6
+14674,g14674,Data2txt,Yelp,train,train,6
+14675,g14675,Data2txt,Yelp,train,train,6
+14676,g14676,Data2txt,Yelp,train,validation,6
+14677,g14677,Data2txt,Yelp,train,validation,6
+14678,g14678,Data2txt,Yelp,train,validation,6
+14679,g14679,Data2txt,Yelp,train,train,6
+14680,g14680,Data2txt,Yelp,test,test,6
+14681,g14681,Data2txt,Yelp,train,validation,6
+14682,g14682,Data2txt,Yelp,train,train,6
+14683,g14683,Data2txt,Yelp,test,test,6
+14684,g14684,Data2txt,Yelp,train,train,6
+14685,g14685,Data2txt,Yelp,test,test,6
+14686,g14686,Data2txt,Yelp,train,train,6
+14687,g14687,Data2txt,Yelp,train,train,6
+14688,g14688,Data2txt,Yelp,train,train,6
+14689,g14689,Data2txt,Yelp,test,test,6
+14690,g14690,Data2txt,Yelp,test,test,6
+14691,g14691,Data2txt,Yelp,train,train,6
+14692,g14692,Data2txt,Yelp,train,train,6
+14694,g14694,Data2txt,Yelp,test,test,6
+14695,g14695,Data2txt,Yelp,train,train,6
+14697,g14697,Data2txt,Yelp,train,train,6
+14698,g14698,Data2txt,Yelp,train,train,6
+14699,g14699,Data2txt,Yelp,train,train,6
+14700,g14700,Data2txt,Yelp,train,validation,6
+14701,g14701,Data2txt,Yelp,train,train,6
+14702,g14702,Data2txt,Yelp,train,train,6
+14703,g14703,Data2txt,Yelp,train,train,6
+14704,g14704,Data2txt,Yelp,train,train,6
+14705,g14705,Data2txt,Yelp,train,train,6
+14706,g14706,Data2txt,Yelp,train,train,6
+14707,g14707,Data2txt,Yelp,train,train,6
+14710,g14710,Data2txt,Yelp,test,test,6
+14711,g14711,Data2txt,Yelp,train,train,6
+14712,g14712,Data2txt,Yelp,train,train,6
+14713,g14713,Data2txt,Yelp,train,train,6
+14714,g14714,Data2txt,Yelp,train,train,6
+14715,g14715,Data2txt,Yelp,train,validation,6
+14716,g14716,Data2txt,Yelp,train,train,6
+14718,g14718,Data2txt,Yelp,train,train,6
+14719,g14719,Data2txt,Yelp,test,test,6
+14720,g14720,Data2txt,Yelp,train,train,6
+14721,g14721,Data2txt,Yelp,train,train,6
+14722,g14722,Data2txt,Yelp,train,train,6
+14723,g14723,Data2txt,Yelp,train,train,6
+14724,g14724,Data2txt,Yelp,train,train,6
+14725,g14725,Data2txt,Yelp,train,train,6
+14726,g14726,Data2txt,Yelp,test,test,6
+14727,g14727,Data2txt,Yelp,test,test,6
+14728,g14728,Data2txt,Yelp,train,train,6
+14729,g14729,Data2txt,Yelp,train,train,6
+14730,g14730,Data2txt,Yelp,train,train,6
+14731,g14731,Data2txt,Yelp,train,train,6
+14732,g14732,Data2txt,Yelp,train,train,6
+14733,g14733,Data2txt,Yelp,train,train,6
+14734,g14734,Data2txt,Yelp,train,train,6
+14735,g14735,Data2txt,Yelp,train,train,6
+14736,g14736,Data2txt,Yelp,train,train,6
+14737,g14737,Data2txt,Yelp,test,test,6
+14738,g14738,Data2txt,Yelp,test,test,6
+14739,g14739,Data2txt,Yelp,train,train,6
+14740,g14740,Data2txt,Yelp,train,train,6
+14741,g14741,Data2txt,Yelp,train,train,6
+14743,g14743,Data2txt,Yelp,train,validation,6
+14745,g14745,Data2txt,Yelp,test,test,6
+14746,g14746,Data2txt,Yelp,test,test,6
+14747,g14747,Data2txt,Yelp,train,train,6
+14748,g14748,Data2txt,Yelp,train,validation,6
+14749,g14749,Data2txt,Yelp,train,train,6
+14750,g14750,Data2txt,Yelp,train,train,6
+14751,g14751,Data2txt,Yelp,train,validation,6
+14752,g14752,Data2txt,Yelp,test,test,6
+14753,g14753,Data2txt,Yelp,test,test,6
+14754,g14754,Data2txt,Yelp,train,train,6
+14755,g14755,Data2txt,Yelp,train,train,6
+14756,g14756,Data2txt,Yelp,test,test,6
+14757,g14757,Data2txt,Yelp,train,train,6
+14758,g14758,Data2txt,Yelp,train,train,6
+14759,g14759,Data2txt,Yelp,train,train,6
+14760,g14760,Data2txt,Yelp,train,train,6
+14761,g14761,Data2txt,Yelp,train,train,6
+14762,g14762,Data2txt,Yelp,train,train,6
+14763,g14763,Data2txt,Yelp,train,train,6
+14764,g14764,Data2txt,Yelp,train,train,6
+14765,g14765,Data2txt,Yelp,train,train,6
+14766,g14766,Data2txt,Yelp,train,train,6
+14767,g14767,Data2txt,Yelp,test,test,6
+14768,g14768,Data2txt,Yelp,train,validation,6
+14769,g14769,Data2txt,Yelp,test,test,6
+14770,g14770,Data2txt,Yelp,train,train,6
+14771,g14771,Data2txt,Yelp,train,train,6
+14772,g14772,Data2txt,Yelp,train,train,6
+14773,g14773,Data2txt,Yelp,train,train,6
+14774,g14774,Data2txt,Yelp,train,train,6
+14775,g14775,Data2txt,Yelp,train,train,6
+14776,g14776,Data2txt,Yelp,train,train,6
+14777,g14777,Data2txt,Yelp,train,train,6
+14778,g14778,Data2txt,Yelp,test,test,6
+14779,g14779,Data2txt,Yelp,train,train,6
+14780,g14780,Data2txt,Yelp,train,validation,6
+14781,g14781,Data2txt,Yelp,train,train,6
+14782,g14782,Data2txt,Yelp,train,train,6
+14783,g14783,Data2txt,Yelp,train,train,6
+14784,g14784,Data2txt,Yelp,train,train,6
+14785,g14785,Data2txt,Yelp,test,test,6
+14786,g14786,Data2txt,Yelp,train,train,6
+14787,g14787,Data2txt,Yelp,train,train,6
+14788,g14788,Data2txt,Yelp,train,train,6
+14790,g14790,Data2txt,Yelp,train,validation,6
+14791,g14791,Data2txt,Yelp,train,train,6
+14792,g14792,Data2txt,Yelp,train,train,6
+14793,g14793,Data2txt,Yelp,train,train,6
+14794,g14794,Data2txt,Yelp,train,train,6
+14795,g14795,Data2txt,Yelp,train,train,6
+14796,g14796,Data2txt,Yelp,train,train,6
+14797,g14797,Data2txt,Yelp,train,train,6
+14798,g14798,Data2txt,Yelp,train,validation,6
+14799,g14799,Data2txt,Yelp,train,train,6
+14800,g14800,Data2txt,Yelp,train,train,6
+14801,g14801,Data2txt,Yelp,train,train,6
+14802,g14802,Data2txt,Yelp,test,test,6
+14803,g14803,Data2txt,Yelp,train,train,6
+14804,g14804,Data2txt,Yelp,train,train,6
+14805,g14805,Data2txt,Yelp,train,train,6
+14806,g14806,Data2txt,Yelp,train,train,6
+14808,g14808,Data2txt,Yelp,train,train,6
+14809,g14809,Data2txt,Yelp,train,train,6
+14810,g14810,Data2txt,Yelp,train,train,6
+14811,g14811,Data2txt,Yelp,train,train,6
+14812,g14812,Data2txt,Yelp,train,validation,6
+14813,g14813,Data2txt,Yelp,train,train,6
+14814,g14814,Data2txt,Yelp,train,train,6
+14815,g14815,Data2txt,Yelp,train,train,6
+14817,g14817,Data2txt,Yelp,train,train,6
+14818,g14818,Data2txt,Yelp,train,train,6
+14819,g14819,Data2txt,Yelp,train,train,6
+14820,g14820,Data2txt,Yelp,train,train,6
+14821,g14821,Data2txt,Yelp,train,train,6
+14822,g14822,Data2txt,Yelp,train,validation,6
+14823,g14823,Data2txt,Yelp,train,train,6
+14824,g14824,Data2txt,Yelp,train,validation,6
+14825,g14825,Data2txt,Yelp,test,test,6
+14826,g14826,Data2txt,Yelp,train,train,6
+14827,g14827,Data2txt,Yelp,train,train,6
+14828,g14828,Data2txt,Yelp,test,test,6
+14829,g14829,Data2txt,Yelp,train,validation,6
+14830,g14830,Data2txt,Yelp,test,test,6
+14831,g14831,Data2txt,Yelp,train,train,6
+14832,g14832,Data2txt,Yelp,train,train,6
+14833,g14833,Data2txt,Yelp,train,train,6
+14834,g14834,Data2txt,Yelp,train,train,6
+14835,g14835,Data2txt,Yelp,train,train,6
+14836,g14836,Data2txt,Yelp,train,train,6
+14837,g14837,Data2txt,Yelp,train,train,6
+14838,g14838,Data2txt,Yelp,train,validation,6
+14839,g14839,Data2txt,Yelp,train,validation,6
+14840,g14840,Data2txt,Yelp,train,train,6
+14841,g14841,Data2txt,Yelp,train,validation,6
+14842,g14842,Data2txt,Yelp,train,train,6
+14843,g14843,Data2txt,Yelp,train,train,6
+14844,g14844,Data2txt,Yelp,train,train,6
+14845,g14845,Data2txt,Yelp,train,train,6
+14846,g14846,Data2txt,Yelp,test,test,6
+14847,g14847,Data2txt,Yelp,train,train,6
+14848,g14848,Data2txt,Yelp,train,train,6
+14849,g14849,Data2txt,Yelp,train,train,6
+14850,g14850,Data2txt,Yelp,train,validation,6
+14851,g14851,Data2txt,Yelp,train,train,6
+14852,g14852,Data2txt,Yelp,train,validation,6
+14853,g14853,Data2txt,Yelp,train,train,6
+14854,g14854,Data2txt,Yelp,train,train,6
+14855,g14855,Data2txt,Yelp,train,train,6
+14856,g14856,Data2txt,Yelp,train,train,6
+14857,g14857,Data2txt,Yelp,train,train,6
+14858,g14858,Data2txt,Yelp,train,validation,6
+14859,g14859,Data2txt,Yelp,train,train,6
+14860,g14860,Data2txt,Yelp,test,test,6
+14861,g14861,Data2txt,Yelp,train,train,6
+14862,g14862,Data2txt,Yelp,train,train,6
+14863,g14863,Data2txt,Yelp,train,validation,6
+14864,g14864,Data2txt,Yelp,train,train,6
+14865,g14865,Data2txt,Yelp,train,train,6
+14866,g14866,Data2txt,Yelp,train,train,6
+14868,g14868,Data2txt,Yelp,train,train,6
+14869,g14869,Data2txt,Yelp,train,train,6
+14870,g14870,Data2txt,Yelp,train,train,6
+14871,g14871,Data2txt,Yelp,train,train,6
+14872,g14872,Data2txt,Yelp,train,train,6
+14873,g14873,Data2txt,Yelp,train,train,6
+14874,g14874,Data2txt,Yelp,train,train,6
+14875,g14875,Data2txt,Yelp,train,validation,6
+14876,g14876,Data2txt,Yelp,train,train,6
+14878,g14878,Data2txt,Yelp,train,train,6
+14879,g14879,Data2txt,Yelp,train,train,6
+14880,g14880,Data2txt,Yelp,train,train,6
+14881,g14881,Data2txt,Yelp,train,train,6
+14882,g14882,Data2txt,Yelp,train,train,6
+14883,g14883,Data2txt,Yelp,train,train,6
+14884,g14884,Data2txt,Yelp,train,train,6
+14885,g14885,Data2txt,Yelp,train,validation,6
+14886,g14886,Data2txt,Yelp,train,train,6
+14887,g14887,Data2txt,Yelp,train,train,6
+14888,g14888,Data2txt,Yelp,train,validation,6
+14889,g14889,Data2txt,Yelp,train,validation,6
+14890,g14890,Data2txt,Yelp,test,test,6
+14891,g14891,Data2txt,Yelp,train,validation,6
+14892,g14892,Data2txt,Yelp,train,train,6
+14893,g14893,Data2txt,Yelp,train,train,6
+14894,g14894,Data2txt,Yelp,test,test,6
+14895,g14895,Data2txt,Yelp,train,train,6
+14896,g14896,Data2txt,Yelp,train,train,6
+14897,g14897,Data2txt,Yelp,train,train,6
+14898,g14898,Data2txt,Yelp,train,train,6
+14899,g14899,Data2txt,Yelp,train,train,6
+14900,g14900,Data2txt,Yelp,train,train,6
+14901,g14901,Data2txt,Yelp,train,train,6
+14902,g14902,Data2txt,Yelp,train,validation,6
+14903,g14903,Data2txt,Yelp,train,train,6
+14904,g14904,Data2txt,Yelp,train,validation,6
+14905,g14905,Data2txt,Yelp,test,test,6
+14906,g14906,Data2txt,Yelp,train,validation,6
+14907,g14907,Data2txt,Yelp,test,test,6
+14908,g14908,Data2txt,Yelp,test,test,6
+14909,g14909,Data2txt,Yelp,train,train,6
+14910,g14910,Data2txt,Yelp,train,train,6
+14911,g14911,Data2txt,Yelp,train,train,6
+14912,g14912,Data2txt,Yelp,train,validation,6
+14913,g14913,Data2txt,Yelp,train,train,6
+14914,g14914,Data2txt,Yelp,train,train,6
+14915,g14915,Data2txt,Yelp,train,train,6
+14916,g14916,Data2txt,Yelp,train,train,6
+14917,g14917,Data2txt,Yelp,train,train,6
+14918,g14918,Data2txt,Yelp,test,test,6
+14919,g14919,Data2txt,Yelp,train,train,6
+14920,g14920,Data2txt,Yelp,train,train,6
+14922,g14922,Data2txt,Yelp,train,train,6
+14923,g14923,Data2txt,Yelp,train,train,6
+14924,g14924,Data2txt,Yelp,train,train,6
+14925,g14925,Data2txt,Yelp,train,train,6
+14926,g14926,Data2txt,Yelp,train,validation,6
+14927,g14927,Data2txt,Yelp,train,validation,6
+14928,g14928,Data2txt,Yelp,train,train,6
+14929,g14929,Data2txt,Yelp,train,train,6
+14930,g14930,Data2txt,Yelp,train,train,6
+14931,g14931,Data2txt,Yelp,train,validation,6
+14932,g14932,Data2txt,Yelp,train,train,6
+14933,g14933,Data2txt,Yelp,train,train,6
+14934,g14934,Data2txt,Yelp,train,train,6
+14935,g14935,Data2txt,Yelp,train,validation,6
+14936,g14936,Data2txt,Yelp,train,train,6
+14938,g14938,Data2txt,Yelp,train,train,6
+14939,g14939,Data2txt,Yelp,train,train,6
+14940,g14940,Data2txt,Yelp,train,train,6
+14941,g14941,Data2txt,Yelp,train,train,6
+14942,g14942,Data2txt,Yelp,train,train,6
+14944,g14944,Data2txt,Yelp,train,train,6
+14945,g14945,Data2txt,Yelp,train,train,6
+14946,g14946,Data2txt,Yelp,train,train,6
+14947,g14947,Data2txt,Yelp,train,train,6
+14948,g14948,Data2txt,Yelp,train,train,6
+14949,g14949,Data2txt,Yelp,train,train,6
+14950,g14950,Data2txt,Yelp,train,train,6
+14951,g14951,Data2txt,Yelp,train,train,6
+14952,g14952,Data2txt,Yelp,train,train,6
+14953,g14953,Data2txt,Yelp,train,train,6
+14954,g14954,Data2txt,Yelp,train,train,6
+14955,g14955,Data2txt,Yelp,train,train,6
+14956,g14956,Data2txt,Yelp,train,validation,6
+14957,g14957,Data2txt,Yelp,train,train,6
+14958,g14958,Data2txt,Yelp,test,test,6
+14959,g14959,Data2txt,Yelp,train,train,6
+14960,g14960,Data2txt,Yelp,train,train,6
+14961,g14961,Data2txt,Yelp,train,train,6
+14962,g14962,Data2txt,Yelp,train,train,6
+14963,g14963,Data2txt,Yelp,train,train,6
+14964,g14964,Data2txt,Yelp,train,train,6
+14965,g14965,Data2txt,Yelp,train,train,6
+14966,g14966,Data2txt,Yelp,train,train,6
+14967,g14967,Data2txt,Yelp,train,train,6
+14968,g14968,Data2txt,Yelp,train,validation,6
+14970,g14970,Data2txt,Yelp,train,validation,6
+14971,g14971,Data2txt,Yelp,train,train,6
+14972,g14972,Data2txt,Yelp,test,test,6
+14973,g14973,Data2txt,Yelp,train,train,6
+14974,g14974,Data2txt,Yelp,test,test,6
+14975,g14975,Data2txt,Yelp,train,train,6
+14976,g14976,Data2txt,Yelp,train,train,6
+14977,g14977,Data2txt,Yelp,train,train,6
+14978,g14978,Data2txt,Yelp,train,validation,6
+14979,g14979,Data2txt,Yelp,train,train,6
+14980,g14980,Data2txt,Yelp,train,train,6
+14981,g14981,Data2txt,Yelp,train,train,6
+14982,g14982,Data2txt,Yelp,train,train,6
+14983,g14983,Data2txt,Yelp,train,validation,6
+14984,g14984,Data2txt,Yelp,train,train,6
+14985,g14985,Data2txt,Yelp,train,train,6
+14986,g14986,Data2txt,Yelp,train,validation,6
+14987,g14987,Data2txt,Yelp,train,train,6
+14988,g14988,Data2txt,Yelp,train,train,6
+14989,g14989,Data2txt,Yelp,train,train,6
+14990,g14990,Data2txt,Yelp,test,test,6
+14991,g14991,Data2txt,Yelp,test,test,6
+14992,g14992,Data2txt,Yelp,train,validation,6
+14993,g14993,Data2txt,Yelp,train,train,6
+14994,g14994,Data2txt,Yelp,train,validation,6
+14995,g14995,Data2txt,Yelp,train,train,6
+14997,g14997,Data2txt,Yelp,train,train,6
+14998,g14998,Data2txt,Yelp,train,train,6
+14999,g14999,Data2txt,Yelp,train,validation,6
+15000,g15000,Data2txt,Yelp,train,validation,6
+15001,g15001,Data2txt,Yelp,train,train,6
+15002,g15002,Data2txt,Yelp,train,train,6
+15003,g15003,Data2txt,Yelp,train,train,6
+15004,g15004,Data2txt,Yelp,train,train,6
+15005,g15005,Data2txt,Yelp,train,train,6
+15006,g15006,Data2txt,Yelp,train,train,6
+15008,g15008,Data2txt,Yelp,train,validation,6
+15009,g15009,Data2txt,Yelp,train,train,6
+15010,g15010,Data2txt,Yelp,train,train,6
+15011,g15011,Data2txt,Yelp,train,train,6
+15012,g15012,Data2txt,Yelp,train,train,6
+15013,g15013,Data2txt,Yelp,train,validation,6
+15014,g15014,Data2txt,Yelp,train,train,6
+15015,g15015,Data2txt,Yelp,train,train,6
+15016,g15016,Data2txt,Yelp,train,train,6
+15017,g15017,Data2txt,Yelp,train,train,6
+15018,g15018,Data2txt,Yelp,test,test,6
+15019,g15019,Data2txt,Yelp,test,test,6
+15020,g15020,Data2txt,Yelp,test,test,6
+15021,g15021,Data2txt,Yelp,train,train,6
+15022,g15022,Data2txt,Yelp,train,train,6
+15023,g15023,Data2txt,Yelp,train,train,6
+15024,g15024,Data2txt,Yelp,train,train,6
+15025,g15025,Data2txt,Yelp,test,test,6
+15026,g15026,Data2txt,Yelp,train,train,6
+15027,g15027,Data2txt,Yelp,train,train,6
+15028,g15028,Data2txt,Yelp,train,train,6
+15029,g15029,Data2txt,Yelp,train,train,6
+15030,g15030,Data2txt,Yelp,train,train,6
+15031,g15031,Data2txt,Yelp,test,test,6
+15032,g15032,Data2txt,Yelp,train,train,6
+15033,g15033,Data2txt,Yelp,train,train,6
+15034,g15034,Data2txt,Yelp,train,train,6
+15035,g15035,Data2txt,Yelp,train,train,6
+15037,g15037,Data2txt,Yelp,train,train,6
+15038,g15038,Data2txt,Yelp,train,train,6
+15039,g15039,Data2txt,Yelp,train,train,6
+15040,g15040,Data2txt,Yelp,train,train,6
+15041,g15041,Data2txt,Yelp,train,train,6
+15042,g15042,Data2txt,Yelp,train,train,6
+15043,g15043,Data2txt,Yelp,train,train,6
+15044,g15044,Data2txt,Yelp,train,train,6
+15045,g15045,Data2txt,Yelp,train,train,6
+15046,g15046,Data2txt,Yelp,train,train,6
+15047,g15047,Data2txt,Yelp,train,train,6
+15048,g15048,Data2txt,Yelp,train,train,6
+15049,g15049,Data2txt,Yelp,train,validation,6
+15050,g15050,Data2txt,Yelp,train,train,6
+15052,g15052,Data2txt,Yelp,train,train,6
+15053,g15053,Data2txt,Yelp,train,train,6
+15054,g15054,Data2txt,Yelp,train,train,6
+15055,g15055,Data2txt,Yelp,train,train,6
+15056,g15056,Data2txt,Yelp,train,train,6
+15057,g15057,Data2txt,Yelp,train,train,6
+15058,g15058,Data2txt,Yelp,train,train,6
+15060,g15060,Data2txt,Yelp,train,validation,6
+15061,g15061,Data2txt,Yelp,train,train,6
+15062,g15062,Data2txt,Yelp,train,train,6
+15063,g15063,Data2txt,Yelp,train,train,6
+15064,g15064,Data2txt,Yelp,train,train,6
+15065,g15065,Data2txt,Yelp,train,train,6
+15066,g15066,Data2txt,Yelp,train,train,6
+15067,g15067,Data2txt,Yelp,train,train,6
+15068,g15068,Data2txt,Yelp,train,train,6
+15069,g15069,Data2txt,Yelp,train,train,6
+15070,g15070,Data2txt,Yelp,train,train,6
+15071,g15071,Data2txt,Yelp,train,train,6
+15072,g15072,Data2txt,Yelp,train,validation,6
+15073,g15073,Data2txt,Yelp,train,train,6
+15074,g15074,Data2txt,Yelp,train,train,6
+15075,g15075,Data2txt,Yelp,train,validation,6
+15076,g15076,Data2txt,Yelp,train,train,6
+15077,g15077,Data2txt,Yelp,train,train,6
+15078,g15078,Data2txt,Yelp,train,validation,6
+15079,g15079,Data2txt,Yelp,train,train,6
+15080,g15080,Data2txt,Yelp,train,train,6
+15081,g15081,Data2txt,Yelp,train,train,6
+15082,g15082,Data2txt,Yelp,train,train,6
+15083,g15083,Data2txt,Yelp,train,train,6
+15084,g15084,Data2txt,Yelp,train,train,6
+15085,g15085,Data2txt,Yelp,train,validation,6
+15086,g15086,Data2txt,Yelp,train,train,6
+15087,g15087,Data2txt,Yelp,train,train,6
+15090,g15090,Data2txt,Yelp,train,train,6
+15091,g15091,Data2txt,Yelp,train,train,6
+15092,g15092,QA,MARCO,test,test,6
+15093,g15093,QA,MARCO,train,train,6
+15094,g15094,QA,MARCO,train,train,6
+15095,g15095,QA,MARCO,train,train,6
+15096,g15096,QA,MARCO,train,train,6
+15097,g15097,QA,MARCO,test,test,6
+15098,g15098,QA,MARCO,train,train,6
+15099,g15099,QA,MARCO,train,train,6
+15100,g15100,QA,MARCO,train,train,6
+15101,g15101,QA,MARCO,train,train,6
+15102,g15102,QA,MARCO,train,train,6
+15103,g15103,QA,MARCO,test,test,6
+15104,g15104,QA,MARCO,train,train,6
+15105,g15105,QA,MARCO,train,train,6
+15106,g15106,QA,MARCO,train,train,6
+15107,g15107,QA,MARCO,test,test,6
+15108,g15108,QA,MARCO,test,test,6
+15109,g15109,QA,MARCO,train,train,6
+15110,g15110,QA,MARCO,train,validation,6
+15111,g15111,QA,MARCO,test,test,6
+15112,g15112,QA,MARCO,test,test,6
+15113,g15113,QA,MARCO,train,train,6
+15114,g15114,QA,MARCO,train,train,6
+15115,g15115,QA,MARCO,train,validation,6
+15116,g15116,QA,MARCO,train,train,6
+15117,g15117,QA,MARCO,train,train,6
+15118,g15118,QA,MARCO,train,train,6
+15119,g15119,QA,MARCO,train,train,6
+15120,g15120,QA,MARCO,test,test,6
+15121,g15121,QA,MARCO,train,train,6
+15122,g15122,QA,MARCO,train,train,6
+15123,g15123,QA,MARCO,train,train,6
+15124,g15124,QA,MARCO,test,test,6
+15125,g15125,QA,MARCO,train,train,6
+15126,g15126,QA,MARCO,train,train,6
+15127,g15127,QA,MARCO,train,train,6
+15128,g15128,QA,MARCO,train,train,6
+15130,g15130,QA,MARCO,test,test,6
+15131,g15131,QA,MARCO,train,validation,6
+15132,g15132,QA,MARCO,train,train,6
+15133,g15133,QA,MARCO,train,train,6
+15134,g15134,QA,MARCO,train,train,6
+15135,g15135,QA,MARCO,test,test,6
+15136,g15136,QA,MARCO,train,train,6
+15137,g15137,QA,MARCO,train,validation,6
+15138,g15138,QA,MARCO,test,test,6
+15139,g15139,QA,MARCO,train,train,6
+15140,g15140,QA,MARCO,train,train,6
+15141,g15141,QA,MARCO,train,train,6
+15142,g15142,QA,MARCO,train,train,6
+15143,g15143,QA,MARCO,test,test,6
+15144,g15144,QA,MARCO,train,train,6
+15145,g15145,QA,MARCO,train,train,6
+15146,g15146,QA,MARCO,train,train,6
+15147,g15147,QA,MARCO,test,test,6
+15148,g15148,QA,MARCO,train,validation,6
+15149,g15149,QA,MARCO,test,test,6
+15150,g15150,QA,MARCO,train,train,6
+15151,g15151,QA,MARCO,train,train,6
+15152,g15152,QA,MARCO,train,train,6
+15153,g15153,QA,MARCO,train,train,6
+15154,g15154,QA,MARCO,train,train,6
+15155,g15155,QA,MARCO,train,train,6
+15156,g15156,QA,MARCO,train,train,6
+15157,g15157,QA,MARCO,train,train,6
+15158,g15158,QA,MARCO,test,test,6
+15159,g15159,QA,MARCO,train,train,6
+15160,g15160,QA,MARCO,test,test,6
+15161,g15161,QA,MARCO,train,train,6
+15162,g15162,QA,MARCO,train,train,6
+15163,g15163,QA,MARCO,train,train,6
+15164,g15164,QA,MARCO,test,test,6
+15165,g15165,QA,MARCO,train,train,6
+15166,g15166,QA,MARCO,train,train,6
+15167,g15167,QA,MARCO,train,train,6
+15168,g15168,QA,MARCO,test,test,6
+15169,g15169,QA,MARCO,train,train,6
+15170,g15170,QA,MARCO,train,train,6
+15171,g15171,QA,MARCO,train,validation,6
+15172,g15172,QA,MARCO,train,train,6
+15173,g15173,QA,MARCO,train,train,6
+15174,g15174,QA,MARCO,train,train,6
+15175,g15175,QA,MARCO,test,test,6
+15176,g15176,QA,MARCO,train,train,6
+15177,g15177,QA,MARCO,train,train,6
+15178,g15178,QA,MARCO,train,train,6
+15179,g15179,QA,MARCO,train,train,6
+15180,g15180,QA,MARCO,test,test,6
+15181,g15181,QA,MARCO,train,train,6
+15182,g15182,QA,MARCO,train,train,6
+15183,g15183,QA,MARCO,train,train,6
+15184,g15184,QA,MARCO,train,train,6
+15185,g15185,QA,MARCO,train,train,6
+15186,g15186,QA,MARCO,train,train,6
+15187,g15187,QA,MARCO,train,train,6
+15188,g15188,QA,MARCO,train,train,6
+15189,g15189,QA,MARCO,train,train,6
+15190,g15190,QA,MARCO,train,train,6
+15191,g15191,QA,MARCO,train,train,6
+15192,g15192,QA,MARCO,train,train,6
+15193,g15193,QA,MARCO,train,train,6
+15194,g15194,QA,MARCO,train,train,6
+15195,g15195,QA,MARCO,train,train,6
+15196,g15196,QA,MARCO,train,train,6
+15197,g15197,QA,MARCO,train,train,6
+15198,g15198,QA,MARCO,train,train,6
+15199,g15199,QA,MARCO,train,train,6
+15200,g15200,QA,MARCO,train,train,6
+15201,g15201,QA,MARCO,train,train,6
+15202,g15202,QA,MARCO,train,train,6
+15203,g15203,QA,MARCO,train,train,6
+15204,g15204,QA,MARCO,train,validation,6
+15205,g15205,QA,MARCO,train,validation,6
+15206,g15206,QA,MARCO,test,test,6
+15207,g15207,QA,MARCO,train,train,6
+15208,g15208,QA,MARCO,train,train,6
+15209,g15209,QA,MARCO,train,train,6
+15210,g15210,QA,MARCO,test,test,6
+15211,g15211,QA,MARCO,train,train,6
+15212,g15212,QA,MARCO,train,train,6
+15213,g15213,QA,MARCO,train,train,6
+15214,g15214,QA,MARCO,train,train,6
+15215,g15215,QA,MARCO,train,train,6
+15216,g15216,QA,MARCO,train,train,6
+15217,g15217,QA,MARCO,train,train,6
+15218,g15218,QA,MARCO,train,train,6
+15219,g15219,QA,MARCO,train,train,6
+15220,g15220,QA,MARCO,train,train,6
+15221,g15221,QA,MARCO,train,train,6
+15222,g15222,QA,MARCO,train,train,6
+15223,g15223,QA,MARCO,train,train,6
+15224,g15224,QA,MARCO,train,train,6
+15225,g15225,QA,MARCO,train,train,6
+15226,g15226,QA,MARCO,train,train,6
+15227,g15227,QA,MARCO,train,train,6
+15228,g15228,QA,MARCO,train,train,6
+15229,g15229,QA,MARCO,train,validation,6
+15230,g15230,QA,MARCO,train,train,6
+15231,g15231,QA,MARCO,train,train,6
+15232,g15232,QA,MARCO,train,train,6
+15233,g15233,QA,MARCO,train,train,6
+15234,g15234,QA,MARCO,train,train,6
+15235,g15235,QA,MARCO,train,train,6
+15236,g15236,QA,MARCO,train,train,6
+15237,g15237,QA,MARCO,train,validation,6
+15238,g15238,QA,MARCO,test,test,6
+15239,g15239,QA,MARCO,test,test,6
+15240,g15240,QA,MARCO,train,train,6
+15241,g15241,QA,MARCO,train,train,6
+15242,g15242,QA,MARCO,train,train,6
+15243,g15243,QA,MARCO,test,test,6
+15244,g15244,QA,MARCO,train,train,6
+15245,g15245,QA,MARCO,train,train,6
+15246,g15246,QA,MARCO,train,train,6
+15247,g15247,QA,MARCO,train,train,6
+15248,g15248,QA,MARCO,train,train,6
+15249,g15249,QA,MARCO,train,train,6
+15250,g15250,QA,MARCO,train,validation,6
+15251,g15251,QA,MARCO,train,train,6
+15252,g15252,QA,MARCO,train,validation,6
+15253,g15253,QA,MARCO,train,train,6
+15254,g15254,QA,MARCO,test,test,6
+15255,g15255,QA,MARCO,train,train,6
+15256,g15256,QA,MARCO,train,train,6
+15257,g15257,QA,MARCO,train,train,6
+15258,g15258,QA,MARCO,train,train,6
+15259,g15259,QA,MARCO,train,train,6
+15260,g15260,QA,MARCO,train,validation,6
+15261,g15261,QA,MARCO,train,train,6
+15262,g15262,QA,MARCO,test,test,6
+15263,g15263,QA,MARCO,train,train,6
+15264,g15264,QA,MARCO,train,train,6
+15265,g15265,QA,MARCO,train,train,6
+15266,g15266,QA,MARCO,train,train,6
+15267,g15267,QA,MARCO,train,train,6
+15268,g15268,QA,MARCO,train,train,6
+15269,g15269,QA,MARCO,test,test,6
+15270,g15270,QA,MARCO,train,train,6
+15271,g15271,QA,MARCO,train,train,6
+15272,g15272,QA,MARCO,train,train,6
+15273,g15273,QA,MARCO,train,train,6
+15274,g15274,QA,MARCO,train,train,6
+15275,g15275,QA,MARCO,test,test,6
+15276,g15276,QA,MARCO,train,train,6
+15277,g15277,QA,MARCO,train,validation,6
+15278,g15278,QA,MARCO,train,train,6
+15279,g15279,QA,MARCO,train,train,6
+15280,g15280,QA,MARCO,train,train,6
+15281,g15281,QA,MARCO,train,train,6
+15282,g15282,QA,MARCO,train,train,6
+15283,g15283,QA,MARCO,train,train,6
+15284,g15284,QA,MARCO,train,train,6
+15285,g15285,QA,MARCO,train,train,6
+15286,g15286,QA,MARCO,test,test,6
+15287,g15287,QA,MARCO,train,train,6
+15288,g15288,QA,MARCO,test,test,6
+15289,g15289,QA,MARCO,train,train,6
+15290,g15290,QA,MARCO,train,train,6
+15291,g15291,QA,MARCO,train,train,6
+15292,g15292,QA,MARCO,train,train,6
+15293,g15293,QA,MARCO,train,validation,6
+15294,g15294,QA,MARCO,train,validation,6
+15295,g15295,QA,MARCO,train,validation,6
+15296,g15296,QA,MARCO,train,train,6
+15297,g15297,QA,MARCO,train,train,6
+15298,g15298,QA,MARCO,train,validation,6
+15299,g15299,QA,MARCO,train,train,6
+15300,g15300,QA,MARCO,test,test,6
+15301,g15301,QA,MARCO,test,test,6
+15302,g15302,QA,MARCO,test,test,6
+15303,g15303,QA,MARCO,train,train,6
+15304,g15304,QA,MARCO,train,train,6
+15305,g15305,QA,MARCO,train,train,6
+15306,g15306,QA,MARCO,train,train,6
+15308,g15308,QA,MARCO,test,test,6
+15309,g15309,QA,MARCO,train,train,6
+15310,g15310,QA,MARCO,train,train,6
+15311,g15311,QA,MARCO,train,train,6
+15312,g15312,QA,MARCO,train,train,6
+15313,g15313,QA,MARCO,test,test,6
+15314,g15314,QA,MARCO,train,train,6
+15315,g15315,QA,MARCO,test,test,6
+15316,g15316,QA,MARCO,train,train,6
+15317,g15317,QA,MARCO,test,test,6
+15318,g15318,QA,MARCO,train,train,6
+15319,g15319,QA,MARCO,train,train,6
+15320,g15320,QA,MARCO,test,test,6
+15321,g15321,QA,MARCO,train,train,6
+15322,g15322,QA,MARCO,train,train,6
+15323,g15323,QA,MARCO,train,validation,6
+15324,g15324,QA,MARCO,train,validation,6
+15325,g15325,QA,MARCO,train,train,6
+15326,g15326,QA,MARCO,train,train,6
+15327,g15327,QA,MARCO,train,train,6
+15328,g15328,QA,MARCO,train,train,6
+15329,g15329,QA,MARCO,train,train,6
+15330,g15330,QA,MARCO,train,train,6
+15331,g15331,QA,MARCO,train,train,6
+15332,g15332,QA,MARCO,test,test,6
+15333,g15333,QA,MARCO,train,train,6
+15334,g15334,QA,MARCO,train,train,6
+15335,g15335,QA,MARCO,train,train,6
+15336,g15336,QA,MARCO,train,train,6
+15337,g15337,QA,MARCO,train,train,6
+15338,g15338,QA,MARCO,test,test,6
+15339,g15339,QA,MARCO,test,test,6
+15340,g15340,QA,MARCO,train,train,6
+15341,g15341,QA,MARCO,train,train,6
+15342,g15342,QA,MARCO,train,train,6
+15343,g15343,QA,MARCO,train,train,6
+15344,g15344,QA,MARCO,train,train,6
+15345,g15345,QA,MARCO,train,train,6
+15346,g15346,QA,MARCO,train,train,6
+15347,g15347,QA,MARCO,train,train,6
+15348,g15348,QA,MARCO,train,train,6
+15349,g15349,QA,MARCO,train,validation,6
+15350,g15350,QA,MARCO,train,train,6
+15351,g15351,QA,MARCO,train,train,6
+15352,g15352,QA,MARCO,train,train,6
+15353,g15353,QA,MARCO,train,train,6
+15354,g15354,QA,MARCO,train,train,6
+15355,g15355,QA,MARCO,train,train,6
+15356,g15356,QA,MARCO,train,train,6
+15357,g15357,QA,MARCO,train,train,6
+15358,g15358,QA,MARCO,train,validation,6
+15359,g15359,QA,MARCO,train,train,6
+15360,g15360,QA,MARCO,train,train,6
+15361,g15361,QA,MARCO,train,train,6
+15362,g15362,QA,MARCO,train,train,6
+15363,g15363,QA,MARCO,train,train,6
+15364,g15364,QA,MARCO,train,validation,6
+15365,g15365,QA,MARCO,train,train,6
+15366,g15366,QA,MARCO,train,train,6
+15367,g15367,QA,MARCO,train,train,6
+15368,g15368,QA,MARCO,train,train,6
+15369,g15369,QA,MARCO,test,test,6
+15370,g15370,QA,MARCO,train,train,6
+15371,g15371,QA,MARCO,test,test,6
+15372,g15372,QA,MARCO,train,train,6
+15373,g15373,QA,MARCO,test,test,6
+15374,g15374,QA,MARCO,train,validation,6
+15375,g15375,QA,MARCO,train,train,6
+15376,g15376,QA,MARCO,train,train,6
+15377,g15377,QA,MARCO,train,train,6
+15378,g15378,QA,MARCO,test,test,6
+15379,g15379,QA,MARCO,test,test,6
+15380,g15380,QA,MARCO,train,validation,6
+15381,g15381,QA,MARCO,test,test,6
+15382,g15382,QA,MARCO,train,train,6
+15383,g15383,QA,MARCO,test,test,6
+15384,g15384,QA,MARCO,train,train,6
+15385,g15385,QA,MARCO,train,validation,6
+15386,g15386,QA,MARCO,train,validation,6
+15387,g15387,QA,MARCO,train,train,6
+15388,g15388,QA,MARCO,test,test,6
+15389,g15389,QA,MARCO,train,train,6
+15390,g15390,QA,MARCO,test,test,6
+15391,g15391,QA,MARCO,train,train,6
+15392,g15392,QA,MARCO,train,train,6
+15393,g15393,QA,MARCO,train,validation,6
+15394,g15394,QA,MARCO,train,train,6
+15395,g15395,QA,MARCO,test,test,6
+15396,g15396,QA,MARCO,train,train,6
+15397,g15397,QA,MARCO,test,test,6
+15398,g15398,QA,MARCO,train,train,6
+15399,g15399,QA,MARCO,train,train,6
+15400,g15400,QA,MARCO,train,validation,6
+15401,g15401,QA,MARCO,train,train,6
+15402,g15402,QA,MARCO,test,test,6
+15403,g15403,QA,MARCO,train,train,6
+15404,g15404,QA,MARCO,train,train,6
+15405,g15405,QA,MARCO,train,train,6
+15406,g15406,QA,MARCO,train,train,6
+15407,g15407,QA,MARCO,train,train,6
+15408,g15408,QA,MARCO,train,train,6
+15409,g15409,QA,MARCO,train,train,6
+15410,g15410,QA,MARCO,train,train,6
+15411,g15411,QA,MARCO,train,validation,6
+15412,g15412,QA,MARCO,train,train,6
+15413,g15413,QA,MARCO,train,train,6
+15414,g15414,QA,MARCO,train,train,6
+15415,g15415,QA,MARCO,train,train,6
+15416,g15416,QA,MARCO,train,train,6
+15417,g15417,QA,MARCO,train,train,6
+15418,g15418,QA,MARCO,train,train,6
+15419,g15419,QA,MARCO,train,train,6
+15420,g15420,QA,MARCO,test,test,6
+15421,g15421,QA,MARCO,train,train,6
+15422,g15422,QA,MARCO,test,test,6
+15423,g15423,QA,MARCO,train,validation,6
+15424,g15424,QA,MARCO,train,train,6
+15425,g15425,QA,MARCO,train,train,6
+15426,g15426,QA,MARCO,train,train,6
+15427,g15427,QA,MARCO,train,train,6
+15428,g15428,QA,MARCO,train,train,6
+15429,g15429,QA,MARCO,train,train,6
+15430,g15430,QA,MARCO,train,train,6
+15431,g15431,QA,MARCO,train,train,6
+15432,g15432,QA,MARCO,train,validation,6
+15433,g15433,QA,MARCO,train,validation,6
+15434,g15434,QA,MARCO,train,train,6
+15435,g15435,QA,MARCO,train,train,6
+15436,g15436,QA,MARCO,train,train,6
+15437,g15437,QA,MARCO,train,train,6
+15438,g15438,QA,MARCO,test,test,6
+15439,g15439,QA,MARCO,train,train,6
+15440,g15440,QA,MARCO,train,train,6
+15441,g15441,QA,MARCO,train,train,6
+15442,g15442,QA,MARCO,test,test,6
+15443,g15443,QA,MARCO,train,train,6
+15444,g15444,QA,MARCO,train,train,6
+15445,g15445,QA,MARCO,train,train,6
+15446,g15446,QA,MARCO,train,train,6
+15447,g15447,QA,MARCO,train,train,6
+15448,g15448,QA,MARCO,train,train,6
+15449,g15449,QA,MARCO,train,train,6
+15450,g15450,QA,MARCO,test,test,6
+15451,g15451,QA,MARCO,train,train,6
+15452,g15452,QA,MARCO,train,train,6
+15453,g15453,QA,MARCO,test,test,6
+15454,g15454,QA,MARCO,test,test,6
+15455,g15455,QA,MARCO,test,test,6
+15456,g15456,QA,MARCO,train,train,6
+15457,g15457,QA,MARCO,train,train,6
+15458,g15458,QA,MARCO,train,train,6
+15459,g15459,QA,MARCO,train,validation,6
+15460,g15460,QA,MARCO,train,validation,6
+15461,g15461,QA,MARCO,train,train,6
+15462,g15462,QA,MARCO,train,train,6
+15463,g15463,QA,MARCO,train,validation,6
+15464,g15464,QA,MARCO,train,validation,6
+15465,g15465,QA,MARCO,train,train,6
+15466,g15466,QA,MARCO,test,test,6
+15467,g15467,QA,MARCO,train,train,6
+15468,g15468,QA,MARCO,train,validation,6
+15469,g15469,QA,MARCO,train,train,6
+15470,g15470,QA,MARCO,train,validation,6
+15471,g15471,QA,MARCO,train,train,6
+15472,g15472,QA,MARCO,train,train,6
+15473,g15473,QA,MARCO,train,train,6
+15474,g15474,QA,MARCO,train,train,6
+15475,g15475,QA,MARCO,train,train,6
+15476,g15476,QA,MARCO,train,train,6
+15477,g15477,QA,MARCO,train,train,6
+15478,g15478,QA,MARCO,test,test,6
+15479,g15479,QA,MARCO,train,train,6
+15480,g15480,QA,MARCO,train,train,6
+15481,g15481,QA,MARCO,train,train,6
+15482,g15482,QA,MARCO,train,train,6
+15483,g15483,QA,MARCO,train,validation,6
+15484,g15484,QA,MARCO,train,train,6
+15485,g15485,QA,MARCO,train,train,6
+15486,g15486,QA,MARCO,train,train,6
+15487,g15487,QA,MARCO,train,validation,6
+15488,g15488,QA,MARCO,train,train,6
+15489,g15489,QA,MARCO,train,train,6
+15490,g15490,QA,MARCO,train,train,6
+15491,g15491,QA,MARCO,train,train,6
+15492,g15492,QA,MARCO,train,train,6
+15493,g15493,QA,MARCO,train,train,6
+15494,g15494,QA,MARCO,train,train,6
+15495,g15495,QA,MARCO,train,train,6
+15496,g15496,QA,MARCO,train,validation,6
+15497,g15497,QA,MARCO,test,test,6
+15498,g15498,QA,MARCO,test,test,6
+15499,g15499,QA,MARCO,train,train,6
+15500,g15500,QA,MARCO,train,validation,6
+15501,g15501,QA,MARCO,test,test,6
+15502,g15502,QA,MARCO,train,train,6
+15503,g15503,QA,MARCO,train,train,6
+15504,g15504,QA,MARCO,train,train,6
+15505,g15505,QA,MARCO,train,train,6
+15506,g15506,QA,MARCO,train,train,6
+15507,g15507,QA,MARCO,train,validation,6
+15508,g15508,QA,MARCO,train,train,6
+15509,g15509,QA,MARCO,train,train,6
+15510,g15510,QA,MARCO,train,train,6
+15511,g15511,QA,MARCO,train,train,6
+15512,g15512,QA,MARCO,train,train,6
+15513,g15513,QA,MARCO,test,test,6
+15514,g15514,QA,MARCO,train,train,6
+15515,g15515,QA,MARCO,train,train,6
+15516,g15516,QA,MARCO,train,train,6
+15517,g15517,QA,MARCO,train,train,6
+15518,g15518,QA,MARCO,train,train,6
+15519,g15519,QA,MARCO,train,train,6
+15520,g15520,QA,MARCO,train,train,6
+15521,g15521,QA,MARCO,train,train,6
+15522,g15522,QA,MARCO,train,train,6
+15523,g15523,QA,MARCO,train,train,6
+15524,g15524,QA,MARCO,train,train,6
+15525,g15525,QA,MARCO,test,test,6
+15526,g15526,QA,MARCO,train,train,6
+15527,g15527,QA,MARCO,train,train,6
+15528,g15528,QA,MARCO,train,train,6
+15529,g15529,QA,MARCO,test,test,6
+15530,g15530,QA,MARCO,train,train,6
+15531,g15531,QA,MARCO,train,train,6
+15532,g15532,QA,MARCO,train,train,6
+15533,g15533,QA,MARCO,test,test,6
+15534,g15534,QA,MARCO,train,train,6
+15535,g15535,QA,MARCO,test,test,6
+15536,g15536,QA,MARCO,train,train,6
+15537,g15537,QA,MARCO,train,train,6
+15538,g15538,QA,MARCO,train,train,6
+15539,g15539,QA,MARCO,test,test,6
+15540,g15540,QA,MARCO,test,test,6
+15541,g15541,QA,MARCO,train,validation,6
+15542,g15542,QA,MARCO,test,test,6
+15543,g15543,QA,MARCO,test,test,6
+15544,g15544,QA,MARCO,train,train,6
+15545,g15545,QA,MARCO,train,train,6
+15546,g15546,QA,MARCO,test,test,6
+15547,g15547,QA,MARCO,train,train,6
+15548,g15548,QA,MARCO,train,train,6
+15549,g15549,QA,MARCO,train,train,6
+15550,g15550,QA,MARCO,test,test,6
+15551,g15551,QA,MARCO,test,test,6
+15552,g15552,QA,MARCO,test,test,6
+15553,g15553,QA,MARCO,train,train,6
+15554,g15554,QA,MARCO,train,train,6
+15555,g15555,QA,MARCO,train,validation,6
+15556,g15556,QA,MARCO,train,train,6
+15557,g15557,QA,MARCO,train,train,6
+15558,g15558,QA,MARCO,train,train,6
+15559,g15559,QA,MARCO,train,train,6
+15560,g15560,QA,MARCO,train,train,6
+15561,g15561,QA,MARCO,train,train,6
+15562,g15562,QA,MARCO,train,train,6
+15563,g15563,QA,MARCO,train,train,6
+15564,g15564,QA,MARCO,train,train,6
+15565,g15565,QA,MARCO,train,train,6
+15566,g15566,QA,MARCO,train,train,6
+15567,g15567,QA,MARCO,train,train,6
+15569,g15569,QA,MARCO,train,train,6
+15570,g15570,QA,MARCO,train,train,6
+15571,g15571,QA,MARCO,train,train,6
+15572,g15572,QA,MARCO,test,test,6
+15573,g15573,QA,MARCO,train,train,6
+15574,g15574,QA,MARCO,train,train,6
+15575,g15575,QA,MARCO,train,train,6
+15576,g15576,QA,MARCO,test,test,6
+15577,g15577,QA,MARCO,test,test,6
+15578,g15578,QA,MARCO,train,train,6
+15579,g15579,QA,MARCO,train,validation,6
+15580,g15580,QA,MARCO,train,train,6
+15581,g15581,QA,MARCO,train,train,6
+15582,g15582,QA,MARCO,train,train,6
+15583,g15583,QA,MARCO,test,test,6
+15584,g15584,QA,MARCO,train,train,6
+15585,g15585,QA,MARCO,train,train,6
+15586,g15586,QA,MARCO,train,train,6
+15587,g15587,QA,MARCO,train,train,6
+15588,g15588,QA,MARCO,train,train,6
+15589,g15589,QA,MARCO,train,train,6
+15590,g15590,QA,MARCO,train,train,6
+15591,g15591,QA,MARCO,train,train,6
+15592,g15592,Summary,CNN/DM,train,train,6
+15593,g15593,Summary,CNN/DM,train,train,6
+15594,g15594,Summary,CNN/DM,train,validation,6
+15595,g15595,Summary,CNN/DM,train,train,6
+15596,g15596,Summary,CNN/DM,test,test,6
+15597,g15597,Summary,CNN/DM,train,train,6
+15598,g15598,Summary,CNN/DM,train,train,6
+15599,g15599,Summary,CNN/DM,test,test,6
+15600,g15600,Summary,CNN/DM,train,train,6
+15601,g15601,Summary,CNN/DM,test,test,6
+15603,g15603,Summary,CNN/DM,train,train,6
+15604,g15604,Summary,CNN/DM,test,test,6
+15605,g15605,Summary,CNN/DM,train,train,6
+15606,g15606,Summary,CNN/DM,train,train,6
+15607,g15607,Summary,CNN/DM,train,validation,6
+15608,g15608,Summary,CNN/DM,train,train,6
+15609,g15609,Summary,CNN/DM,train,train,6
+15610,g15610,Summary,CNN/DM,train,validation,6
+15611,g15611,Summary,CNN/DM,train,train,6
+15612,g15612,Summary,CNN/DM,train,train,6
+15613,g15613,Summary,CNN/DM,test,test,6
+15614,g15614,Summary,CNN/DM,train,train,6
+15615,g15615,Summary,CNN/DM,train,train,6
+15616,g15616,Summary,CNN/DM,test,test,6
+15617,g15617,Summary,CNN/DM,test,test,6
+15618,g15618,Summary,CNN/DM,train,train,6
+15619,g15619,Summary,CNN/DM,train,train,6
+15620,g15620,Summary,CNN/DM,train,train,6
+15621,g15621,Summary,CNN/DM,train,train,6
+15622,g15622,Summary,CNN/DM,train,train,6
+15623,g15623,Summary,CNN/DM,test,test,6
+15624,g15624,Summary,CNN/DM,train,train,6
+15625,g15625,Summary,CNN/DM,train,train,6
+15626,g15626,Summary,CNN/DM,train,train,6
+15627,g15627,Summary,CNN/DM,test,test,6
+15628,g15628,Summary,CNN/DM,test,test,6
+15629,g15629,Summary,CNN/DM,train,validation,6
+15630,g15630,Summary,CNN/DM,train,train,6
+15631,g15631,Summary,CNN/DM,train,validation,6
+15632,g15632,Summary,CNN/DM,train,train,6
+15633,g15633,Summary,CNN/DM,train,train,6
+15634,g15634,Summary,CNN/DM,test,test,6
+15635,g15635,Summary,CNN/DM,train,train,6
+15636,g15636,Summary,CNN/DM,train,validation,6
+15637,g15637,Summary,CNN/DM,train,train,6
+15638,g15638,Summary,CNN/DM,test,test,6
+15639,g15639,Summary,CNN/DM,train,train,6
+15640,g15640,Summary,CNN/DM,train,train,6
+15641,g15641,Summary,CNN/DM,train,train,6
+15642,g15642,Summary,CNN/DM,train,train,6
+15643,g15643,Summary,CNN/DM,train,train,6
+15644,g15644,Summary,CNN/DM,train,train,6
+15645,g15645,Summary,CNN/DM,test,test,6
+15646,g15646,Summary,CNN/DM,train,train,6
+15647,g15647,Summary,CNN/DM,train,train,6
+15648,g15648,Summary,CNN/DM,test,test,6
+15649,g15649,Summary,CNN/DM,train,train,6
+15650,g15650,Summary,CNN/DM,train,train,6
+15651,g15651,Summary,CNN/DM,test,test,6
+15652,g15652,Summary,CNN/DM,test,test,6
+15653,g15653,Summary,CNN/DM,train,train,6
+15654,g15654,Summary,CNN/DM,train,train,6
+15655,g15655,Summary,CNN/DM,train,train,6
+15656,g15656,Summary,CNN/DM,train,validation,6
+15657,g15657,Summary,CNN/DM,train,train,6
+15658,g15658,Summary,CNN/DM,train,train,6
+15659,g15659,Summary,CNN/DM,train,train,6
+15660,g15660,Summary,CNN/DM,train,train,6
+15661,g15661,Summary,CNN/DM,test,test,6
+15662,g15662,Summary,CNN/DM,train,train,6
+15663,g15663,Summary,CNN/DM,train,train,6
+15664,g15664,Summary,CNN/DM,train,train,6
+15665,g15665,Summary,CNN/DM,test,test,6
+15666,g15666,Summary,CNN/DM,train,train,6
+15667,g15667,Summary,CNN/DM,test,test,6
+15668,g15668,Summary,CNN/DM,train,train,6
+15669,g15669,Summary,CNN/DM,train,train,6
+15670,g15670,Summary,CNN/DM,test,test,6
+15671,g15671,Summary,CNN/DM,train,validation,6
+15672,g15672,Summary,CNN/DM,train,validation,6
+15673,g15673,Summary,CNN/DM,test,test,6
+15674,g15674,Summary,CNN/DM,train,train,6
+15675,g15675,Summary,CNN/DM,train,train,6
+15676,g15676,Summary,CNN/DM,train,train,6
+15677,g15677,Summary,CNN/DM,train,train,6
+15678,g15678,Summary,CNN/DM,train,train,6
+15679,g15679,Summary,CNN/DM,train,train,6
+15680,g15680,Summary,CNN/DM,train,train,6
+15681,g15681,Summary,CNN/DM,train,train,6
+15682,g15682,Summary,CNN/DM,train,train,6
+15683,g15683,Summary,CNN/DM,test,test,6
+15684,g15684,Summary,CNN/DM,train,train,6
+15685,g15685,Summary,CNN/DM,train,train,6
+15686,g15686,Summary,CNN/DM,train,train,6
+15687,g15687,Summary,CNN/DM,train,train,6
+15688,g15688,Summary,CNN/DM,train,train,6
+15689,g15689,Summary,CNN/DM,train,train,6
+15690,g15690,Summary,CNN/DM,test,test,6
+15691,g15691,Summary,CNN/DM,test,test,6
+15692,g15692,Summary,CNN/DM,train,train,6
+15693,g15693,Summary,CNN/DM,test,test,6
+15694,g15694,Summary,CNN/DM,test,test,6
+15695,g15695,Summary,CNN/DM,test,test,6
+15696,g15696,Summary,CNN/DM,test,test,6
+15697,g15697,Summary,CNN/DM,train,validation,6
+15698,g15698,Summary,CNN/DM,train,train,6
+15699,g15699,Summary,CNN/DM,train,train,6
+15700,g15700,Summary,CNN/DM,test,test,6
+15701,g15701,Summary,CNN/DM,train,train,6
+15702,g15702,Summary,CNN/DM,test,test,6
+15703,g15703,Summary,CNN/DM,train,train,6
+15704,g15704,Summary,CNN/DM,train,train,6
+15705,g15705,Summary,CNN/DM,train,train,6
+15706,g15706,Summary,CNN/DM,train,train,6
+15707,g15707,Summary,CNN/DM,train,train,6
+15708,g15708,Summary,CNN/DM,test,test,6
+15709,g15709,Summary,CNN/DM,train,train,6
+15710,g15710,Summary,CNN/DM,train,train,6
+15711,g15711,Summary,CNN/DM,train,train,6
+15712,g15712,Summary,CNN/DM,train,train,6
+15713,g15713,Summary,CNN/DM,test,test,6
+15714,g15714,Summary,CNN/DM,test,test,6
+15715,g15715,Summary,CNN/DM,train,train,6
+15716,g15716,Summary,CNN/DM,train,train,6
+15717,g15717,Summary,CNN/DM,train,train,6
+15718,g15718,Summary,CNN/DM,train,train,6
+15719,g15719,Summary,CNN/DM,train,train,6
+15720,g15720,Summary,CNN/DM,train,train,6
+15721,g15721,Summary,CNN/DM,train,validation,6
+15722,g15722,Summary,CNN/DM,test,test,6
+15723,g15723,Summary,CNN/DM,train,train,6
+15724,g15724,Summary,CNN/DM,train,validation,6
+15725,g15725,Summary,CNN/DM,train,train,6
+15726,g15726,Summary,CNN/DM,train,validation,6
+15727,g15727,Summary,CNN/DM,train,train,6
+15728,g15728,Summary,CNN/DM,train,validation,6
+15729,g15729,Summary,CNN/DM,train,train,6
+15730,g15730,Summary,CNN/DM,train,train,6
+15731,g15731,Summary,CNN/DM,train,train,6
+15732,g15732,Summary,CNN/DM,test,test,6
+15733,g15733,Summary,CNN/DM,test,test,6
+15734,g15734,Summary,CNN/DM,train,train,6
+15735,g15735,Summary,CNN/DM,test,test,6
+15736,g15736,Summary,CNN/DM,train,validation,6
+15737,g15737,Summary,CNN/DM,train,train,6
+15738,g15738,Summary,CNN/DM,train,train,6
+15739,g15739,Summary,CNN/DM,test,test,6
+15740,g15740,Summary,CNN/DM,test,test,6
+15741,g15741,Summary,CNN/DM,train,train,6
+15742,g15742,Summary,CNN/DM,train,train,6
+15743,g15743,Summary,CNN/DM,train,validation,6
+15744,g15744,Summary,CNN/DM,test,test,6
+15745,g15745,Summary,CNN/DM,train,train,6
+15746,g15746,Summary,CNN/DM,train,train,6
+15747,g15747,Summary,CNN/DM,test,test,6
+15748,g15748,Summary,CNN/DM,train,train,6
+15749,g15749,Summary,CNN/DM,train,train,6
+15750,g15750,Summary,CNN/DM,train,train,6
+15751,g15751,Summary,CNN/DM,train,train,6
+15752,g15752,Summary,CNN/DM,train,train,6
+15753,g15753,Summary,CNN/DM,test,test,6
+15754,g15754,Summary,CNN/DM,train,train,6
+15755,g15755,Summary,CNN/DM,train,train,6
+15756,g15756,Summary,CNN/DM,train,train,6
+15757,g15757,Summary,CNN/DM,train,train,6
+15758,g15758,Summary,CNN/DM,train,train,6
+15759,g15759,Summary,CNN/DM,test,test,6
+15760,g15760,Summary,CNN/DM,train,validation,6
+15761,g15761,Summary,CNN/DM,train,train,6
+15762,g15762,Summary,CNN/DM,train,validation,6
+15763,g15763,Summary,CNN/DM,train,train,6
+15764,g15764,Summary,CNN/DM,train,train,6
+15765,g15765,Summary,CNN/DM,train,train,6
+15766,g15766,Summary,CNN/DM,train,train,6
+15768,g15768,Summary,CNN/DM,train,validation,6
+15769,g15769,Summary,CNN/DM,test,test,6
+15770,g15770,Summary,CNN/DM,train,train,6
+15771,g15771,Summary,CNN/DM,train,train,6
+15772,g15772,Summary,CNN/DM,train,train,6
+15773,g15773,Summary,CNN/DM,train,train,6
+15774,g15774,Summary,CNN/DM,train,train,6
+15775,g15775,Summary,CNN/DM,train,train,6
+15776,g15776,Summary,CNN/DM,train,train,6
+15777,g15777,Summary,CNN/DM,train,validation,6
+15778,g15778,Summary,CNN/DM,test,test,6
+15779,g15779,Summary,CNN/DM,test,test,6
+15780,g15780,Summary,CNN/DM,train,train,6
+15781,g15781,Summary,CNN/DM,train,train,6
+15782,g15782,Summary,CNN/DM,train,train,6
+15783,g15783,Summary,CNN/DM,train,train,6
+15784,g15784,Summary,CNN/DM,train,train,6
+15785,g15785,Summary,CNN/DM,train,train,6
+15786,g15786,Summary,CNN/DM,test,test,6
+15787,g15787,Summary,CNN/DM,train,train,6
+15788,g15788,Summary,CNN/DM,train,validation,6
+15789,g15789,Summary,CNN/DM,test,test,6
+15790,g15790,Summary,CNN/DM,train,train,6
+15791,g15791,Summary,CNN/DM,test,test,6
+15792,g15792,Summary,CNN/DM,train,train,6
+15793,g15793,Summary,CNN/DM,train,validation,6
+15794,g15794,Summary,CNN/DM,train,train,6
+15795,g15795,Summary,CNN/DM,train,train,6
+15796,g15796,Summary,CNN/DM,train,train,6
+15797,g15797,Summary,CNN/DM,train,train,6
+15798,g15798,Summary,CNN/DM,train,train,6
+15799,g15799,Summary,CNN/DM,train,train,6
+15800,g15800,Summary,CNN/DM,test,test,6
+15801,g15801,Summary,CNN/DM,train,train,6
+15802,g15802,Summary,CNN/DM,train,train,6
+15803,g15803,Summary,CNN/DM,train,train,6
+15804,g15804,Summary,CNN/DM,train,train,6
+15805,g15805,Summary,CNN/DM,train,train,6
+15806,g15806,Summary,CNN/DM,train,train,6
+15807,g15807,Summary,CNN/DM,train,train,6
+15808,g15808,Summary,CNN/DM,train,validation,6
+15809,g15809,Summary,CNN/DM,train,train,6
+15810,g15810,Summary,CNN/DM,train,train,6
+15811,g15811,Summary,CNN/DM,train,train,6
+15812,g15812,Summary,CNN/DM,train,train,6
+15813,g15813,Summary,CNN/DM,train,train,6
+15814,g15814,Summary,CNN/DM,train,train,6
+15815,g15815,Summary,CNN/DM,train,train,6
+15816,g15816,Summary,CNN/DM,train,train,6
+15817,g15817,Summary,CNN/DM,test,test,6
+15818,g15818,Summary,CNN/DM,train,train,6
+15819,g15819,Summary,CNN/DM,test,test,6
+15820,g15820,Summary,CNN/DM,train,train,6
+15821,g15821,Summary,CNN/DM,train,train,6
+15822,g15822,Summary,CNN/DM,train,validation,6
+15823,g15823,Summary,CNN/DM,train,validation,6
+15824,g15824,Summary,CNN/DM,train,train,6
+15825,g15825,Summary,CNN/DM,train,train,6
+15826,g15826,Summary,CNN/DM,train,train,6
+15827,g15827,Summary,CNN/DM,train,train,6
+15828,g15828,Summary,CNN/DM,train,train,6
+15829,g15829,Summary,CNN/DM,train,train,6
+15830,g15830,Summary,CNN/DM,train,train,6
+15831,g15831,Summary,CNN/DM,train,train,6
+15832,g15832,Summary,CNN/DM,train,validation,6
+15833,g15833,Summary,CNN/DM,train,validation,6
+15834,g15834,Summary,CNN/DM,train,validation,6
+15835,g15835,Summary,CNN/DM,train,train,6
+15836,g15836,Summary,CNN/DM,test,test,6
+15837,g15837,Summary,CNN/DM,train,train,6
+15838,g15838,Summary,CNN/DM,train,train,6

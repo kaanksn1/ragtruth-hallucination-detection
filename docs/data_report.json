@@ -1,0 +1,268 @@
+{
+  "scope": "train and validation annotations only; official test: counts and split membership only",
+  "splits": {
+    "train": {
+      "sources": 2138,
+      "responses": 12828,
+      "quality_flags": {
+        "good": 12702,
+        "truncated": 25,
+        "incorrect_refusal": 101
+      },
+      "good_responses": 12702,
+      "good_with_labels": 5696,
+      "good_label_rate": 0.4484,
+      "labels": 10837,
+      "labels_by_type": {
+        "Evident Conflict": 4017,
+        "Subtle Conflict": 160,
+        "Evident Baseless Info": 4654,
+        "Subtle Baseless Info": 2006
+      },
+      "exact_duplicate_labels": 48,
+      "implicit_true_labels": 1557,
+      "due_to_null_labels": 1226,
+      "responses_with_overlap": 80,
+      "overlap_pairs_same_type": 69,
+      "overlap_pairs_cross_type": 23,
+      "label_chars": {
+        "median": 31,
+        "p95": 154,
+        "max": 1304
+      },
+      "word_tokens": 1959297,
+      "word_tokens_in_any_label": 109321,
+      "word_token_positive_rate": 0.0558,
+      "word_tokens_by_type": {
+        "Evident Conflict": 29301,
+        "Subtle Conflict": 1364,
+        "Evident Baseless Info": 59866,
+        "Subtle Baseless Info": 18929
+      },
+      "by_task": {
+        "QA": {
+          "responses": 4156,
+          "with_labels": 1327,
+          "rate": 0.3193,
+          "labels": 2289
+        },
+        "Summary": {
+          "responses": 4042,
+          "with_labels": 1256,
+          "rate": 0.3107,
+          "labels": 1526
+        },
+        "Data2txt": {
+          "responses": 4504,
+          "with_labels": 3113,
+          "rate": 0.6912,
+          "labels": 7022
+        }
+      },
+      "label_rate_by_generator": {
+        "gpt-3.5-turbo-0613": 0.1403,
+        "gpt-4-0613": 0.1489,
+        "llama-2-13b-chat": 0.5821,
+        "llama-2-70b-chat": 0.4859,
+        "llama-2-7b-chat": 0.6404,
+        "mistral-7B-instruct": 0.689
+      }
+    },
+    "validation": {
+      "sources": 377,
+      "responses": 2262,
+      "quality_flags": {
+        "good": 2240,
+        "incorrect_refusal": 19,
+        "truncated": 3
+      },
+      "good_responses": 2240,
+      "good_with_labels": 1002,
+      "good_label_rate": 0.4473,
+      "labels": 1856,
+      "labels_by_type": {
+        "Evident Conflict": 670,
+        "Subtle Conflict": 25,
+        "Evident Baseless Info": 813,
+        "Subtle Baseless Info": 348
+      },
+      "exact_duplicate_labels": 5,
+      "implicit_true_labels": 257,
+      "due_to_null_labels": 214,
+      "responses_with_overlap": 18,
+      "overlap_pairs_same_type": 12,
+      "overlap_pairs_cross_type": 6,
+      "label_chars": {
+        "median": 33,
+        "p95": 159,
+        "max": 1441
+      },
+      "word_tokens": 354135,
+      "word_tokens_in_any_label": 20049,
+      "word_token_positive_rate": 0.0566,
+      "word_tokens_by_type": {
+        "Evident Conflict": 5196,
+        "Subtle Conflict": 155,
+        "Evident Baseless Info": 11137,
+        "Subtle Baseless Info": 3585
+      },
+      "by_task": {
+        "QA": {
+          "responses": 736,
+          "with_labels": 219,
+          "rate": 0.2976,
+          "labels": 351
+        },
+        "Summary": {
+          "responses": 713,
+          "with_labels": 224,
+          "rate": 0.3142,
+          "labels": 299
+        },
+        "Data2txt": {
+          "responses": 791,
+          "with_labels": 559,
+          "rate": 0.7067,
+          "labels": 1206
+        }
+      },
+      "label_rate_by_generator": {
+        "gpt-3.5-turbo-0613": 0.1649,
+        "gpt-4-0613": 0.1317,
+        "llama-2-13b-chat": 0.5968,
+        "llama-2-70b-chat": 0.4934,
+        "llama-2-7b-chat": 0.6213,
+        "mistral-7B-instruct": 0.6721
+      }
+    }
+  },
+  "official_test": {
+    "sources": 450,
+    "responses": 2700
+  },
+  "lengths_words": {
+    "QA": {
+      "response_words": {
+        "median": 136,
+        "p95": 272,
+        "max": 436
+      },
+      "source_words": {
+        "median": 320,
+        "p95": 510,
+        "max": 640
+      }
+    },
+    "Summary": {
+      "response_words": {
+        "median": 116,
+        "p95": 243,
+        "max": 732
+      },
+      "source_words": {
+        "median": 508,
+        "p95": 1507,
+        "max": 2080
+      }
+    },
+    "Data2txt": {
+      "response_words": {
+        "median": 173,
+        "p95": 286,
+        "max": 395
+      },
+      "source_words": {
+        "median": 710,
+        "p95": 1067,
+        "max": 1785
+      }
+    }
+  },
+  "duplicates_official_train": {
+    "exact_duplicate_response_excess": 211,
+    "of_which_inside_same_source": 60,
+    "response_texts_shared_between_source_groups": 2,
+    "same_content_source_groups": [
+      [
+        "12084",
+        "12085"
+      ],
+      [
+        "14041",
+        "14218"
+      ]
+    ]
+  },
+  "examples": [
+    {
+      "why": "same-type overlap",
+      "id": "2306",
+      "task_type": "Summary",
+      "labels": [
+        {
+          "label_id": 0,
+          "start": 622,
+          "end": 812,
+          "label_type": "Evident Baseless Info",
+          "text": "The study is the first to track adult drinking patterns at the county level in the United States. In 2012, 18 percent of Americans were considered binge drinkers, up from 14 percent in 2005.",
+          "overlaps_with": [
+            1
+          ]
+        },
+        {
+          "label_id": 1,
+          "start": 785,
+          "end": 812,
+          "label_type": "Evident Baseless Info",
+          "text": "up from 14 percent in 2005.",
+          "overlaps_with": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "why": "cross-type overlap",
+      "id": "2183",
+      "task_type": "Summary",
+      "labels": [
+        {
+          "label_id": 0,
+          "start": 551,
+          "end": 569,
+          "label_type": "Evident Conflict",
+          "text": "The birth of a boy",
+          "overlaps_with": [
+            1
+          ]
+        },
+        {
+          "label_id": 1,
+          "start": 551,
+          "end": 687,
+          "label_type": "Evident Baseless Info",
+          "text": "The birth of a boy would also be celebrated, but there is a sense of hope for a girl to balance out the gender dynamics in the monarchy.",
+          "overlaps_with": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "why": "single label",
+      "id": "5660",
+      "task_type": "Data2txt",
+      "labels": [
+        {
+          "label_id": 0,
+          "start": 129,
+          "end": 146,
+          "label_type": "Evident Baseless Info",
+          "text": "vegetarian dishes",
+          "overlaps_with": []
+        }
+      ]
+    }
+  ],
+  "tokenizer_lengths": "not measured here; run scripts/window_report.py with the chosen tokenizer"
+}

@@ -1,0 +1,59 @@
+{
+  "tokenizer": "answerdotai/ModernBERT-base",
+  "records": 14942,
+  "splits": [
+    "train",
+    "validation"
+  ],
+  "context_stride": 128,
+  "by_max_length": {
+    "512": {
+      "features": {
+        "train": 43479,
+        "validation": 8019
+      },
+      "features_per_record": 3.447,
+      "share_records_needing_several_windows": 0.8046,
+      "records_with_split_response": 115,
+      "single_window_source_cut": {
+        "share_records_cut": 0.8046,
+        "median_share_cut": 0.424,
+        "p95_share_cut": 0.7963
+      },
+      "gold_labels_lost_in_round_trip": 0,
+      "seconds": 85.6
+    },
+    "1024": {
+      "features": {
+        "train": 15855,
+        "validation": 2799
+      },
+      "features_per_record": 1.248,
+      "share_records_needing_several_windows": 0.2188,
+      "records_with_split_response": 0,
+      "single_window_source_cut": {
+        "share_records_cut": 0.2188,
+        "median_share_cut": 0.0,
+        "p95_share_cut": 0.3668
+      },
+      "gold_labels_lost_in_round_trip": 0,
+      "seconds": 46.7
+    },
+    "2048": {
+      "features": {
+        "train": 12802,
+        "validation": 2270
+      },
+      "features_per_record": 1.009,
+      "share_records_needing_several_windows": 0.0087,
+      "records_with_split_response": 0,
+      "single_window_source_cut": {
+        "share_records_cut": 0.0087,
+        "median_share_cut": 0.0,
+        "p95_share_cut": 0.0
+      },
+      "gold_labels_lost_in_round_trip": 0,
+      "seconds": 42.3
+    }
+  }
+}

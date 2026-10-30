@@ -1,0 +1,124 @@
+{
+  "source": {
+    "repository": "https://github.com/ParticleMedia/RAGTruth",
+    "revision": "c103204b9ce28d6bbad859304bf30de72b8ed8fe",
+    "files": [
+      "dataset/response.jsonl",
+      "dataset/source_info.jsonl",
+      "LICENSE"
+    ],
+    "paper": "https://aclanthology.org/2024.acl-long.585/"
+  },
+  "inspection_scope": "Training annotations only; official test IDs/splits only.",
+  "length_unit": "Whitespace-separated words, NOT model tokens.",
+  "counts": {
+    "train_responses": 15090,
+    "train_responses_with_spans": 6721,
+    "train_responses_with_overlapping_spans": 101,
+    "train_spans": 12756,
+    "train_spans_implicit_true": 1827,
+    "test_responses": 2700,
+    "train_spans_due_to_null": 1441
+  },
+  "train_source_groups": 2515,
+  "test_source_groups": 450,
+  "source_groups_shared_between_official_train_test": [],
+  "missing_source_response_ids": [],
+  "train_responses_by_task": {
+    "Summary": 4758,
+    "Data2txt": 5298,
+    "QA": 5034
+  },
+  "train_responses_by_generator": {
+    "gpt-4-0613": 2515,
+    "gpt-3.5-turbo-0613": 2515,
+    "mistral-7B-instruct": 2515,
+    "llama-2-7b-chat": 2515,
+    "llama-2-13b-chat": 2515,
+    "llama-2-70b-chat": 2515
+  },
+  "train_quality_flags": {
+    "good": 14942,
+    "truncated": 28,
+    "incorrect_refusal": 120
+  },
+  "train_span_types": {
+    "Evident Conflict": 4705,
+    "Evident Baseless Info": 5499,
+    "Subtle Baseless Info": 2367,
+    "Subtle Conflict": 185
+  },
+  "train_invalid_span_count": 0,
+  "train_invalid_span_examples": [],
+  "train_response_words": {
+    "n": 15090,
+    "min": 1,
+    "median": 125.0,
+    "p95": 235,
+    "max": 632
+  },
+  "train_prompt_words": {
+    "n": 15090,
+    "min": 110,
+    "median": 357.0,
+    "p95": 917,
+    "max": 1757
+  },
+  "train_lengths_by_task": {
+    "Data2txt": {
+      "response_words": {
+        "n": 5298,
+        "min": 35,
+        "median": 146.0,
+        "p95": 243,
+        "max": 369
+      },
+      "prompt_words": {
+        "n": 5298,
+        "min": 166,
+        "median": 366.0,
+        "p95": 658,
+        "max": 1302
+      }
+    },
+    "QA": {
+      "response_words": {
+        "n": 5034,
+        "min": 1,
+        "median": 114.0,
+        "p95": 232,
+        "max": 381
+      },
+      "prompt_words": {
+        "n": 5034,
+        "min": 124,
+        "median": 269.0,
+        "p95": 418,
+        "max": 554
+      }
+    },
+    "Summary": {
+      "response_words": {
+        "n": 4758,
+        "min": 7,
+        "median": 100.0,
+        "p95": 213,
+        "max": 632
+      },
+      "prompt_words": {
+        "n": 4758,
+        "min": 110,
+        "median": 439.0,
+        "p95": 1294,
+        "max": 1757
+      }
+    }
+  },
+  "train_exact_duplicate_response_excess": 211,
+  "train_exact_response_texts_shared_between_source_groups": 3,
+  "sha256": {
+    "response.jsonl": "e4c2e4ac24fff676d8984cc61c35d791612fadc58015335d97dd632375e18073",
+    "source_info.jsonl": "0dffc26ea9f3c1c3d7c7e8336b56ef1646e3cec876edffcca3c9c624d12d578b",
+    "LICENSE": "b7fd7d6bdfe0cbba63c63a310914beb4a4acb8bf08da73849219f45385f5b244"
+  }
+}

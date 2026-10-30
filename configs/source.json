@@ -1,0 +1,10 @@
+{
+  "repository": "https://github.com/ParticleMedia/RAGTruth",
+  "revision": "c103204b9ce28d6bbad859304bf30de72b8ed8fe",
+  "files": [
+    "dataset/response.jsonl",
+    "dataset/source_info.jsonl",
+    "LICENSE"
+  ],
+  "paper": "https://aclanthology.org/2024.acl-long.585/"
+}

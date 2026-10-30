@@ -176,13 +176,14 @@ bütün tam train ve model tahmin koşumları 1. kişinin PC'sindedir.**
 
 ## Dosya sahipliği ve önerilen branch'ler
 
-Dosya adları öneridir; uygulamalar henüz teslim edilmedi.
+Veri ve CRF uygulamaları teslim edildi; Transformer ve ortak değerlendirme
+alanları henüz ilgili üyelerin teslimini bekliyor.
 
 | Kişi | Önerilen kod/belge alanı | Branch |
 |---|---|---|
 | 1 | GPU/koşum scriptleri, ortak CLI, demo, README, protokol entegrasyonu | `feature/ragtruth-integration` |
-| 2 | `data.py`, `alignment.py`, `splits.py`, veri config/raporu | `feature/ragtruth-data` |
-| 3 | `baseline_crf.py`, baseline config/raporu, opsiyonel ablation config | `feature/ragtruth-baseline` |
+| 2 | `ragtruth_data/`, `scripts/prepare_data.py`, veri config/raporu | `feature/ragtruth-data` |
+| 3 | `scripts/baseline_crf.py`, baseline config/raporu, opsiyonel ablation config | `feature/ragtruth-baseline` |
 | 4 | `transformer.py`, Transformer config/raporu | `feature/ragtruth-transformer` |
 | 5 | `evaluate.py`, `plot_results.py`, karşılaştırma ve sunum | `feature/ragtruth-evaluation` |
 

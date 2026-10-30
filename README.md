@@ -13,8 +13,10 @@ Ekip davetleri 30 Ekim'de gönderildi; katılım için GitHub davetini kabul etm
 Başlangıç görünürlüğü private'tır.
 
 Bu bağımsız depo yeni projenin başlangıç alanıdır. BANKING77 dosyaları, deneyleri ve
-kişisel katkı raporları bu çalışma sırasında değiştirilmedi. Henüz bir RAGTruth
-modeli eğitilmedi, sunum hazırlanmadı ve resmî test değerlendirmesi yapılmadı.
+kişisel katkı raporları bu çalışma sırasında değiştirilmedi. Veri ve CRF kodu
+teslim edildi. 31 Ekim'de 1. kişinin PC'sinde 300 train / 100 validation cevabıyla
+kısa CRF doğrulaması geçti; tam eğitim, nihai sonuç analizi ve sunum bekliyor.
+Resmî test değerlendirmesi yapılmadı.
 29 Ekim'de sentetik girdilerle GPU forward/backward/optimizer kontrolü yapıldı;
 bu işlem gerçek veriyle model eğitimi veya başarı deneyi değildir.
 
@@ -139,7 +141,7 @@ veya mevcut ortamla uyumlu, kaydı tutulmuş bir kullanım yolu seçilmeli.
 
 29 Ekim'de aynı ortamda 256 ve 512 tokenlık sentetik encoder/optimizer
 kontrolleri geçti. [GPU hazırlığı ve ölçüm sınırları](docs/GPU_READINESS.md)
-kaydedildi. Gerçek verili pilot, 2/4. kişilerin veri/model teslimlerini bekliyor.
+kaydedildi. Gerçek Transformer GPU pilotu 4. kişinin model teslimini bekliyor.
 
 ## Yeniden çalıştırma
 

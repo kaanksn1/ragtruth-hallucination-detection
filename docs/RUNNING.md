@@ -118,3 +118,23 @@ Testten sonra yeni ayar seçilmez; test tekrarları otomatik başlatılmaz.
   model pilotu hâlâ veri/model teslimlerini bekliyor.
 - Mevcut WSL ortamında `sklearn-crfsuite` ve `python-crfsuite` kurulu değil;
   CRF sahibinin bağımlılık tesliminden sonra gerekli kurulum ayrıca yapılacak.
+
+## CRF merkezî doğrulaması — 31 Ekim 2026
+
+CRF için proje kökünde ayrı bir Windows `.venv` oluşturuldu ve yalnız
+`python-crfsuite==0.9.12` kuruldu. BANKING77/PyTorch ortamının paketleri değişmedi.
+
+```powershell
+& '.venv/Scripts/python.exe' scripts/run_job.py configs/jobs/crf_smoke.json
+& '.venv/Scripts/python.exe' scripts/run_job.py configs/jobs/crf_validation.json --check-only
+```
+
+İlk komut gerçek eğitim verisinin 300, validation'ın 100 cevabıyla kısa
+kontroldür. İkinci komut tam eğitim reçetesini **çalıştırmadan** doğrular.
+Tam eğitim için `--check-only` kaldırılır; bu tam koşum henüz yapılmadı.
+Kısa koşumun kaydı ve tekrar üretim sonucu [BASELINE_CRF.md](BASELINE_CRF.md)
+içindedir. Resmî test ve gerçek Transformer GPU pilotu yapılmadı.
+
+`run_job`, doğrulanmış çocuk sürece `RAGTRUTH_RUN_RECORD` yolunu verir. CRF'nin
+resmî test çağrısı bu kayıtta aynı komut ve donmuş protokol bulunduğunu tekrar
+doğrular. Bu kayıt, daha önce tanımlanan protokolü ve gerçek çalıştırma komutunu eşleştirir.

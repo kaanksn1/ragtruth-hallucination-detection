@@ -204,3 +204,21 @@ uygulanmasını ve sınır durumlarının kontrollerini ekledi. CRF modeli ve il
 deney tasarımı 3. kişinin teslimidir; bu düzeltmeler kişisel sonuç analizi veya
 slaytlarını onun adına tamamlamaz. CI, küçük gerçek CRFsuite train/predict
 kontrolünü çalıştırmak için sabit CRF paketini kurar.
+
+### Merkezî kısa koşumun doğrulanması
+
+- 1. kişinin Windows PC'si, Python 3.12.0 ve ayrı proje `.venv` ortamı;
+  `python-crfsuite==0.9.12`. GPU/önceki proje ortamı değiştirilmedi.
+- Temiz `4b200c2` commit'iyle `configs/jobs/crf_smoke.json`: 300 train / 100
+  validation, 3 ayar × 4 tür + seçilen ayarda yalnız-cevap kontrolü.
+- Koşum: `outputs/runs/20261030T212347530569Z-crf-smoke/`, exit code 0,
+  wrapper süresi 31,6 saniye. Bu süre tam veri eğitim tahmini değildir.
+- Hem kaynaklı hem yalnız-cevap checkpoint'leri yeniden yüklenip aynı 100
+  validation cevabında tahmin verdi; iki dosya da ilk çıktısıyla bayt bayt aynı.
+  Makine kaydı: yerel `outputs/crf_review_validation.json`.
+- 75 test senaryosu: ayrı CRF ortamında 71 geçti / HF-PyTorch gerektiren 4
+  test atlandı; mevcut HF ortamında 73 geçti / CRF gerektiren 2 test atlandı.
+  Koşullu atlananların her biri diğer ortamda çalıştırıldı. Native Windows
+  yol kontrolü gerçek Türkçe klasör adıyla da geçti.
+- Önceki başarısız Windows yol denemesi ayrı koşum logunda korundu; üzerine
+  yazılmadı. Tam veri sonucu, hata analizi, slayt ve resmî test hâlâ bekliyor.

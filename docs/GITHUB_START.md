@@ -40,4 +40,6 @@ geliştirir, küçük testini yapar, dönen logları inceler ve hatasını düze
 
 Ham veri, büyük checkpoint, `.venv`, API anahtarı veya kişisel dosya yüklemeyin.
 Hazırlanmış validation manifesti ve raporlar küçük, sürümlü dosyalar olmalı.
-Model teslimleri henüz yapılmadı; ilk gerçek pilot onlardan sonra çalışacak.
+Veri ve CRF kodları teslim edildi. CRF'nin 300/100 kısa merkezî doğrulaması
+geçti; tam eğitim ve model sahibinin nihai analizi bekliyor. Transformer kodu
+ve ortak değerlendirme teslimleri ilgili üyelerden gelecek.

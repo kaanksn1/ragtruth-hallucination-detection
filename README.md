@@ -180,3 +180,11 @@ tepkisi verdi. Canlı tabloya buradan yazılmadı; görev kontenjanı ayrıca ko
 üzerinde çalışıldığından, veri temizliği için ekstra puan garanti edilmez.
 Bu ilk inceleme sıfır hatalı span konumu buldu; gerçek olmayan temizleme emeği
 iddiası eklenmemeli.
+
+## Kaynak bağlamlı Transformer — 4. kişi
+
+Dört bağımsız hata türü ve örtüşen etiketler için Transformer kodu,
+eğitim/tahmin CLI'ı ve küçük testler eklendi. Kurulum, pencereleme/loss
+kararları, checkpoint ve 1. kişinin GPU koşum komutları:
+[TRANSFORMER.md](docs/TRANSFORMER.md). Küçük CPU kontrolleri tamamlandı;
+pretrained modelin GPU pilotu, tam eğitim ve başarı değerlendirmesi bekliyor.

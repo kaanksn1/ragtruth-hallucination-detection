@@ -129,7 +129,12 @@ class TinyTrainingTests(unittest.TestCase):
                 with open(processed / f"crf_{split}.jsonl", "w", encoding="utf-8") as f:
                     f.writelines(json.dumps({**word_level_example(r), "quality": "good"}) + "\n" for r in part)
             config = json.loads((ROOT / "configs" / "crf.json").read_text(encoding="utf-8"))
-            config.update(processed_dir=str(processed), grid=[{"c1": 0.0, "c2": 0.01}])
+            fixture_summary = Path(tmp) / "split_summary.json"
+            fixture_summary.write_text(json.dumps({"processed_sha256": {
+                p.name: CRF.sha256_file(p) for p in processed.glob("*.jsonl")
+            }}), encoding="utf-8")
+            config.update(processed_dir=str(processed), split_summary=str(fixture_summary),
+                          grid=[{"c1": 0.0, "c2": 0.01}])
             config["training"]["max_iterations"] = 50
             config["training"]["min_feature_frequency"] = 1
             config_path = Path(tmp) / "crf.json"
@@ -140,13 +145,19 @@ class TinyTrainingTests(unittest.TestCase):
             summary = json.loads((out / "crf_summary.json").read_text(encoding="utf-8"))
             self.assertGreater(summary["selected"]["validation"]["Evident Conflict"]["f1"], 0.9)
             self.assertIn("response_only_control", summary)
-            first = [json.loads(line) for line in open(out / "validation_predictions.jsonl", encoding="utf-8")]
+            first = list(CRF.read_jsonl(out / "validation_predictions.jsonl"))
             self.assertEqual([p["id"] for p in first], [r["id"] for r in rows[20:]])
 
             CRF.main(["predict", "--model-dir", str(out / "models" / "source"), "--split", "validation",
                       "--processed-dir", str(processed), "--output", str(out / "again.jsonl")])
-            again = [json.loads(line) for line in open(out / "again.jsonl", encoding="utf-8")]
+            again = list(CRF.read_jsonl(out / "again.jsonl"))
             self.assertEqual(first, again)
+            metadata = json.loads((out / "models/source/model_config.json").read_text(encoding="utf-8"))
+            self.assertEqual(metadata["label_types"], list(LABEL_TYPES))
+            self.assertEqual(len(metadata["models_sha256"]), 4)
+            CRF.main(["predict", "--model-dir", str(out / "models/source"), "--split", "validation",
+                      "--processed-dir", str(processed), "--limit", "3", "--output", str(out / "limited.jsonl")])
+            self.assertEqual(list(CRF.read_jsonl(out / "limited.jsonl")), first[:3])
 
 
 if __name__ == "__main__":

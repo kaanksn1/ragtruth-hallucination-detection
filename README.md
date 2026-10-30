@@ -94,12 +94,12 @@ Kullanıcının kararı: **bütün tam eğitimler kendi bilgisayarında çalış
 | Kişi | Ana sorumluluk |
 |---|---|
 | 1 — Serdar / `kaanksn1` | GPU ortamı, merkezî eğitim/tahmin koşumları, entegrasyon ve küçük demo |
-| 2 — Adnan / `adnan-demir` | Veri inceleme, kaynak bazlı split, ortak etiket/offset hazırlığı ve pencere eşlemesi |
-| 3 — Samed / `SmtOrtakaya` | CRF baseline, kendi deney ayarları ve baseline hata analizi |
-| 4 — Kemal / `kemalarif` | Kaynak bağlamlı küçük Transformer, tahmini karakter aralıklarına dönüştürme ve model analizi |
+| 2 — Samed / `SmtOrtakaya` | Veri inceleme, kaynak bazlı split, ortak etiket/offset hazırlığı ve pencere eşlemesi |
+| 3 — Kemal / `kemalarif` | CRF baseline, kendi deney ayarları ve baseline hata analizi |
+| 4 — Adnan / `adnan-demir` | Kaynak bağlamlı küçük Transformer, tahmini karakter aralıklarına dönüştürme ve model analizi |
 | 5 — Ozan / `serhandenizhan` | Ortak değerlendirme, 2–3 karşılaştırma grafiği, slaytları birleştirme ve sunum |
 
-İsimler önceki projedeki sırayla eşleştirildi. Başlangıç adımları:
+İsimler P2'deki veri ve CRF teslimlerinde belirtilen kişi sırasıyla eşleştirildi. Başlangıç adımları:
 [ekip için GitHub rehberi](docs/GITHUB_START.md).
 
 Herkes kendi bölümünün açıklamasını, en az üç hata örneğini (uygunsa), 1–2
@@ -169,7 +169,8 @@ Resmî test etiketlerini incelemez veya onlarla model seçmez.
 - **Downstream Task:** Context-Grounded Hallucination Span Detection and Typing
   (Token Classification)
 
-Canlı tabloya yazılmadı; görev kontenjanı ve hocanın kabulü henüz doğrulanmadı.
+Kullanıcının aktardığına göre hoca gönderilen proje planı e-postasına “tamam”
+tepkisi verdi. Canlı tabloya buradan yazılmadı; görev kontenjanı ayrıca kontrol edilmedi.
 
 ## Değerlendirme disiplini
 

@@ -42,3 +42,10 @@ root. Documentation-only task assignments do not require retraining models.
 The user assigned the owner to fix person 2's `labels_multi` batch conversion
 bug, including regression tests and its data-contract documentation. This does
 not reassign the rest of person 2's data work or person 4's model implementation.
+
+## Explicit CRF review/fix assignment — 2026-10-31
+
+The user assigned review, fixes and necessary additions to person 3's new CRF
+delivery, including its tests, run contracts and integration documentation.
+Personal analysis/slides remain with person 3; person 4's implementation and
+person 5's common evaluation remain with their owners.

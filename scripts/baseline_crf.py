@@ -34,6 +34,7 @@ sys.path.insert(0, str(ROOT))
 from ragtruth_data.alignment import merge_intervals, tags_to_char_spans, word_tokenize  # noqa: E402
 from ragtruth_data.data import read_jsonl, sha256_file, write_jsonl  # noqa: E402
 from ragtruth_data.schema import LABEL_TYPES  # noqa: E402
+from scripts.run_job import require_frozen_test_job  # noqa: E402
 
 STOPWORDS = frozenset("""
 a an the and or but if of to in on at by for with from as is are was were be been being it its this that
@@ -142,22 +143,43 @@ def token_features(tokens: list, source: tuple | None = None, novelty_window: in
 
 
 # ---------------------------------------------------------------- data
-def load_examples(processed_dir: Path, split: str, limit: int | None = None) -> list:
+def load_examples(processed_dir: Path, split: str, limit: int | None = None, *, with_labels: bool = True) -> list:
     """CRF rows joined with their records; quality == 'good' only, like ``data.load_split``."""
-    records = {r["id"]: r for r in read_jsonl(processed_dir / f"{split}.jsonl") if r["quality"] == "good"}
-    examples = []
+    records = {}
+    for record in read_jsonl(processed_dir / f"{split}.jsonl"):
+        if record["id"] in records:
+            raise ValueError(f"duplicate response id in {split}: {record['id']}")
+        records[record["id"]] = record
+    examples, seen = [], set()
     for row in read_jsonl(processed_dir / f"crf_{split}.jsonl"):
         record = records.get(row["id"])
         if record is None:
+            raise ValueError(f"CRF row has no matching response: {row['id']}")
+        if row["id"] in seen:
+            raise ValueError(f"duplicate CRF response id: {row['id']}")
+        seen.add(row["id"])
+        if record["quality"] != "good":
             continue
-        examples.append({
+        expected_tokens, expected_offsets = word_tokenize(record["response"])
+        offsets = [tuple(o) for o in row["offsets"]]
+        if row["tokens"] != expected_tokens or offsets != expected_offsets:
+            raise ValueError(f"CRF tokens/offsets differ from the original response: {row['id']}")
+        example = {
             "id": row["id"], "tokens": row["tokens"], "offsets": [tuple(o) for o in row["offsets"]],
-            "bio_by_type": row.get("bio_by_type"), "source_text": record["source_text"],
-            "labels": record.get("labels", []),
-        })
-        if limit and len(examples) == limit:
-            break
-    return examples
+            "source_text": record["source_text"],
+        }
+        if with_labels:
+            targets = row.get("bio_by_type")
+            if (not isinstance(targets, dict) or set(targets) != set(LABEL_TYPES)
+                    or any(len(tags) != len(expected_tokens) or any(t not in {"O", "B", "I"} for t in tags)
+                           for tags in targets.values())):
+                raise ValueError(f"invalid per-type BIO targets: {row['id']}")
+            example.update(bio_by_type=targets, labels=record["labels"])
+        examples.append(example)
+    missing = {rid for rid, r in records.items() if r["quality"] == "good"} - seen
+    if missing:
+        raise ValueError(f"missing CRF rows for {len(missing)} good responses")
+    return examples[:limit] if limit is not None else examples
 
 
 def example_features(examples: list, use_source: bool, novelty_window: int):
@@ -190,6 +212,8 @@ def _chars(spans, label_type=None) -> set:
 
 def char_scores(gold_by_id: dict, pred_by_id: dict) -> dict:
     """Micro character precision/recall/F1 per type and for the union of all types ('any')."""
+    if gold_by_id.keys() != pred_by_id.keys():
+        raise ValueError("prediction IDs must exactly match gold IDs for CRF selection")
     out = {}
     for label_type in (None, *LABEL_TYPES):
         tp = fp = fn = 0
@@ -251,10 +275,11 @@ def train_variant(pycrfsuite, examples, grid, training, use_source, novelty_wind
     """Train every grid setting for each type; data is appended once per type and reused."""
     stats = {setting_name(s): {} for s in grid}
     for label_type in LABEL_TYPES:
-        trainer = pycrfsuite.Trainer(verbose=False)
+        trainer = pycrfsuite.Trainer(algorithm=training.get("algorithm", "lbfgs"), verbose=False)
         start = time.perf_counter()
         for ex, feats in example_features(examples, use_source, novelty_window):
-            trainer.append(feats, ex["bio_by_type"][label_type])
+            if feats:
+                trainer.append(feats, ex["bio_by_type"][label_type])
         append_seconds = time.perf_counter() - start
         for setting in grid:
             trainer.set_params({
@@ -295,8 +320,9 @@ def predict(pycrfsuite, examples, taggers_by_name: dict, use_source, novelty_win
             tags, probs = {}, {}
             for t in LABEL_TYPES:
                 tagger = taggers[t]
-                tags[t] = tagger.tag(xseq)  # also sets xseq for marginal()
-                probs[t] = [1.0 - tagger.marginal("O", i) for i in range(len(feats))]
+                tags[t] = tagger.tag(xseq) if feats else []  # also sets xseq for marginal()
+                probs[t] = ([1.0 - tagger.marginal("O", i) for i in range(len(feats))]
+                            if "O" in tagger.labels() else [1.0] * len(feats))
             runs[name]["viterbi"][ex["id"]], runs[name]["probs"][ex["id"]] = tags, probs
     return runs
 
@@ -316,12 +342,38 @@ def write_predictions(path: Path, examples: list, spans_by_id: dict) -> int:
 
 
 # ---------------------------------------------------------------- commands
-def data_identity(processed_dir: Path, splits: tuple) -> dict:
+def data_identity(processed_dir: Path, splits: tuple, summary_path: Path | None = None) -> dict:
     names = [f"{prefix}{split}.jsonl" for split in splits for prefix in ("", "crf_")]
     hashes = {name: sha256_file(processed_dir / name) for name in names}
-    summary = json.loads((ROOT / "data/splits/split_summary_v1.json").read_text(encoding="utf-8"))
+    summary_path = summary_path or ROOT / "data/splits/split_summary_v1.json"
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
     expected = summary.get("processed_sha256", {})
-    return {"files_sha256": hashes, "matches_split_summary_v1": all(expected.get(k) == v for k, v in hashes.items())}
+    mismatches = [name for name, value in hashes.items() if expected.get(name) != value]
+    if mismatches:
+        raise ValueError(f"processed data differs from split summary: {', '.join(mismatches)}")
+    return {"files_sha256": hashes, "matches_split_summary_v1": True,
+            "summary_sha256": sha256_file(summary_path)}
+
+
+def validate_config(config: dict) -> None:
+    if config.get("schema_version") != 1 or config.get("quality_filter") != "good":
+        raise ValueError("CRF config requires schema_version 1 and quality_filter=good")
+    if config["training"].get("algorithm") != "lbfgs":
+        raise ValueError("this CRF grid supports the lbfgs algorithm")
+    if type(config["features"].get("source_features")) is not bool:
+        raise ValueError("source_features must be boolean")
+    for value, name, minimum in ((config["features"]["novelty_window"], "novelty_window", 0),
+                                 (config["training"]["max_iterations"], "max_iterations", 1),
+                                 (config["training"]["min_feature_frequency"], "min_feature_frequency", 0)):
+        if type(value) is not int or value < minimum:
+            raise ValueError(f"{name} must be an integer >= {minimum}")
+    if not config.get("grid") or len({setting_name(s) for s in config["grid"]}) != len(config["grid"]):
+        raise ValueError("grid must contain distinct nonempty settings")
+    import math
+    if any(not math.isfinite(float(s[k])) or s[k] < 0 for s in config["grid"] for k in ("c1", "c2")):
+        raise ValueError("c1/c2 must be finite nonnegative values")
+    if any(not math.isfinite(float(t)) or not 0 <= t <= 1 for t in config["decoding"]["posterior_thresholds"]):
+        raise ValueError("posterior thresholds must be within [0, 1]")
 
 
 def environment(pycrfsuite) -> dict:
@@ -332,20 +384,33 @@ def environment(pycrfsuite) -> dict:
 
 def cmd_train(args, pycrfsuite) -> dict:
     config = json.loads(args.config.read_text(encoding="utf-8"))
+    validate_config(config)
     processed = ROOT / config["processed_dir"]
     window = config["features"]["novelty_window"]
     grid, training = config["grid"], config["training"]
+    use_source = config["features"]["source_features"]
+    identity = data_identity(processed, ("train", "validation"), ROOT / config.get(
+        "split_summary", "data/splits/split_summary_v1.json"))
     out = args.output
-    out.mkdir(parents=True, exist_ok=True)
-    started = time.perf_counter()
-
     train = load_examples(processed, "train", args.limit_train)
     validation = load_examples(processed, "validation", args.limit_validation)
+    if not train or not validation or not any(ex["tokens"] for ex in train):
+        raise ValueError("nonempty train and validation data, with train tokens, are required")
+    if {ex["id"] for ex in train} & {ex["id"] for ex in validation}:
+        raise ValueError("train and validation response IDs overlap")
+    reserved = ("grid", "response_only", "models", "crf_summary.json", "crf_report.md",
+                "validation_predictions.jsonl", "validation_predictions_response_only.jsonl")
+    if any((out / name).exists() for name in reserved):
+        raise FileExistsError("refusing to overwrite an existing CRF training run")
+    out.mkdir(parents=True, exist_ok=True)
+    started = time.perf_counter()
     gold = {ex["id"]: ex["labels"] for ex in validation}
     summary = {
         "model": config["model"], "config": config, "seed": args.seed,
         "seed_note": "CRFsuite L-BFGS is deterministic; the seed is recorded, not used.",
-        "data": data_identity(processed, ("train", "validation")),
+        "data": identity,
+        "use_source_features": use_source,
+        "run_kind": "smoke" if args.limit_train is not None or args.limit_validation is not None else "full_validation",
         "train_responses": len(train), "validation_responses": len(validation),
         "train_tokens": sum(len(ex["tokens"]) for ex in train),
         "limits": {"train": args.limit_train, "validation": args.limit_validation},
@@ -354,9 +419,9 @@ def cmd_train(args, pycrfsuite) -> dict:
     }
 
     # 1) grid with source features; setting and decoding chosen on validation
-    stats = train_variant(pycrfsuite, train, grid, training, True, window, out / "grid")
+    stats = train_variant(pycrfsuite, train, grid, training, use_source, window, out / "grid")
     taggers = {setting_name(s): open_taggers(pycrfsuite, out / "grid" / setting_name(s)) for s in grid}
-    runs = predict(pycrfsuite, validation, taggers, True, window)
+    runs = predict(pycrfsuite, validation, taggers, use_source, window)
     results, candidates, spans_of = [], [], {}
     for setting in grid:
         name = setting_name(setting)
@@ -372,19 +437,19 @@ def cmd_train(args, pycrfsuite) -> dict:
     summary["grid"] = results
     summary["selected"] = {"setting": best["setting"], "name": best["name"], "decoding": best["decoding"],
                            "validation": best["validation"]}
-    save_models(out / "grid" / best["name"], out / "models" / "source", True, window, best)
+    save_models(out / "grid" / best["name"], out / "models" / "source", use_source, window, best, identity)
     write_predictions(out / "validation_predictions.jsonl", validation,
                       spans_of[(best["name"], best["decoding"]["name"])])
     summary["top_weights"] = {t: top_weights(taggers[best["name"]][t]) for t in LABEL_TYPES}
 
     # 2) response-only control: same setting, decoding, split and budget; no source features
-    if config.get("response_only_control", True):
+    if use_source and config.get("response_only_control", True):
         stats = train_variant(pycrfsuite, train, [best["setting"]], training, False, window, out / "response_only")
         control_dir = out / "response_only" / best["name"]
         run = predict(pycrfsuite, validation, {"m": open_taggers(pycrfsuite, control_dir)}, False, window)["m"]
         ro_spans, ro_invalid = decode(validation, run, best["decoding"])
         viterbi_spans, _ = decode(validation, run, {"name": "viterbi"})
-        save_models(control_dir, out / "models" / "response_only", False, window, best)
+        save_models(control_dir, out / "models" / "response_only", False, window, best, identity)
         write_predictions(out / "validation_predictions_response_only.jsonl", validation, ro_spans)
         summary["response_only_control"] = {
             "setting": best["setting"], "decoding": best["decoding"], "training": stats[best["name"]],
@@ -398,21 +463,50 @@ def cmd_train(args, pycrfsuite) -> dict:
     return summary
 
 
-def save_models(src_dir: Path, dst_dir: Path, use_source: bool, window: int, chosen: dict) -> None:
+def save_models(src_dir: Path, dst_dir: Path, use_source: bool, window: int, chosen: dict, identity: dict) -> None:
     """Copy the chosen four models with the settings ``predict`` needs to reproduce them."""
     dst_dir.mkdir(parents=True, exist_ok=True)
+    hashes = {}
     for label_type in LABEL_TYPES:
         name = f"{type_slug(label_type)}.crfsuite"
         (dst_dir / name).write_bytes((src_dir / name).read_bytes())
+        hashes[name] = sha256_file(dst_dir / name)
     (dst_dir / "model_config.json").write_text(json.dumps({
+        "schema_version": 1, "label_types": LABEL_TYPES,
         "use_source_features": use_source, "novelty_window": window,
         "setting": chosen["setting"], "decoding": chosen["decoding"],
+        "models_sha256": hashes, "data": identity,
     }, indent=2) + "\n", encoding="utf-8")
 
 
 def cmd_predict(args, pycrfsuite) -> int:
+    processed = ROOT / args.processed_dir
+    if args.split == "test":
+        if args.limit is not None:
+            raise ValueError("official test predictions cannot be limited")
+        inputs = require_frozen_test_job(ROOT, args.invocation)
+        required = [args.model_dir / "model_config.json", Path(__file__),
+                    ROOT / "scripts/run_job.py", ROOT / "ragtruth_data/alignment.py",
+                    ROOT / "ragtruth_data/data.py", ROOT / "ragtruth_data/schema.py", ROOT / "requirements-crf.txt",
+                    processed / "test.jsonl", processed / "crf_test.jsonl"]
+        required += [args.model_dir / f"{type_slug(t)}.crfsuite" for t in LABEL_TYPES]
+        if any(not path.resolve().is_relative_to(ROOT) or path.resolve().relative_to(ROOT).as_posix() not in inputs
+               for path in required):
+            raise ValueError("frozen test job must hash all CRF models, code and test input files")
+    if args.output.exists():
+        raise FileExistsError("refusing to overwrite existing predictions")
     model_config = json.loads((args.model_dir / "model_config.json").read_text(encoding="utf-8"))
-    examples = load_examples(ROOT / args.processed_dir, args.split)
+    if model_config.get("schema_version") != 1 or model_config.get("label_types") != list(LABEL_TYPES):
+        raise ValueError("saved model metadata has an unsupported label schema")
+    expected = {f"{type_slug(t)}.crfsuite" for t in LABEL_TYPES}
+    if set(model_config.get("models_sha256", {})) != expected or any(
+            sha256_file(args.model_dir / name) != value for name, value in model_config["models_sha256"].items()):
+        raise ValueError("saved CRF model checksum mismatch")
+    if args.split == "validation":
+        for name in ("validation.jsonl", "crf_validation.jsonl"):
+            if sha256_file(processed / name) != model_config["data"]["files_sha256"].get(name):
+                raise ValueError("validation data differs from the saved model's data identity")
+    examples = load_examples(processed, args.split, args.limit, with_labels=False)
     run = predict(pycrfsuite, examples, {"m": open_taggers(pycrfsuite, args.model_dir)},
                   model_config["use_source_features"], model_config["novelty_window"])["m"]
     spans, _ = decode(examples, run, model_config["decoding"])
@@ -430,6 +524,8 @@ def render_report(summary: dict) -> str:
     head = "| Ayar | P (any) | R (any) | F1 (any) | " + " | ".join(f"F1 {t}" for t in LABEL_TYPES) + " | Macro F1 (4 tür) |"
     lines = [
         "# CRF baseline — validation (seçim metriği)", "",
+        "Kapsam: " + ("küçük doğrulama koşumu; tam veri sonucu değildir." if summary["run_kind"] == "smoke"
+                       else "tam train/validation koşumu."),
         f"Train: {summary['train_responses']:,} cevap / {summary['train_tokens']:,} kelime token; "
         f"validation: {summary['validation_responses']:,} cevap (yalnız quality = good).",
         f"Veri split_summary_v1 ile aynı: {'evet' if summary['data']['matches_split_summary_v1'] else 'HAYIR'}.",
@@ -437,7 +533,8 @@ def render_report(summary: dict) -> str:
         "Projenin ortak scorer'ı 5. kişidedir. Resmî test kullanılmadı.", "",
         "Viterbi en olası etiket dizisini seçer; `posterior_τ`, forward-backward marjinali "
         "P(B veya I) ≥ τ olan tokenları işaretler.", "",
-        "## Kaynak özellikli CRF — ayar ve çözümleme ızgarası", "", head, "|" + " --- |" * (len(LABEL_TYPES) + 5),
+        "## " + ("Kaynak özellikli CRF" if summary["use_source_features"] else "Yalnız cevap CRF")
+        + " — ayar ve çözümleme ızgarası", "", head, "|" + " --- |" * (len(LABEL_TYPES) + 5),
     ]
     for r in summary["grid"]:
         for d in r["decodings"]:
@@ -468,14 +565,21 @@ def main(argv=None) -> int:
     tr.add_argument("--config", type=Path, default=ROOT / "configs/crf.json")
     tr.add_argument("--output", type=Path, required=True)
     tr.add_argument("--seed", type=int, default=42)
-    tr.add_argument("--limit-train", type=int, help="first N good train responses (smoke runs only)")
-    tr.add_argument("--limit-validation", type=int, help="first N good validation responses (smoke runs only)")
+    def positive_int(value):
+        number = int(value)
+        if number <= 0:
+            raise argparse.ArgumentTypeError("limit must be a positive integer")
+        return number
+    tr.add_argument("--limit-train", type=positive_int, help="first N good train responses (smoke runs only)")
+    tr.add_argument("--limit-validation", type=positive_int, help="first N good validation responses (smoke runs only)")
     pr = sub.add_parser("predict", help="tag a split with saved models")
     pr.add_argument("--model-dir", type=Path, required=True)
     pr.add_argument("--split", choices=("validation", "test"), required=True)
     pr.add_argument("--processed-dir", default="data/processed")
     pr.add_argument("--output", type=Path, required=True)
+    pr.add_argument("--limit", type=positive_int, help="first N good validation responses (smoke reproduction only)")
     args = ap.parse_args(argv)
+    args.invocation = [str(Path(__file__).resolve()), *(sys.argv[1:] if argv is None else argv)]
     try:
         import pycrfsuite
     except ImportError:

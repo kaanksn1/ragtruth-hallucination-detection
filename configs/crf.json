@@ -2,6 +2,7 @@
   "schema_version": 1,
   "model": "linear-chain CRF (CRFsuite, L-BFGS); one O/B/I tagger per annotation type",
   "processed_dir": "data/processed",
+  "split_summary": "data/splits/split_summary_v1.json",
   "quality_filter": "good",
   "features": {
     "source_features": true,

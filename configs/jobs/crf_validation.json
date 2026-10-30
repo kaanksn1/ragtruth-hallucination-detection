@@ -6,6 +6,13 @@
   "seed": 42,
   "inputs": [
     "configs/crf.json",
+    "requirements-crf.txt",
+    "scripts/baseline_crf.py",
+    "scripts/run_job.py",
+    "ragtruth_data/data.py",
+    "ragtruth_data/alignment.py",
+    "ragtruth_data/schema.py",
+    "data/splits/split_manifest_v1.csv",
     "data/splits/split_summary_v1.json",
     "data/processed/train.jsonl",
     "data/processed/crf_train.jsonl",
@@ -17,6 +24,12 @@
     "--seed", "{seed}", "--output", "{run_dir}"
   ],
   "expected_outputs": ["crf_summary.json", "crf_report.md", "validation_predictions.jsonl",
-                       "validation_predictions_response_only.jsonl"],
+                       "validation_predictions_response_only.jsonl",
+                       "models/source/model_config.json",
+                       "models/source/evident_conflict.crfsuite", "models/source/subtle_conflict.crfsuite",
+                       "models/source/evident_baseless_info.crfsuite", "models/source/subtle_baseless_info.crfsuite",
+                       "models/response_only/model_config.json",
+                       "models/response_only/evident_conflict.crfsuite", "models/response_only/subtle_conflict.crfsuite",
+                       "models/response_only/evident_baseless_info.crfsuite", "models/response_only/subtle_baseless_info.crfsuite"],
   "timeout_seconds": 10800
 }

@@ -2,8 +2,8 @@
 
 29 Ekim 2026 tarihli kullanıcı kararı: **bütün tam model eğitimleri repo
 sahibinin RX 7800 XT / 32 GB RAM bilgisayarında çalışır; 5. kişi sunumu yapar.**
-İsimler önceki projenin görev sırasıyla eşleştirildi: 1 Serdar (`kaanksn1`),
-2 Adnan (`adnan-demir`), 3 Samed (`SmtOrtakaya`), 4 Kemal (`kemalarif`),
+İsimler P2 veri/CRF teslimlerindeki sırayla eşleştirildi: 1 Serdar (`kaanksn1`),
+2 Samed (`SmtOrtakaya`), 3 Kemal (`kemalarif`), 4 Adnan (`adnan-demir`),
 5 Ozan (`serhandenizhan`).
 Hocanın zorunlu yöntemleri hakkında ek bir yönerge gelirse kapsam güncellenir.
 

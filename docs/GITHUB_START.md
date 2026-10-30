@@ -17,12 +17,12 @@ Komuttaki branch'i kendi satırınızdaki adla değiştirin:
 | Üye | Branch | İlk teslim |
 |---|---|---|
 | Serdar — `kaanksn1` | `feature/ragtruth-integration` | Veri indirme, koşum kayıtları ve GPU/entegrasyon |
-| Adnan — `adnan-demir` | `feature/ragtruth-data` | Kaynak bazlı validation manifesti, veri/offset sözleşmesi |
-| Samed — `SmtOrtakaya` | `feature/ragtruth-baseline` | CRF kodu, küçük işlev kontrolü ve koşum komutu |
-| Kemal — `kemalarif` | `feature/ragtruth-transformer` | Model/pencereleme kodu, küçük işlev kontrolü ve pilot komutu |
+| Samed — `SmtOrtakaya` | `feature/ragtruth-data` | Kaynak bazlı validation manifesti, veri/offset sözleşmesi |
+| Kemal — `kemalarif` | `feature/ragtruth-baseline` | CRF kodu, küçük işlev kontrolü ve koşum komutu |
+| Adnan — `adnan-demir` | `feature/ragtruth-transformer` | Model/pencereleme kodu, küçük işlev kontrolü ve pilot komutu |
 | Ozan — `serhandenizhan` | `feature/ragtruth-evaluation` | Sentetik örneklerle scorer kontrolü, sonra grafik ve sunum |
 
-İsim sırası önceki projeden korunmuştur. Ayrıntılı iş tanımları
+İsim sırası P2 veri ve CRF teslimlerine göre düzeltilmiştir. Ayrıntılı iş tanımları
 [TEAM.md](TEAM.md) içinde. Herkes kendi kodunu ve testini kendi branch'inde
 geliştirir; dosyalarını açık adlarla stage edip commit/push yapar ve `main`e
 PR açar. Başkasının yaptığı işi kendi katkınız gibi kaydetmeyin.

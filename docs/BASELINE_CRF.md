@@ -72,6 +72,11 @@ Kaynak metni, üretici modele verilen prompt'un tamamıdır (talimat + soru + i�
 Eğitimde 2'den az görülen özellikler atılır (`feature.minfreq = 2`). Bütün
 sözlük ve ağırlıklar yalnız train'den öğrenilir; validation/test üzerinde fit yok.
 
+`features.source_features` ayarı ana ızgarada gerçekten uygulanır; `false`
+seçilirse ana varyant yalnız cevabı kullanır ve ikinci bir aynı kontrol eğitilmez.
+Varsayılan `true`dur. `quality_filter=good` ve `algorithm=lbfgs` bu teslimin
+desteklenen koşullarıdır; geçersiz ayarlar sessizce yok sayılmaz.
+
 ## Deney tasarımı
 
 | Ayar | Değerler |
@@ -97,12 +102,21 @@ atfedilmemeli.
 ## Çalıştırma
 
 ```powershell
+python -m venv .venv
+# Windows: .venv/Scripts/python.exe; diğer sistemler: .venv/bin/python
+# Aşağıdaki python komutlarını bu proje ortamı etkinleştirilmişken çalıştırın.
 python -m pip install -r requirements-crf.txt
 python scripts/download_data.py
 python scripts/prepare_data.py
 python scripts/run_job.py configs/jobs/crf_smoke.json        # ~1 dk, 300/100 cevap
 python scripts/run_job.py configs/jobs/crf_validation.json   # tam eğitim + validation
 ```
+
+`configs/crf.json` içindeki `split_summary` dosyasının dört işlenmiş veri hash'i
+eğitimden önce doğrulanır. Uyuşmazlık eğitimi durdurur. Sentetik testler kendi
+veri özeti ve hash'lerini açıkça sağlar; ortak veri kimliği kontrolü atlanmaz.
+Yanıt kimliklerinin tekrarı, eksik CRF satırı, bozuk token/offset eşlemesi ve
+train/validation arasında ortak cevap kimliği reddedilir.
 
 Çıktılar `outputs/runs/<zaman>-crf-validation/` altında:
 
@@ -114,14 +128,38 @@ python scripts/run_job.py configs/jobs/crf_validation.json   # tam eğitim + val
 | `validation_predictions_response_only.jsonl` | Yalnız cevap kontrolü, aynı biçim |
 | `models/source/`, `models/response_only/` | 4 `.crfsuite` modeli + `model_config.json` (ayar ve çözümleme) |
 
+Kaydedilen model config'i etiket şemasını, veri kimliğini ve dört modelin
+SHA-256'sını içerir. Tahminden önce bunlar doğrulanır. Mevcut eğitim
+checkpoint/sonuçlarının veya tahmin dosyasının üzerine sessizce yazılmaz.
+Job, model dosyalarını da beklenen çıktılara ekleyip hash'lerini kaydeder.
+
+Kısa koşumun validation tahminlerini aynı alt kümede yeniden üretmek için:
+
+```powershell
+python scripts/baseline_crf.py predict --model-dir outputs/runs/<smoke-koşumu>/models/source --split validation --limit 100 --output outputs/crf_smoke_reproduced.jsonl
+```
+
+`--limit` yalnız kısa validation tekrar üretimi içindir; resmî testte kabul
+edilmez. Tahmin yükleyicisi gold aralıklarına veya BIO hedeflerine ihtiyaç duymaz.
+
 Protokol dondurulduktan sonra test tahmini yeniden eğitim yapmadan alınır
 (`prepare_data.py --include-test` ile test dosyaları üretildikten sonra):
 
+Resmî test için doğrudan `baseline_crf.py predict --split test` çağrısı
+engellenir. [RUNNING.md](RUNNING.md) sözleşmesine göre `stage=predict`,
+`split=test` ve donmuş protokollü bir job hazırlanır. Job'ın `inputs` listesi,
+testin iki işlenmiş dosyasını, CRF/koşum scriptlerini, ortak veri/hizalama/şema
+modüllerini, bağımlılık listesini, model config'ini ve dört model dosyasını içerir.
+Mevcut modelin tam yolu ve gerçek komut argv'si bu config'te
+sabitlenir. Örnek aşağıdaki dosya **protokol tamamlanınca oluşturulacak** dosyadır:
+
 ```powershell
-python scripts/baseline_crf.py predict --model-dir outputs/runs/<koşum>/models/source --split test --output test_predictions.jsonl
+python scripts/run_job.py configs/jobs/crf_test.json
 ```
 
-Test koşumu için 1. kişinin `run_job` test kapısı ve dondurulmuş protokol gerekir.
+`run_job` doğrulamadan sonra kendi koşum kaydının yolunu çocuk sürece verir.
+CRF kodu donmuş protokolü ve aynı komut/girdilerle çalıştığını tekrar kontrol
+eder. Gerçek resmî test koşumu yapılmadı; boş bir test config'i teslim edilmedi.
 
 **Süre ve bellek (yerel ölçüm, Apple Silicon, tek çekirdek).** 3.000 train
 cevabında bir tür için özellik ekleme ~6 sn, 150 iterasyonluk eğitim ~15 sn sürdü.
@@ -151,3 +189,12 @@ Bu gözlemler tam eğitimde tekrar kontrol edilecek; tam sonuçlar gelmeden gene
    kaynakta olmayan ama doğru bilgi, aralık sınırı hatası) ve ağırlık açıklaması.
 3. 1–2 slayt ve konuşmacı notu.
 4. Bütçe varsa: 4. kişinin Transformer kodu için yalnız-cevap deney config'i.
+
+## Entegrasyon incelemesi — 31 Ekim 2026
+
+1. kişi, kullanıcı atamasıyla veri kimliğinin zorunlu kontrolünü, model
+checksum'larını, kayıtsız test çağrısının engellenmesini, kaynak ayarının
+uygulanmasını ve sınır durumlarının kontrollerini ekledi. CRF modeli ve ilk
+deney tasarımı 3. kişinin teslimidir; bu düzeltmeler kişisel sonuç analizi veya
+slaytlarını onun adına tamamlamaz. CI, küçük gerçek CRFsuite train/predict
+kontrolünü çalıştırmak için sabit CRF paketini kurar.

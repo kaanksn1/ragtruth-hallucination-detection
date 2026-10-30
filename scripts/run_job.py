@@ -125,6 +125,33 @@ def validate(root, config_path):
     return config, inputs, state, protocol_info
 
 
+def require_frozen_test_job(root, invocation):
+    """Confirm a test predictor is the exact child command of a validated test job.
+
+    This repeats the existing protocol checks; it is not an untrusted-code sandbox.
+    """
+    root = root.resolve()
+    value = os.environ.get("RAGTRUTH_RUN_RECORD")
+    if not value:
+        raise ValueError("official test predictions require run_job and a frozen committed protocol")
+    record_path = Path(value).resolve()
+    if not record_path.is_relative_to(root / "outputs/runs"):
+        raise ValueError("test run record must be under outputs/runs")
+    record = json.loads(record_path.read_text(encoding="utf-8"))
+    config_path = contained(root, record["config_path"])
+    config, inputs, state, protocol = validate(root, config_path)
+    command = record.get("command", [])
+    if (record.get("status") != "running" or config["split"] != "test" or config["stage"] != "predict"
+            or protocol is None or record.get("frozen_protocol") != protocol
+            or record.get("inputs_sha256") != inputs or record.get("config_sha256") != sha256(config_path)
+            or record.get("code", {}).get("commit") != state["commit"]
+            or len(command) < 2 or Path(command[0]).resolve() != Path(sys.executable).resolve()
+            or (root / command[1]).resolve() != Path(invocation[0]).resolve()
+            or command[2:] != invocation[1:]):
+        raise ValueError("test prediction invocation differs from the frozen running job")
+    return inputs
+
+
 def run_job(config_path, *, root=ROOT):
     root = root.resolve()
     config, inputs, state, protocol = validate(root, config_path)
@@ -163,7 +190,8 @@ def run_job(config_path, *, root=ROOT):
         exit_code = 1
         try:
             with (run_dir / "console.log").open("w", encoding="utf-8") as log:
-                child = subprocess.run(command, cwd=root, env={**os.environ, "PYTHONUNBUFFERED": "1"},
+                child = subprocess.run(command, cwd=root,
+                    env={**os.environ, "PYTHONUNBUFFERED": "1", "RAGTRUTH_RUN_RECORD": str(record)},
                     stdout=log, stderr=subprocess.STDOUT, timeout=config.get("timeout_seconds", 3600))
             exit_code = child.returncode
             run["outputs_sha256"] = {}

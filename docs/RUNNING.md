@@ -34,7 +34,8 @@ tahmini değildir; kapsamı [GPU_READINESS.md](GPU_READINESS.md) açıklar.
 `outputs/runs/<UTC-zamanı>-<ad>/` içinde:
 
 - `run.json`: config kopyası/hash'i, gerçek argv, seed, commit, branch, kirli
-  dosya listesi, girdi hash'leri, Python/paket sürümleri, süre ve exit code.
+  dosya listesi, girdi hash'leri, Python/paket sürümleri, seçilmiş GPU/offline
+  ortam değişkenleri, süre ve exit code. Kimlik bilgileri kaydedilmez.
 - `console.log`: stdout ve stderr; başarısızlıkta da korunur.
 - Job'ın kendi çıktı dosyaları ve bunların hash'leri.
 
@@ -104,3 +105,16 @@ hash'ini kaydeder; farklı config veya girdi baytlarıyla koşumu reddeder.
 Bu teknik kapı beyan edilen dosyaları doğrular; bilimsel kararların uygunluğunu
 ve beyan edilmeyen veri kullanımını otomatik denetlemez. Kod incelemesi gerekir.
 Testten sonra yeni ayar seçilmez; test tekrarları otomatik başlatılmaz.
+
+## Doğrulama — 30 Ekim 2026
+
+- Windows Python 3.12: 12 birim/entegrasyon kontrolü geçti. Başarısız çocuk
+  sürecin exit code/logu, eksik çıktı, paralel kilit ve test protokolü kontrol edildi.
+- Yerel üç ham dosyanın SHA-256'sı sabit kaynak manifestiyle eşleşti.
+- `add9af7` commit'inde temiz çalışma ağacıyla WSL/RX 7800 XT sentetik job'ı
+  exit code 0 ile tamamlandı. Config, commit, paketler, çıktı hash'i ve log
+  `outputs/runs/20261030T081915123902Z-gpu-smoke-256/` altında kaydedildi.
+- Bu job gerçek RAGTruth verisini veya test etiketlerini kullanmadı. İlk gerçek
+  model pilotu hâlâ veri/model teslimlerini bekliyor.
+- Mevcut WSL ortamında `sklearn-crfsuite` ve `python-crfsuite` kurulu değil;
+  CRF sahibinin bağımlılık tesliminden sonra gerekli kurulum ayrıca yapılacak.

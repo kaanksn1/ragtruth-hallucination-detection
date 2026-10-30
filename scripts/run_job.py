@@ -66,8 +66,12 @@ def environment_snapshot():
             versions[package] = metadata.version(package)
         except metadata.PackageNotFoundError:
             versions[package] = None
+    runtime_keys = ("HSA_ENABLE_DXG_DETECTION", "HF_HUB_OFFLINE", "TRANSFORMERS_OFFLINE",
+                    "TOKENIZERS_PARALLELISM", "OMP_NUM_THREADS", "MKL_NUM_THREADS",
+                    "CUDA_VISIBLE_DEVICES", "HIP_VISIBLE_DEVICES", "ROCR_VISIBLE_DEVICES")
     return {"python": platform.python_version(), "executable": sys.executable,
-            "platform": platform.platform(), "packages": versions}
+            "platform": platform.platform(), "packages": versions,
+            "runtime_environment": {key: os.environ.get(key) for key in runtime_keys}}
 
 
 def validate(root, config_path):

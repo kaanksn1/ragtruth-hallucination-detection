@@ -4,3 +4,7 @@
 *.jpeg binary
 *.pdf binary
 *.pptx binary
+# Retain the exact original CRLF payloads bound by FINAL_PROTOCOL.json.
+configs/calibration_weighted_policy.json -text
+configs/jobs/transformer_calibration.json -text
+configs/transformer_weighted.json -text

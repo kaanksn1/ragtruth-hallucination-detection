@@ -42,6 +42,12 @@ def validate_config(config):
         raise ValueError("weight_decay must be finite and nonnegative")
     if not 0 <= config["dropout"] < 1 or not 0 < config["threshold"] < 1:
         raise ValueError("dropout must be in [0,1), threshold in (0,1)")
+    if "thresholds_by_type" in config:
+        thresholds = config["thresholds_by_type"]
+        if (not isinstance(thresholds, dict) or set(thresholds) != set(LABEL_TYPES)
+                or any(type(value) not in (int, float) or not math.isfinite(value) or not 0 < value < 1
+                       for value in thresholds.values())):
+            raise ValueError("thresholds_by_type must contain four finite thresholds in (0,1)")
     for key, allowed in (("window_policy", {"best", "all"}),
                          ("aggregation", {"min", "mean", "max"}),
                          ("precision", {"fp32", "bf16"}),
@@ -247,8 +253,8 @@ def run_epoch(model, loader, device, config, optimizer=None):
             "peak_reserved_bytes": torch.cuda.max_memory_reserved(device) if device.type == "cuda" else None}
 
 
-def decode_record(record, features, scores, config):
-    """Scores: sigmoid probabilities [window][sequence][four LABEL_TYPES]."""
+def aggregate_record_scores(record, features, scores, config):
+    """Four character-score arrays, after the unchanged window policy."""
     if len(features) != len(scores):
         raise ValueError("each window needs its own scores")
     for feature, values in zip(features, scores):
@@ -256,19 +262,33 @@ def decode_record(record, features, scores, config):
             raise ValueError("window scores must align with input tokens and four types")
         if any(not math.isfinite(x) or not 0 <= x <= 1 for v in values for x in v):
             raise ValueError("scores must be finite sigmoid probabilities")
-    spans = []
-    for index, label_type in enumerate(LABEL_TYPES):
-        char_scores = aggregate_window_scores(
+    return [aggregate_window_scores(
             len(record["response"]), features, [[v[index] for v in row] for row in scores],
             config["aggregation"],
-        )
-        spans.extend(char_scores_to_spans(record["response"], char_scores, config["threshold"], label_type))
+        ) for index in range(len(LABEL_TYPES))]
+
+
+def decode_character_scores(record, scores_by_type, config):
+    if len(scores_by_type) != len(LABEL_TYPES) or any(len(values) != len(record["response"]) for values in scores_by_type):
+        raise ValueError("four character-score arrays must match the original response length")
+    if any(type(value) not in (int, float) or not math.isfinite(value) or not 0 <= value <= 1
+           for values in scores_by_type for value in values):
+        raise ValueError("character scores must be finite probabilities in [0,1]")
+    spans = []
+    for label_type, char_scores in zip(LABEL_TYPES, scores_by_type):
+        threshold = config.get("thresholds_by_type", {}).get(label_type, config["threshold"])
+        spans.extend(char_scores_to_spans(record["response"], char_scores, threshold, label_type))
     spans.sort(key=lambda span: (span["start"], span["end"], LABEL_TYPES.index(span["label_type"])))
     return {"id": record["id"], "spans": spans}
 
 
+def decode_record(record, features, scores, config):
+    """Scores: sigmoid probabilities [window][sequence][four LABEL_TYPES]."""
+    return decode_character_scores(record, aggregate_record_scores(record, features, scores, config), config)
+
+
 @torch.inference_mode()
-def predict_records(model, records, tokenizer, config, device):
+def predict_character_scores(model, records, tokenizer, config, device):
     model.eval()
     for record in records:
         features = record_features(record, tokenizer, config, with_labels=False)
@@ -279,7 +299,12 @@ def predict_records(model, records, tokenizer, config, device):
             with autocast_context(device, config["precision"]):
                 probabilities = model(**batch)["logits"].float().sigmoid().cpu()
             scores.extend(probabilities[i, :len(feature["input_ids"])].tolist() for i, feature in enumerate(group))
-        yield decode_record(record, features, scores, config)
+        yield record, aggregate_record_scores(record, features, scores, config)
+
+
+def predict_records(model, records, tokenizer, config, device):
+    for record, scores_by_type in predict_character_scores(model, records, tokenizer, config, device):
+        yield decode_character_scores(record, scores_by_type, config)
 
 
 def save_checkpoint(path, model, tokenizer, config, metadata):

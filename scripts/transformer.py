@@ -82,6 +82,8 @@ def verify_frozen_inputs(args, inputs):
                 ROOT / "ragtruth_data/alignment.py", ROOT / "ragtruth_data/schema.py",
                 ROOT / "requirements-transformer.txt", args.processed_dir / "test.jsonl",
                 args.manifest, args.checkpoint / "checkpoint.json", *checkpoint_files(args.checkpoint)]
+    if getattr(args, "calibration", None) is not None:
+        required.extend([args.calibration, ROOT / "scripts/calibrate_transformer.py", ROOT / "scripts/baseline_crf.py"])
     # Check membership first, before opening potentially absent test data/weights.
     for path in required:
         resolved = path.resolve()
@@ -193,6 +195,10 @@ def cmd_predict(args):
 
     saved = json.loads((args.checkpoint / "checkpoint.json").read_text(encoding="utf-8"))
     config = saved["config"]
+    calibration = None
+    if getattr(args, "calibration", None) is not None:
+        from scripts.calibrate_transformer import load_calibration
+        calibration = load_calibration(args.calibration, args.checkpoint, saved)
     # Runtime device is portable; inference behavior/threshold always comes from the checkpoint.
     device = tr.choose_device(args.device or "auto")
     if args.split == "validation":
@@ -202,6 +208,9 @@ def cmd_predict(args):
     records = read_records(args.processed_dir, args.split, args.manifest, with_labels=False, limit=args.limit)
     model, tokenizer, saved = tr.load_checkpoint(args.checkpoint, device)
     config = dict(saved["config"])
+    if calibration is not None:
+        config["thresholds_by_type"] = dict(calibration["thresholds_by_type"])
+    tr.validate_config(config)
     if device.type == "cpu":
         config["precision"] = "fp32"
     tr.autocast_context(device, config["precision"])
@@ -235,6 +244,7 @@ def main(argv=None):
     predict.add_argument("--split-summary", type=Path, default=Path("data/splits/split_summary_v1.json"))
     predict.add_argument("--output", type=Path, required=True)
     predict.add_argument("--device", choices=("auto", "cpu", "cuda"))
+    predict.add_argument("--calibration", type=Path, help="Separate validation-selected thresholds bound to this exact checkpoint")
     predict.add_argument("--limit", type=positive)
     args = parser.parse_args(argv)
     args.invocation = [str(Path(__file__).resolve()), *(sys.argv[1:] if argv is None else argv)]

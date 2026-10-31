@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>__TITLE__</title>
+  <style>__STYLE__</style>
+</head>
+<body>
+  <header class="masthead">
+    <div class="eyebrow">ANONYMOUS / NLP PROJECT 2</div>
+    <h1>Ground the answer.<br><span>Inspect the evidence.</span></h1>
+    <p>Source-grounded hallucination spans · four types · overlapping labels</p>
+    <div class="mode-badge"><span class="status-dot"></span> Saved validation predictions</div>
+  </header>
+  <main>
+    <section class="controls card" aria-label="Example controls">
+      <div class="control-row">
+        <label>Model<select id="model-select"></select></label>
+        <label>Task<select id="task-select"><option value="">All tasks</option></select></label>
+        <label>Examples<select id="case-select"><option value="all">All examples</option><option value="positive">With predicted spans</option><option value="negative">Without predicted spans</option><option value="mismatch">Exact span mismatch</option></select></label>
+        <label class="search">Search<input id="search" type="search" placeholder="Response ID, source or answer text…" autocomplete="off"></label>
+      </div>
+      <div class="navigation-row">
+        <button id="previous" type="button" aria-label="Previous example">← Previous</button>
+        <select id="example-select" aria-label="Choose example"></select>
+        <button id="next" type="button" aria-label="Next example">Next →</button>
+        <label class="toggle"><input id="show-gold" type="checkbox" checked> Show human annotations</label>
+      </div>
+      <div class="footnote" id="collection-note"></div>
+    </section>
+    <section class="legend" id="legend" aria-label="Annotation types"></section>
+    <div id="empty-state" class="card empty" hidden>No examples match these filters. Try a broader search.</div>
+    <div id="example-content">
+      <div class="example-heading"><h2 id="example-title"></h2><div id="example-meta" class="muted"></div></div>
+      <section class="card source-card">
+        <div class="section-heading"><span class="section-number">01</span><h3>Source context</h3><span class="hint">Question / instructions / supplied evidence</span></div>
+        <details open><summary>Read source</summary><div id="source-text" class="source-text"></div></details>
+      </section>
+      <section id="response-grid" class="response-grid">
+        <article class="card response-card">
+          <div class="section-heading"><span class="section-number">02</span><h3 id="prediction-title">Model prediction</h3><span id="prediction-count" class="count"></span></div>
+          <div id="prediction-text" class="answer-text"></div>
+          <p class="panel-note">Predicted spans. These are model outputs and may miss or falsely flag text.</p>
+        </article>
+        <article id="gold-card" class="card response-card gold-card">
+          <div class="section-heading"><span class="section-number">03</span><h3>Human annotations</h3><span id="gold-count" class="count"></span></div>
+          <div id="gold-text" class="answer-text"></div>
+          <p class="panel-note">Dataset annotations, shown separately for inspection. They are not model predictions.</p>
+        </article>
+      </section>
+      <div class="interpretation" id="match-note"></div>
+    </div>
+    <footer>
+      Highlights concern consistency with the supplied source, not universal factual truth.
+      Overlapping types use striped highlights. Hover over a highlight for types and original character offsets.
+      This offline viewer shows saved outputs; it does not run a model or generate new answers.
+    </footer>
+  </main>
+  <script id="demo-data" type="application/json">__DATA__</script>
+  <script>__JAVASCRIPT__</script>
+</body>
+</html>

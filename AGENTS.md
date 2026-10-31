@@ -55,3 +55,14 @@ person 5's common evaluation remain with their owners.
 The user assigned review and bug fixes for person 4's pushed Transformer
 delivery, including regression tests and central-run integration. This does
 not reassign person 4's model analysis/slides or person 5's common evaluation.
+
+## Explicit completion assignment — 2026-10-31
+
+The user explicitly assigned ALL remaining technical work except slides and
+presentation to the owner/assistant. This includes full central model runs,
+validation calibration and justified model fixes, common evaluation/comparison
+plots, technical error/data analysis, the local demo, reproducibility reports,
+and committed final-test protocols followed by the reserved official test.
+Do not write personal contribution reports or attribute this completion work
+to teammates. Existing implementation authorship remains unchanged. Slides
+and the presentation itself remain outside this assignment.

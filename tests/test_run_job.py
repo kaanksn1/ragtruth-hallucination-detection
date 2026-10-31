@@ -42,8 +42,8 @@ class RunJobTests(unittest.TestCase):
     def write_config(self):
         self.config_path.write_text(json.dumps(self.config), encoding="utf-8")
 
-    def freeze(self, inputs=None):
-        self.config.update(stage="predict", split="test", inputs=inputs or ["manifest.json"],
+    def freeze(self, inputs=None, stage="predict"):
+        self.config.update(stage=stage, split="test", inputs=inputs or ["manifest.json"],
                            frozen_protocol="protocol.json")
         (self.root / "manifest.json").write_text('{"fixture": true}', encoding="utf-8")
         self.write_config()
@@ -113,17 +113,17 @@ class RunJobTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "leaves the repository"):
             RUNNER.validate(self.root, self.config_path)
 
-    def run_frozen_fixture(self, mismatch=False):
+    def run_frozen_fixture(self, mismatch=False, stage="predict", child_stage=None):
         # Only synthetic temporary files are involved, never the official test.
         invocation = "[sys.argv[0], '--unexpected']" if mismatch else "sys.argv"
         source = ("import sys\nfrom pathlib import Path\n"
                   f"sys.path.insert(0, {str(SCRIPT.parent)!r})\n"
                   "from run_job import require_frozen_test_job\n"
-                  f"require_frozen_test_job(Path.cwd(), {invocation})\n"
+                  f"require_frozen_test_job(Path.cwd(), {invocation}, stage={child_stage or stage!r})\n"
                   "print('frozen fixture verified')\n")
         (self.root / "predictor.py").write_text(source, encoding="utf-8")
         self.config["command"] = ["{python}", "predictor.py"]
-        self.freeze(inputs=["manifest.json", "predictor.py"])
+        self.freeze(inputs=["manifest.json", "predictor.py"], stage=stage)
         return RUNNER.run_job(self.config_path, root=self.root)
 
     def test_frozen_child_receives_record_and_rechecks_exact_command(self):
@@ -134,6 +134,16 @@ class RunJobTests(unittest.TestCase):
 
     def test_frozen_child_rejects_a_different_invocation(self):
         code, record = self.run_frozen_fixture(mismatch=True)
+        self.assertNotEqual(code, 0)
+        self.assertIn("invocation differs", (record.parent / "console.log").read_text())
+
+    def test_frozen_evaluation_child_rechecks_exact_command(self):
+        code, record = self.run_frozen_fixture(stage="evaluate")
+        self.assertEqual(code, 0)
+        self.assertEqual(json.loads(record.read_text())["status"], "completed")
+
+    def test_evaluation_job_cannot_claim_to_be_prediction(self):
+        code, record = self.run_frozen_fixture(stage="evaluate", child_stage="predict")
         self.assertNotEqual(code, 0)
         self.assertIn("invocation differs", (record.parent / "console.log").read_text())
 

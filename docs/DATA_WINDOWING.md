@@ -26,7 +26,7 @@ Komut: `scripts/window_report.py`, `context_stride=128`. Kapsam: train + validat
 
 - **512 token:** Cevapların beşte dördü birden çok pencereye bölünüyor. Tek pencereyle kesilirse kaynağın medyanda %42'si atılıyor. Bu, `PROTOCOL_DRAFT.md`'deki "eksik bağlam kanıtın yokluğunu taklit edebilir" riskinin ta kendisi. Pencereleme eğitimi ~3,5 kat uzatıyor ve gürültü ekliyor: kanıtın olmadığı pencerede de gold etiket görülüyor.
 - **1024 token:** Cevapların %22'si hâlâ pencere gerektiriyor.
-- **2048 token:** Neredeyse her cevap kaynağıyla birlikte tek parçada sığıyor. Kaynağın hiçbir kısmı kesilmiyor.
+- **2048 token:** Cevapların yaklaşık %99,1'i kaynağıyla birlikte tek parçaya sığıyor. Kalan yaklaşık %0,9 için kaynak pencereleri gerekir. Çıkarım tüm pencereleri değerlendirir; eğitimde `best` seçimi yalnız bir pencereyi gördüğü için bazı örneklerde kanıtın bir kısmı eğitim girdisinin dışında kalabilir.
 - **Hizalama:** Her ayarda gold anotasyonların tamamı etiket → pencere → karakter span dönüşümünden sağlam çıkıyor.
 
 ## Öneri

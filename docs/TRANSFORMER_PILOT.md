@@ -1,5 +1,11 @@
 # Gerçek model GPU pilotu — 31 Ekim 2026
 
+> Tarihsel kayıt: Bu belge ilk plan/teslim/kontrol sırasındaki durumu anlatır.
+> Güncel teknik sonuçlar [FINAL_REPORT.md](../results/FINAL_REPORT.md), nihai
+> kararlar [FINAL_PROTOCOL.json](FINAL_PROTOCOL.json) içindedir. Kullanıcının
+> son atamasıyla sunum dışındaki teknik tamamlama işi 1. kişi tarafından yapıldı;
+> ilk uygulamaların katkı sahipliği korunur.
+
 Repo sahibinin RX 7800 XT bilgisayarında pretrained ModernBERT-base pilotu
 tamamlandı. Bu tam eğitim/başarı raporu değildir; resmî test kullanılmadı.
 

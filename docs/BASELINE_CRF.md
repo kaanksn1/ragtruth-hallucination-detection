@@ -1,5 +1,11 @@
 # CRF baseline — 3. kişi
 
+> Tarihsel kayıt: Bu belge ilk plan/teslim/kontrol sırasındaki durumu anlatır.
+> Güncel teknik sonuçlar [FINAL_REPORT.md](../results/FINAL_REPORT.md), nihai
+> kararlar [FINAL_PROTOCOL.json](FINAL_PROTOCOL.json) içindedir. Kullanıcının
+> son atamasıyla sunum dışındaki teknik tamamlama işi 1. kişi tarafından yapıldı;
+> ilk uygulamaların katkı sahipliği korunur.
+
 Durum: **kod, testler ve koşum config'leri hazır; tam eğitim 1. kişinin PC'sinde
 bekliyor.** Bu belgede tam veri sonucu yoktur. Sonuçlar, hata analizi ve slayt
 notları merkezî koşum döndükten sonra eklenecek. Resmî test kullanılmadı.

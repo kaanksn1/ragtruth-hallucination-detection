@@ -126,12 +126,14 @@ def validate(root, config_path):
     return config, inputs, state, protocol_info
 
 
-def require_frozen_test_job(root, invocation):
+def require_frozen_test_job(root, invocation, *, stage="predict"):
     """Confirm a test predictor is the exact child command of a validated test job.
 
     This repeats the existing protocol checks; it is not an untrusted-code sandbox.
     """
     root = root.resolve()
+    if stage not in {"predict", "evaluate"}:
+        raise ValueError("frozen test child stage must be predict or evaluate")
     value = os.environ.get("RAGTRUTH_RUN_RECORD")
     if not value:
         raise ValueError("official test predictions require run_job and a frozen committed protocol")
@@ -142,7 +144,7 @@ def require_frozen_test_job(root, invocation):
     config_path = contained(root, record["config_path"])
     config, inputs, state, protocol = validate(root, config_path)
     command = record.get("command", [])
-    if (record.get("status") != "running" or config["split"] != "test" or config["stage"] != "predict"
+    if (record.get("status") != "running" or config["split"] != "test" or config["stage"] != stage
             or protocol is None or record.get("frozen_protocol") != protocol
             or record.get("inputs_sha256") != inputs or record.get("config_sha256") != sha256(config_path)
             or record.get("code", {}).get("commit") != state["commit"]

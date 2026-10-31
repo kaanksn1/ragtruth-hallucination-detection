@@ -1,5 +1,11 @@
 # Anonymous — Proje 2 görev dağılımı
 
+> Tarihsel kayıt: Bu belge ilk plan/teslim/kontrol sırasındaki durumu anlatır.
+> Güncel teknik sonuçlar [FINAL_REPORT.md](../results/FINAL_REPORT.md), nihai
+> kararlar [FINAL_PROTOCOL.json](FINAL_PROTOCOL.json) içindedir. Kullanıcının
+> son atamasıyla sunum dışındaki teknik tamamlama işi 1. kişi tarafından yapıldı;
+> ilk uygulamaların katkı sahipliği korunur.
+
 29 Ekim 2026 tarihli kullanıcı kararı: **bütün tam model eğitimleri repo
 sahibinin RX 7800 XT / 32 GB RAM bilgisayarında çalışır; 5. kişi sunumu yapar.**
 İsimler P2 veri/CRF teslimlerindeki sırayla eşleştirildi: 1 Serdar (`kaanksn1`),

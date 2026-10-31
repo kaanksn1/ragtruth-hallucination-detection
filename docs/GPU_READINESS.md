@@ -1,5 +1,11 @@
 # GPU hazırlığı — 29 Ekim 2026
 
+> Tarihsel kayıt: Bu belge ilk plan/teslim/kontrol sırasındaki durumu anlatır.
+> Güncel teknik sonuçlar [FINAL_REPORT.md](../results/FINAL_REPORT.md), nihai
+> kararlar [FINAL_PROTOCOL.json](FINAL_PROTOCOL.json) içindedir. Kullanıcının
+> son atamasıyla sunum dışındaki teknik tamamlama işi 1. kişi tarafından yapıldı;
+> ilk uygulamaların katkı sahipliği korunur.
+
 Güncel durum (31 Ekim): **Gerçek pretrained GPU pilotu ve 2048-token uzunluk
 profili geçti.** [Ölçüm ve 2–3,5 saat planlama aralığı](TRANSFORMER_PILOT.md).
 Aşağıdaki 29 Ekim kaydı ilk sentetik kontroldür. Bu kontrol repo sahibinin sorumluluğudur;

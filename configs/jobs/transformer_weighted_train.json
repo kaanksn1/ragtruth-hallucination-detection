@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "name": "transformer-weighted-train",
+  "stage": "train",
+  "split": "train",
+  "seed": 42,
+  "inputs": [
+    "configs/transformer_weighted.json",
+    "requirements-transformer.txt",
+    "transformer.py",
+    "scripts/transformer.py",
+    "scripts/run_job.py",
+    "ragtruth_data/data.py",
+    "ragtruth_data/features.py",
+    "ragtruth_data/alignment.py",
+    "ragtruth_data/schema.py",
+    "data/splits/split_manifest_v1.csv",
+    "data/splits/split_summary_v1.json",
+    "data/processed/train.jsonl",
+    "data/processed/validation.jsonl",
+    "configs/calibration_weighted_policy.json",
+    ".cache/hf-hub/models--answerdotai--ModernBERT-base/snapshots/8949b909ec900327062f0ebf497f51aef5e6f0c8/config.json",
+    ".cache/hf-hub/models--answerdotai--ModernBERT-base/snapshots/8949b909ec900327062f0ebf497f51aef5e6f0c8/model.safetensors",
+    ".cache/hf-hub/models--answerdotai--ModernBERT-base/snapshots/8949b909ec900327062f0ebf497f51aef5e6f0c8/tokenizer.json",
+    ".cache/hf-hub/models--answerdotai--ModernBERT-base/snapshots/8949b909ec900327062f0ebf497f51aef5e6f0c8/tokenizer_config.json",
+    ".cache/hf-hub/models--answerdotai--ModernBERT-base/snapshots/8949b909ec900327062f0ebf497f51aef5e6f0c8/special_tokens_map.json"
+  ],
+  "command": [
+    "{python}",
+    "scripts/transformer.py",
+    "train",
+    "--config",
+    "configs/transformer_weighted.json",
+    "--seed",
+    "{seed}",
+    "--device",
+    "cuda",
+    "--output",
+    "{run_dir}"
+  ],
+  "expected_outputs": [
+    "transformer_summary.json",
+    "validation_predictions.jsonl",
+    "positive_weighting.json"
+  ],
+  "timeout_seconds": 86400
+}

@@ -82,6 +82,8 @@ def verify_frozen_inputs(args, inputs):
                 ROOT / "ragtruth_data/alignment.py", ROOT / "ragtruth_data/schema.py",
                 ROOT / "requirements-transformer.txt", args.processed_dir / "test.jsonl",
                 args.manifest, args.checkpoint / "checkpoint.json", *checkpoint_files(args.checkpoint)]
+    if getattr(args, "calibration", None) is not None:
+        required.extend([args.calibration, ROOT / "scripts/calibrate_transformer.py", ROOT / "scripts/baseline_crf.py"])
     # Check membership first, before opening potentially absent test data/weights.
     for path in required:
         resolved = path.resolve()
@@ -119,20 +121,31 @@ def cmd_train(args):
             raise ValueError(f"train/validation leakage in {field}")
     out = args.output
     # run_job creates its run directory first. Permit that but never overwrite model outputs.
-    if any((out / name).exists() for name in ("checkpoints", "transformer_summary.json", "validation_predictions.jsonl")):
+    if any((out / name).exists() for name in ("checkpoints", "transformer_summary.json", "validation_predictions.jsonl", "positive_weighting.json")):
         raise FileExistsError("refusing to overwrite existing Transformer outputs")
     device = tr.choose_device(config["device"])
     tr.autocast_context(device, config["precision"])
     tr.seed_everything(config["seed"])
     tokenizer = tr.AutoTokenizer.from_pretrained(config["model_name"], revision=config["revision"], use_fast=True)
     tr.validate_tokenizer(tokenizer, config)
+    weighting = None
+    if config.get("positive_weighting", "none") == "sqrt_capped":
+        weighting = tr.count_training_positive_weights(records["train"], tokenizer, config, split="train")
+        config["positive_weights"] = weighting["weights_vector"]
+        tr.validate_config(config)
+        out.mkdir(parents=True, exist_ok=True)
+        write_json(out / "positive_weighting.json", weighting)
+        print(json.dumps({"train_positive_weighting": weighting}), flush=True)
     model = tr.HallucinationTransformer.from_pretrained(config).to(device)
     tr.validate_tokenizer(tokenizer, config, model.encoder.config)
     optimizer = torch.optim.AdamW(model.parameters(), lr=config["learning_rate"], weight_decay=config["weight_decay"])
     out.mkdir(parents=True, exist_ok=True)
     summary = {
         "config": config, "label_types": list(tr.LABEL_TYPES), "data_sha256": identity,
-        "selection_metric": "minimum validation masked BCE over all windows; earliest epoch breaks ties",
+        "selection_metric": ("minimum validation weighted masked BCE using fixed train-derived positive weights; earliest epoch breaks ties"
+                             if weighting is not None else
+                             "minimum validation masked BCE over all windows; earliest epoch breaks ties"),
+        "positive_weighting": weighting if weighting is not None else {"method": "none", "weights_vector": [1.0] * len(tr.LABEL_TYPES)},
         "threshold_note": "fixed config threshold, not tuned on test",
         "counts": {split: len(rows) for split, rows in records.items()},
         "limits": {"train": args.limit_train, "validation": args.limit_validation},
@@ -161,7 +174,8 @@ def cmd_train(args):
             best = validation["loss"]
             relative = f"checkpoints/epoch-{epoch + 1}"
             tr.save_checkpoint(out / relative, model, tokenizer, config,
-                               {"epoch": epoch + 1, "validation_loss": best, "data_sha256": identity})
+                               {"epoch": epoch + 1, "validation_loss": best, "data_sha256": identity,
+                                "positive_weighting": weighting})
             summary["best_checkpoint"] = relative
         write_json(out / "transformer_summary.json", summary)
         print(json.dumps(row), flush=True)
@@ -193,6 +207,10 @@ def cmd_predict(args):
 
     saved = json.loads((args.checkpoint / "checkpoint.json").read_text(encoding="utf-8"))
     config = saved["config"]
+    calibration = None
+    if getattr(args, "calibration", None) is not None:
+        from scripts.calibrate_transformer import load_calibration
+        calibration = load_calibration(args.calibration, args.checkpoint, saved)
     # Runtime device is portable; inference behavior/threshold always comes from the checkpoint.
     device = tr.choose_device(args.device or "auto")
     if args.split == "validation":
@@ -202,6 +220,9 @@ def cmd_predict(args):
     records = read_records(args.processed_dir, args.split, args.manifest, with_labels=False, limit=args.limit)
     model, tokenizer, saved = tr.load_checkpoint(args.checkpoint, device)
     config = dict(saved["config"])
+    if calibration is not None:
+        config["thresholds_by_type"] = dict(calibration["thresholds_by_type"])
+    tr.validate_config(config)
     if device.type == "cpu":
         config["precision"] = "fp32"
     tr.autocast_context(device, config["precision"])
@@ -235,6 +256,7 @@ def main(argv=None):
     predict.add_argument("--split-summary", type=Path, default=Path("data/splits/split_summary_v1.json"))
     predict.add_argument("--output", type=Path, required=True)
     predict.add_argument("--device", choices=("auto", "cpu", "cuda"))
+    predict.add_argument("--calibration", type=Path, help="Separate validation-selected thresholds bound to this exact checkpoint")
     predict.add_argument("--limit", type=positive)
     args = parser.parse_args(argv)
     args.invocation = [str(Path(__file__).resolve()), *(sys.argv[1:] if argv is None else argv)]

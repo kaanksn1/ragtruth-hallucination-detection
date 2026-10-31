@@ -144,7 +144,8 @@ def build_document(payload, title="RAGTruth · Source-grounded hallucination det
     template = (ROOT / "demo/viewer.html").read_text(encoding="utf-8")
     # Replace each placeholder once in the template; never interpolate data as JS/HTML.
     replacements = {"__TITLE__": html.escape(title, quote=True), "__STYLE__": css,
-                    "__DATA__": safe_json(payload), "__JAVASCRIPT__": javascript}
+                    "__DATA__": safe_json(payload), "__JAVASCRIPT__": javascript,
+                    "__LICENSE__": html.escape((ROOT / "docs/DATA_LICENSE.txt").read_text(encoding="utf-8"))}
     import re
     return re.sub("|".join(re.escape(key) for key in replacements),
                   lambda match: replacements[match.group()], template)

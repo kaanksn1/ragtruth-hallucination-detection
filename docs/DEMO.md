@@ -6,6 +6,9 @@ predictions separately from human dataset annotations; a highlight is not a clai
 of universal factual truth. There is no server, external JavaScript, CDN or network
 request. Open the generated HTML file in a browser.
 
+The standalone file embeds RAGTruth's original Particle Media MIT notice in
+the attribution footer; the same notice is kept in `docs/DATA_LICENSE.txt`.
+
 ## Build
 
 From this repository's root, using any Python 3.12 environment:

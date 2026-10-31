@@ -102,6 +102,14 @@ def ensure_clean(root):
     require(not source_state(root)["working_tree_status"], "pipeline requires a clean committed repository")
 
 
+def read_committed_policy(path, committed):
+    """Allow Git's CRLF working-tree representation; never rewrite frozen inputs."""
+    actual = Path(path).read_bytes()
+    require(actual == committed or actual.replace(b"\r\n", b"\n") == committed,
+            "weighted calibration policy is not committed")
+    return json.loads(actual)
+
+
 def unreadable_cache_hashes(root, names):
     """Hash NTFS WSL symlinks from WSL; native Windows cannot open these aliases."""
     require(all(name.startswith(".cache/hf-hub/") for name in names), "WSL fallback is restricted to HF cache")
@@ -324,8 +332,7 @@ class Pipeline:
     def calibration(self, weighted_run):
         policy_name = "configs/calibration_weighted_policy.json"
         policy_path = self.root / policy_name
-        require(policy_path.read_bytes() == git(self.root, "show", "HEAD:" + policy_name), "weighted calibration policy is not committed")
-        policy = read_json(policy_path)
+        policy = read_committed_policy(policy_path, git(self.root, "show", "HEAD:" + policy_name))
         summary = verify_weighted_summary(read_json(weighted_run / "transformer_summary.json"))
         require(summary["positive_weighting"] == read_json(weighted_run / "positive_weighting.json"),
                 "training weight statistics file differs from summary")

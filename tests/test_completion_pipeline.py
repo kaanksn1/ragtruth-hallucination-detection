@@ -99,6 +99,19 @@ class CompletionSelectionTests(unittest.TestCase):
             self.assertNotIn(b"\r", state.read_bytes())
             self.assertEqual(json.loads(state.read_text())["status"], "done")
 
+    def test_committed_policy_allows_only_git_crlf_representation_not_changed_thresholds(self):
+        committed = b'{\n  "threshold_grid": [0.1, 0.5]\n}\n'
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "policy.json"
+            working = committed.replace(b"\n", b"\r\n")
+            path.write_bytes(working)
+            self.assertEqual(pipeline.read_committed_policy(path, committed)["threshold_grid"], [.1, .5])
+            self.assertEqual(path.read_bytes(), working)  # Original training input is never normalized on disk.
+            for changed in (working.replace(b"0.5", b"0.7"), committed.replace(b"  ", b"    ")):
+                path.write_bytes(changed)
+                with self.subTest(policy=changed), self.assertRaisesRegex(ValueError, "policy is not committed"):
+                    pipeline.read_committed_policy(path, committed)
+
 
 class CompletionPathTests(unittest.TestCase):
     def test_windows_unicode_space_paths_convert_without_shell_escaping(self):

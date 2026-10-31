@@ -206,6 +206,79 @@ class FinalJobGenerationTests(unittest.TestCase):
                             "--predictions", "crf_source=two"])
         self.assertEqual(caught.exception.code, 1)
 
+    def add_reference(self):
+        name = generator.OPTIONAL_REFERENCE
+        checkpoint = "artifacts/transformer_reference/epoch-1"
+        calibration = "artifacts/reference_calibration.json"
+        self.decision["models"][name] = {"checkpoint": checkpoint, "calibration": calibration}
+        for filename in (*generator.TRANSFORMER_MINIMUM_FILES, "encoder/model.safetensors"):
+            relative = checkpoint + "/" + filename
+            self.decision["artifacts_sha256"][relative] = self.file(relative, b"reference artifact")
+        self.decision["artifacts_sha256"][calibration] = self.file(calibration, b"reference calibration")
+        self.write_decision()
+        self.commit()
+
+    def test_optional_reference_prediction_has_own_checkpoint_calibration_and_bound_hashes(self):
+        self.add_reference()
+        reference_calibration = self.decision["models"][generator.OPTIONAL_REFERENCE]["calibration"]
+        digest = self.decision["artifacts_sha256"].pop(reference_calibration)
+        self.write_decision()
+        self.commit()
+        with self.assertRaisesRegex(ValueError, "every selected"):
+            generator.generate_predictions("docs/FINAL_PROTOCOL.json", root=self.root)
+        self.decision["artifacts_sha256"][reference_calibration] = digest
+        self.write_decision()
+        self.commit()
+        pairs = generator.generate_predictions("docs/FINAL_PROTOCOL.json", root=self.root)
+        self.assertEqual(len(pairs), 4)
+        reference_pair = pairs[-1]
+        self.assertEqual(Path(reference_pair["job"]).name, "predict_transformer_reference.json")
+        for name, pair in zip((*generator.MODEL_NAMES, generator.OPTIONAL_REFERENCE), pairs):
+            if not name.startswith("transformer"):
+                continue
+            config = json.loads((self.root / pair["job"]).read_text())
+            artifact = self.decision["models"][name]
+            self.assertEqual(config["command"][config["command"].index("--checkpoint") + 1], artifact["checkpoint"])
+            self.assertEqual(config["command"][config["command"].index("--calibration") + 1], artifact["calibration"])
+            protocol = json.loads((self.root / pair["protocol"]).read_text())
+            self.assertEqual(protocol["inputs_sha256"][artifact["calibration"]], sha256_file(self.root / artifact["calibration"]))
+        self.commit()
+        for pair in pairs:
+            runner.validate(self.root, self.root / pair["job"])
+        reference = self.decision["models"][generator.OPTIONAL_REFERENCE]
+        (self.root / reference["calibration"]).write_bytes(b"changed reference calibration")
+        with self.assertRaisesRegex(ValueError, "scientific input changed"):
+            generator.generate_predictions("docs/FINAL_PROTOCOL.json", "configs/other", root=self.root)
+
+    def test_evaluation_model_set_must_exactly_match_three_or_four_frozen_entries(self):
+        predictions = {}
+        for name in (*generator.MODEL_NAMES, generator.OPTIONAL_REFERENCE):
+            relative = "outputs/" + name + ".jsonl"
+            self.file(relative)
+            predictions[name] = relative
+        # No reference in the decision: an extra prediction is not accepted.
+        with self.assertRaisesRegex(ValueError, "exactly one"):
+            generator.generate_evaluation("docs/FINAL_PROTOCOL.json", predictions, root=self.root)
+        self.add_reference()
+        with self.assertRaisesRegex(ValueError, "exactly one"):
+            generator.generate_evaluation("docs/FINAL_PROTOCOL.json", {k: v for k, v in predictions.items()
+                if k != generator.OPTIONAL_REFERENCE}, root=self.root)
+        pairs = generator.generate_evaluation("docs/FINAL_PROTOCOL.json", predictions, root=self.root)
+        config = json.loads((self.root / pairs[0]["job"]).read_text())
+        self.assertEqual(config["command"].count("--predictions"), 4)
+        self.assertTrue(set(predictions.values()) <= set(config["inputs"]))
+        self.decision["models"]["unexpected"] = self.decision["models"][generator.OPTIONAL_REFERENCE]
+        self.write_decision()
+        self.commit()
+        with self.assertRaisesRegex(ValueError, "only optional"):
+            generator.generate_evaluation("docs/FINAL_PROTOCOL.json", predictions, "configs/other", root=self.root)
+        del self.decision["models"]["unexpected"]
+        self.decision["models"][generator.OPTIONAL_REFERENCE] = dict(self.decision["models"]["transformer"])
+        self.write_decision()
+        self.commit()
+        with self.assertRaisesRegex(ValueError, "must not duplicate"):
+            generator.generate_predictions("docs/FINAL_PROTOCOL.json", "configs/other", root=self.root)
+
 
 if __name__ == "__main__":
     unittest.main()

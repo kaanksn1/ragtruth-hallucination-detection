@@ -22,6 +22,7 @@ from ragtruth_data.data import sha256_file
 from scripts.run_job import git
 
 MODEL_NAMES = ("crf_source", "crf_response_only", "transformer")
+OPTIONAL_REFERENCE = "transformer_reference"
 COMMON_FILES = ("scripts/generate_final_jobs.py", "scripts/run_job.py", "ragtruth_data/data.py",
                 "ragtruth_data/schema.py", "ragtruth_data/alignment.py",
                 "data/splits/split_manifest_v1.csv", "data/splits/split_summary_v1.json")
@@ -78,6 +79,13 @@ def _model_files(root, directory, required):
     return files
 
 
+def _model_names(decision):
+    models = decision.get("models")
+    _require(isinstance(models, dict) and set(models) in (set(MODEL_NAMES), set(MODEL_NAMES) | {OPTIONAL_REFERENCE}),
+             "scientific decision must name crf_source, crf_response_only and transformer, plus only optional transformer_reference")
+    return MODEL_NAMES + ((OPTIONAL_REFERENCE,) if OPTIONAL_REFERENCE in models else ())
+
+
 def load_decision(decision_path, *, root=ROOT):
     """Validate committed decision and every explicitly frozen artifact/code/data hash."""
     root = Path(root).resolve()
@@ -90,8 +98,7 @@ def load_decision(decision_path, *, root=ROOT):
     _require(committed == path.read_bytes(), "scientific decision differs from committed HEAD bytes")
     decision = json.loads(committed)
     _require(isinstance(decision, dict) and decision.get("status") == "frozen", "scientific decision must be frozen")
-    _require(isinstance(decision.get("models"), dict) and set(decision["models"]) == set(MODEL_NAMES),
-             "scientific decision must name exactly crf_source, crf_response_only and transformer")
+    model_names = _model_names(decision)
     _require(isinstance(decision.get("artifacts_sha256"), dict) and decision["artifacts_sha256"],
              "scientific decision must freeze model artifacts_sha256")
     declared = {}
@@ -113,17 +120,23 @@ def load_decision(decision_path, *, root=ROOT):
         directory = _path(root, entry["model_dir"], directory=True)
         directories[name] = _relative(root, directory)
         model_files[name] = _model_files(root, directory, CRF_MODEL_FILES)
-    entry = decision["models"]["transformer"]
-    _require(isinstance(entry, dict) and "checkpoint" in entry and "calibration" in entry,
-             "transformer needs checkpoint and calibration")
-    checkpoint = _path(root, entry["checkpoint"], directory=True)
-    directories["transformer"] = _relative(root, checkpoint)
-    model_files["transformer"] = _model_files(root, checkpoint, TRANSFORMER_MINIMUM_FILES)
-    _require(any(name.startswith(directories["transformer"] + "/encoder/") and name.endswith(".safetensors")
-                 for name in model_files["transformer"]), "checkpoint is missing encoder safetensors")
-    calibration = _path(root, entry["calibration"])
-    directories["calibration"] = _relative(root, calibration)
-    model_files["transformer"].append(directories["calibration"])
+    for name in model_names[2:]:
+        entry = decision["models"][name]
+        _require(isinstance(entry, dict) and "checkpoint" in entry and "calibration" in entry,
+                 name + " needs checkpoint and calibration")
+        checkpoint = _path(root, entry["checkpoint"], directory=True)
+        directories[name] = _relative(root, checkpoint)
+        model_files[name] = _model_files(root, checkpoint, TRANSFORMER_MINIMUM_FILES)
+        _require(any(filename.startswith(directories[name] + "/encoder/") and filename.endswith(".safetensors")
+                     for filename in model_files[name]), "checkpoint is missing encoder safetensors")
+        calibration = _path(root, entry["calibration"])
+        directories[name + "_calibration"] = _relative(root, calibration)
+        model_files[name].append(directories[name + "_calibration"])
+    directories["calibration"] = directories["transformer_calibration"]  # Backward-compatible primary alias.
+    if OPTIONAL_REFERENCE in model_names:
+        _require((directories["transformer"], directories["transformer_calibration"]) !=
+                 (directories[OPTIONAL_REFERENCE], directories[OPTIONAL_REFERENCE + "_calibration"]),
+                 "transformer_reference must not duplicate the primary checkpoint/calibration pair")
     for names in model_files.values():
         _require(set(names) <= artifacts, "every selected model/checkpoint/calibration file must be in artifacts_sha256")
     return decision, relative, declared, directories, model_files
@@ -163,7 +176,7 @@ def generate_predictions(decision_path, output_dir="configs/final", *, root=ROOT
     seed = decision.get("seed", 42)
     _require(type(seed) is int and seed >= 0, "scientific seed must be a nonnegative integer")
     pairs = []
-    for name in MODEL_NAMES:
+    for name in _model_names(decision):
         inputs = set(COMMON_FILES) | set(declared) | {decision_relative, TEST_GOLD} | set(model_files[name])
         if name.startswith("crf_"):
             inputs.update((*CRF_CODE_FILES, TEST_CRF))
@@ -172,7 +185,7 @@ def generate_predictions(decision_path, output_dir="configs/final", *, root=ROOT
         else:
             inputs.update(TRANSFORMER_CODE_FILES)
             command = ["{python}", "scripts/transformer.py", "predict", "--checkpoint", directories[name],
-                       "--calibration", directories["calibration"], "--split", "test", "--device", "cuda",
+                       "--calibration", directories[name + "_calibration"], "--split", "test", "--device", "cuda",
                        "--processed-dir", "data/processed", "--manifest", "data/splits/split_manifest_v1.csv",
                        "--split-summary", "data/splits/split_summary_v1.json", "--output", "{run_dir}/predictions.jsonl"]
         job = {"schema_version": 1, "name": "final-predict-" + name.replace("_", "-"),
@@ -185,16 +198,17 @@ def generate_predictions(decision_path, output_dir="configs/final", *, root=ROOT
 def generate_evaluation(decision_path, predictions, output_dir="configs/final", *, root=ROOT):
     root = Path(root).resolve()
     decision, decision_relative, declared, _, _ = load_decision(decision_path, root=root)
-    _require(isinstance(predictions, Mapping) and set(predictions) == set(MODEL_NAMES),
+    model_names = _model_names(decision)
+    _require(isinstance(predictions, Mapping) and set(predictions) == set(model_names),
              "evaluation needs exactly one prediction file for each frozen model")
-    prediction_paths = {name: _relative(root, _path(root, predictions[name])) for name in MODEL_NAMES}
-    _require(len(set(prediction_paths.values())) == len(MODEL_NAMES), "model prediction files must be distinct")
+    prediction_paths = {name: _relative(root, _path(root, predictions[name])) for name in model_names}
+    _require(len(set(prediction_paths.values())) == len(model_names), "model prediction files must be distinct")
     destination = _path(root, output_dir, must_exist=False, directory=True)
     inputs = set(COMMON_FILES) | set(METRIC_FILES) | set(declared) | {decision_relative, TEST_GOLD}
     inputs.update(prediction_paths.values())
     command = ["{python}", "evaluate.py", "--split", "test", "--gold", TEST_GOLD,
                "--manifest", "data/splits/split_manifest_v1.csv", "--split-summary", "data/splits/split_summary_v1.json"]
-    for name in MODEL_NAMES:
+    for name in model_names:
         command.extend(["--predictions", name + "=" + prediction_paths[name]])
     command.extend(["--output", "{run_dir}/comparison.json", "--report", "{run_dir}/comparison.md",
                     "--csv", "{run_dir}/comparison.csv"])

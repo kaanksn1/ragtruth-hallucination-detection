@@ -48,6 +48,18 @@ def validate_config(config):
                 or any(type(value) not in (int, float) or not math.isfinite(value) or not 0 < value < 1
                        for value in thresholds.values())):
             raise ValueError("thresholds_by_type must contain four finite thresholds in (0,1)")
+    weighting = config.get("positive_weighting", "none")
+    if weighting not in {"none", "sqrt_capped"}:
+        raise ValueError("positive_weighting must be none or sqrt_capped")
+    cap = config.get("positive_weighting_cap", 50.0)
+    if type(cap) not in (int, float) or not math.isfinite(cap) or cap < 1:
+        raise ValueError("positive_weighting_cap must be finite and at least one")
+    if "positive_weights" in config:
+        validate_positive_weights(config["positive_weights"])
+        if any(weight > cap for weight in config["positive_weights"]):
+            raise ValueError("positive_weights exceed the declared cap")
+        if weighting == "none" and any(weight != 1 for weight in config["positive_weights"]):
+            raise ValueError("non-unit positive_weights require sqrt_capped weighting")
     for key, allowed in (("window_policy", {"best", "all"}),
                          ("aggregation", {"min", "mean", "max"}),
                          ("precision", {"fp32", "bf16"}),
@@ -88,7 +100,67 @@ def autocast_context(device, precision):
     return torch.autocast(device_type="cuda", dtype=torch.bfloat16)
 
 
-def masked_bce_loss(logits, labels, response_mask, attention_mask):
+def validate_positive_weights(weights):
+    if (not isinstance(weights, (list, tuple)) or len(weights) != len(LABEL_TYPES)
+            or any(type(value) not in (int, float) or not math.isfinite(value) or value < 1 for value in weights)):
+        raise ValueError("positive_weights must contain four finite values >= 1")
+
+
+def weights_from_counts(positive, total, cap=50.0):
+    """Per-type min(cap, max(1, sqrt(negative/positive))).
+
+    A zero-positive class gets the finite cap; this cannot invent positives.
+    Counts are response-token targets, not raw span or character frequencies.
+    """
+    if type(total) is not int or total <= 0 or len(positive) != len(LABEL_TYPES):
+        raise ValueError("positive counts require four types and a nonempty token total")
+    if type(cap) not in (int, float) or not math.isfinite(cap) or cap < 1:
+        raise ValueError("positive weight cap must be finite and >= 1")
+    if any(type(count) is not int or not 0 <= count <= total for count in positive):
+        raise ValueError("positive token counts must be integers between zero and total")
+    return [float(cap if count == 0 else min(cap, max(1.0, math.sqrt((total - count) / count))))
+            for count in positive]
+
+
+def count_training_positive_weights(records, tokenizer, config, *, split):
+    """Stream the selected TRAIN windows; never accept validation/test counts.
+
+    WindowDataset uses a local random.Random, so this pass does not consume the
+    torch RNG state or alter the seed-42 model/head initialization.
+    """
+    if split != "train":
+        raise ValueError("positive weights may only be counted from train")
+    started = time.perf_counter()
+    positive, total, windows = [0] * len(LABEL_TYPES), 0, 0
+    for feature in WindowDataset(records, tokenizer, config, training=True, epoch=0):
+        windows += 1
+        require_length = len(feature["input_ids"])
+        if any(len(feature[key]) != require_length for key in ("labels_multi", "response_mask", "attention_mask")):
+            raise ValueError("training weight targets/masks are misaligned")
+        for target, response, attended in zip(feature["labels_multi"], feature["response_mask"], feature["attention_mask"]):
+            if not response or not attended:
+                continue
+            if not isinstance(target, (list, tuple)) or len(target) != len(LABEL_TYPES) or any(value not in (0, 1) for value in target):
+                raise ValueError("training positive-weight targets must be four binary values")
+            total += 1
+            for index, value in enumerate(target):
+                positive[index] += int(value)
+        if windows % 1000 == 0:
+            print(json.dumps({"phase": "train_positive_weight_count", "windows": windows,
+                              "response_tokens": total}), flush=True)
+    cap = config.get("positive_weighting_cap", 50.0)
+    weights = weights_from_counts(positive, total, cap)
+    return {"method": "sqrt_capped", "split": "train", "label_types": list(LABEL_TYPES),
+            "cap": cap, "records": len(records), "windows": windows, "response_tokens": total,
+            "positive_response_tokens": dict(zip(LABEL_TYPES, positive)),
+            "negative_response_tokens": {kind: total - count for kind, count in zip(LABEL_TYPES, positive)},
+            "weights": dict(zip(LABEL_TYPES, weights)), "weights_vector": weights,
+            "window_policy": config["window_policy"], "mask_policy": "response_mask & attention_mask",
+            "zero_positive_policy": "cap; no positive targets are created",
+            "elapsed_seconds": time.perf_counter() - started}
+
+
+def masked_bce_loss(logits, labels, response_mask, attention_mask, pos_weight=None):
     """Mean BCE over valid answer tokens AND four independent label columns.
 
     Index before BCE: ignored targets/logits cannot contaminate the loss.
@@ -102,19 +174,30 @@ def masked_bce_loss(logits, labels, response_mask, attention_mask):
     selected = logits[active].float()
     if not selected.numel():
         return selected.sum()
-    return nn.BCEWithLogitsLoss()(selected, labels[active].float())
+    if pos_weight is not None:
+        if pos_weight.shape != (len(LABEL_TYPES),) or not torch.isfinite(pos_weight).all() or (pos_weight < 1).any():
+            raise ValueError("pos_weight must be a finite four-vector >= 1")
+    return nn.BCEWithLogitsLoss(pos_weight=pos_weight)(selected, labels[active].float())
 
 
 class HallucinationTransformer(nn.Module):
-    def __init__(self, encoder, dropout=0.1):
+    def __init__(self, encoder, dropout=0.1, positive_weights=None):
         super().__init__()
         self.encoder = encoder
         self.dropout = nn.Dropout(dropout)
         self.classifier = nn.Linear(encoder.config.hidden_size, len(LABEL_TYPES))
+        if positive_weights is not None:
+            validate_positive_weights(positive_weights)
+        # The vector is serialized in checkpoint config/metadata, not in the
+        # old four-logit head file. Inference logits receive no prior correction.
+        self.register_buffer("positive_weights", None if positive_weights is None else
+                             torch.tensor(positive_weights, dtype=torch.float32), persistent=False)
         self.accepts_token_types = "token_type_ids" in inspect.signature(encoder.forward).parameters
 
     @classmethod
     def from_pretrained(cls, config):
+        if config.get("positive_weighting", "none") == "sqrt_capped" and "positive_weights" not in config:
+            raise ValueError("derive train-only positive_weights before constructing the weighted model")
         enc_config = AutoConfig.from_pretrained(config["model_name"], revision=config["revision"])
         # ModernBERT's optional torch.compile path is unsuitable for portable CPU/Windows smoke runs.
         if enc_config.model_type == "modernbert":
@@ -125,7 +208,7 @@ class HallucinationTransformer(nn.Module):
         )
         if config["gradient_checkpointing"]:
             encoder.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
-        return cls(encoder, config["dropout"])
+        return cls(encoder, config["dropout"], config.get("positive_weights"))
 
     def forward(self, input_ids, attention_mask, response_mask, labels=None, token_type_ids=None):
         if input_ids.numel() == 0:
@@ -137,7 +220,7 @@ class HallucinationTransformer(nn.Module):
                 inputs["token_type_ids"] = token_type_ids
             hidden = self.encoder(**inputs).last_hidden_state
             logits = self.classifier(self.dropout(hidden))
-        loss = None if labels is None else masked_bce_loss(logits, labels, response_mask, attention_mask)
+        loss = None if labels is None else masked_bce_loss(logits, labels, response_mask, attention_mask, self.positive_weights)
         return {"logits": logits, "loss": loss}
 
 
@@ -310,6 +393,15 @@ def predict_records(model, records, tokenizer, config, device):
 def save_checkpoint(path, model, tokenizer, config, metadata):
     """Self-contained inference checkpoint; intentionally no optimizer/resume state."""
     path = Path(path)
+    if config.get("positive_weighting", "none") == "sqrt_capped" and "positive_weights" not in config:
+        raise ValueError("weighted checkpoint requires recorded train-derived positive_weights")
+    actual_weights = model.positive_weights
+    expected_weights = config.get("positive_weights")
+    if actual_weights is not None and (expected_weights is None or not torch.equal(
+            actual_weights.detach().cpu(), torch.tensor(expected_weights, dtype=torch.float32))):
+        raise ValueError("checkpoint config does not match the model's positive weights")
+    if actual_weights is None and expected_weights is not None and any(value != 1 for value in expected_weights):
+        raise ValueError("checkpoint config declares weights missing from the model")
     path.mkdir(parents=True, exist_ok=False)
     model.encoder.save_pretrained(path / "encoder", safe_serialization=True)
     tokenizer.save_pretrained(path / "tokenizer")
@@ -337,6 +429,8 @@ def load_checkpoint(path, device="cpu"):
             raise ValueError(f"checkpoint checksum mismatch: {name}")
     config = saved["config"]
     validate_config(config)
+    if config.get("positive_weighting", "none") == "sqrt_capped" and "positive_weights" not in config:
+        raise ValueError("weighted checkpoint is missing its train-derived positive_weights")
     enc_config = AutoConfig.from_pretrained(path / "encoder", local_files_only=True)
     # ModernBertConfig.to_dict intentionally omits reference_compile. Restore
     # the same portable policy used for initial training before model loading.
@@ -344,7 +438,7 @@ def load_checkpoint(path, device="cpu"):
         enc_config.reference_compile = False
     encoder = AutoModel.from_pretrained(path / "encoder", config=enc_config, local_files_only=True,
                                         attn_implementation=config["attention_implementation"])
-    model = HallucinationTransformer(encoder, config["dropout"])
+    model = HallucinationTransformer(encoder, config["dropout"], config.get("positive_weights"))
     model.classifier.load_state_dict(load_file(str(path / "head.safetensors")))
     tokenizer = AutoTokenizer.from_pretrained(path / "tokenizer", local_files_only=True, use_fast=True)
     validate_tokenizer(tokenizer, config, encoder.config)

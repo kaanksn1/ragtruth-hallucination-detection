@@ -121,20 +121,31 @@ def cmd_train(args):
             raise ValueError(f"train/validation leakage in {field}")
     out = args.output
     # run_job creates its run directory first. Permit that but never overwrite model outputs.
-    if any((out / name).exists() for name in ("checkpoints", "transformer_summary.json", "validation_predictions.jsonl")):
+    if any((out / name).exists() for name in ("checkpoints", "transformer_summary.json", "validation_predictions.jsonl", "positive_weighting.json")):
         raise FileExistsError("refusing to overwrite existing Transformer outputs")
     device = tr.choose_device(config["device"])
     tr.autocast_context(device, config["precision"])
     tr.seed_everything(config["seed"])
     tokenizer = tr.AutoTokenizer.from_pretrained(config["model_name"], revision=config["revision"], use_fast=True)
     tr.validate_tokenizer(tokenizer, config)
+    weighting = None
+    if config.get("positive_weighting", "none") == "sqrt_capped":
+        weighting = tr.count_training_positive_weights(records["train"], tokenizer, config, split="train")
+        config["positive_weights"] = weighting["weights_vector"]
+        tr.validate_config(config)
+        out.mkdir(parents=True, exist_ok=True)
+        write_json(out / "positive_weighting.json", weighting)
+        print(json.dumps({"train_positive_weighting": weighting}), flush=True)
     model = tr.HallucinationTransformer.from_pretrained(config).to(device)
     tr.validate_tokenizer(tokenizer, config, model.encoder.config)
     optimizer = torch.optim.AdamW(model.parameters(), lr=config["learning_rate"], weight_decay=config["weight_decay"])
     out.mkdir(parents=True, exist_ok=True)
     summary = {
         "config": config, "label_types": list(tr.LABEL_TYPES), "data_sha256": identity,
-        "selection_metric": "minimum validation masked BCE over all windows; earliest epoch breaks ties",
+        "selection_metric": ("minimum validation weighted masked BCE using fixed train-derived positive weights; earliest epoch breaks ties"
+                             if weighting is not None else
+                             "minimum validation masked BCE over all windows; earliest epoch breaks ties"),
+        "positive_weighting": weighting if weighting is not None else {"method": "none", "weights_vector": [1.0] * len(tr.LABEL_TYPES)},
         "threshold_note": "fixed config threshold, not tuned on test",
         "counts": {split: len(rows) for split, rows in records.items()},
         "limits": {"train": args.limit_train, "validation": args.limit_validation},
@@ -163,7 +174,8 @@ def cmd_train(args):
             best = validation["loss"]
             relative = f"checkpoints/epoch-{epoch + 1}"
             tr.save_checkpoint(out / relative, model, tokenizer, config,
-                               {"epoch": epoch + 1, "validation_loss": best, "data_sha256": identity})
+                               {"epoch": epoch + 1, "validation_loss": best, "data_sha256": identity,
+                                "positive_weighting": weighting})
             summary["best_checkpoint"] = relative
         write_json(out / "transformer_summary.json", summary)
         print(json.dumps(row), flush=True)

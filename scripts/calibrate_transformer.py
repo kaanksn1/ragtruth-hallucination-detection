@@ -179,8 +179,8 @@ def main(argv=None):
     require(config.get("schema_version") == 1 and config.get("split") == "validation", "calibration only supports validation")
     require(config.get("selection_metric") == "macro_f1_types", "calibration selection metric must be predeclared macro_f1_types")
     validate_grid(config.get("threshold_grid"))
-    require(isinstance(config.get("checkpoints"), list) and 1 <= len(config["checkpoints"]) <= 2
-            and len(set(config["checkpoints"])) == len(config["checkpoints"]), "declare one or two distinct checkpoint candidates")
+    require(isinstance(config.get("checkpoints"), list) and 1 <= len(config["checkpoints"]) <= 3
+            and len(set(config["checkpoints"])) == len(config["checkpoints"]), "declare one to three distinct checkpoint candidates")
     require(not any((args.output / name).exists() for name in ("calibration.json", "calibration_report.json", "validation_predictions.jsonl", "probabilities")),
             "refusing to overwrite calibration outputs")
     args.output.mkdir(parents=True, exist_ok=True)

@@ -88,6 +88,10 @@ ve `--split-summary` ile özel fixture dosyaları verilebilir. Varsayılanlar
 `data/splits/split_summary_v1.json`'dır. Evaluator standart kütüphane kullanır;
 grafik aracı mevcut matplotlib/numpy ortamında çalışır.
 
+Yeni bir ortamda yalnız grafik bağımlılıkları için:
+`python -m pip install -r requirements-evaluation.txt`. Bu dosya doğrulanmış
+CPU analiz sürümlerini sabitler; Torch/ROCm ortamını değiştirmez.
+
 Grafikler `model_comparison`, `type_f1`, `task_f1` adlarıyla PNG ve SVG olarak
 üretilir. Eksik model sonucu sıfırmış gibi eklenmez; yalnız verilen modeller
 karşılaştırılır. Örtüşen kayıtlar tüm modeller için aynı gold kümesinde bulunur.

@@ -1,0 +1,5 @@
+# Optional figure export; scoring/demo use the Python standard library.
+# Exact versions verified in the owner's CPU analysis environment.
+matplotlib==3.11.2
+numpy==2.5.3
+pillow==12.3.0

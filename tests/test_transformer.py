@@ -232,7 +232,12 @@ class TransformerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "checkpoint"
             tr.save_checkpoint(path, model, tokenizer, self.cfg, {"synthetic": True})
-            reloaded, tok, saved = tr.load_checkpoint(path)
+            # HF drops this flag on save; GPU auto-detection must not silently
+            # enable compilation when the inference checkpoint is reloaded.
+            self.assertNotIn("reference_compile", json.loads((path / "encoder/config.json").read_text()))
+            with patch.object(tr.AutoModel, "from_pretrained", wraps=tr.AutoModel.from_pretrained) as load:
+                reloaded, tok, saved = tr.load_checkpoint(path)
+            self.assertFalse(load.call_args.kwargs["config"].reference_compile)
             torch.testing.assert_close(model(**batch)["logits"], reloaded(**batch)["logits"], rtol=0, atol=0)
             self.assertEqual(tok(records()[0]["response"]), tokenizer(records()[0]["response"]))
             self.assertTrue(saved["metadata"]["synthetic"])

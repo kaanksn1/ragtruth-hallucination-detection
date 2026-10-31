@@ -1,0 +1,154 @@
+{
+  "config": {
+    "model_name": "answerdotai/ModernBERT-base",
+    "revision": "8949b909ec900327062f0ebf497f51aef5e6f0c8",
+    "seed": 42,
+    "max_length": 2048,
+    "context_stride": 128,
+    "min_context_tokens": 128,
+    "response_overlap": 64,
+    "window_policy": "best",
+    "aggregation": "min",
+    "threshold": 0.5,
+    "batch_size": 1,
+    "gradient_accumulation_steps": 8,
+    "learning_rate": 2e-05,
+    "weight_decay": 0.01,
+    "epochs": 3,
+    "dropout": 0.1,
+    "max_grad_norm": 1.0,
+    "gradient_checkpointing": true,
+    "precision": "fp32",
+    "attention_implementation": "sdpa",
+    "device": "cuda",
+    "processed_dir": "data/processed",
+    "split_summary": "data/splits/split_summary_v1.json",
+    "split_manifest": "data/splits/split_manifest_v1.csv"
+  },
+  "label_types": [
+    "Evident Conflict",
+    "Subtle Conflict",
+    "Evident Baseless Info",
+    "Subtle Baseless Info"
+  ],
+  "data_sha256": {
+    "split_summary": "dcef97fb4275a21a62700cf8be9f30dad4305093771fbac8674470c8c10da7b1",
+    "split_manifest": "7d292931c9337c9a4e30e9a62c7f09e72e8e8c51e31bc22b0522515aa3248a5f",
+    "train.jsonl": "005def627fa45493e024e1b9e2295d289a0698ea475b888e8e2320d86151bb96",
+    "validation.jsonl": "d070d62056b2a7f11a58748291f6fd1881cceabc35e3db29435f1ae7d488c5ec"
+  },
+  "selection_metric": "minimum validation masked BCE over all windows; earliest epoch breaks ties",
+  "threshold_note": "fixed config threshold, not tuned on test",
+  "counts": {
+    "train": 12702,
+    "validation": 2240
+  },
+  "limits": {
+    "train": null,
+    "validation": null
+  },
+  "environment": {
+    "python": "3.12.3",
+    "torch": "2.9.1+rocm7.2.1.gitff65f5bc",
+    "transformers": "4.57.6",
+    "tokenizers": "0.22.2",
+    "device": "cuda",
+    "gpu": "AMD Radeon RX 7800 XT"
+  },
+  "code_sha256": {
+    "transformer.py": "c3cd1d3f82728eabf89a14f1d999170cdfa81b9bf089befe26f23240c134b464",
+    "scripts/transformer.py": "eaf334425810ea454c5e45af11c5156c1f09b340ed04a79bd0c7a63ef3836038",
+    "ragtruth_data/features.py": "c88d274ccd53b4f8e8bb0b8a28596a34d254cb36e9259b5dd313f0f8da0702ab",
+    "ragtruth_data/alignment.py": "a6b20d64c5ef35b445107c55ce6e9e914d2cba0e9c345592a471b89a9ecc8a6c",
+    "ragtruth_data/schema.py": "7dd60680feaaac7d8938f3e668001ba61d3050794a61a1aab5f56b7d4e8a069c"
+  },
+  "epochs": [
+    {
+      "epoch": 1,
+      "train": {
+        "loss": 0.05832770861991594,
+        "answer_tokens": 2151637,
+        "windows": 12702,
+        "optimizer_steps": 1588,
+        "empty_batches_skipped": 0,
+        "elapsed_seconds": 2141.399072534,
+        "answer_tokens_per_second": 1004.780952601182,
+        "peak_allocated_bytes": 3624097792,
+        "peak_reserved_bytes": 5456789504
+      },
+      "validation": {
+        "loss": 0.04607956633356072,
+        "answer_tokens": 397121,
+        "windows": 2270,
+        "optimizer_steps": 0,
+        "empty_batches_skipped": 0,
+        "elapsed_seconds": 118.80508846500015,
+        "answer_tokens_per_second": 3342.626188246065,
+        "peak_allocated_bytes": 2531235840,
+        "peak_reserved_bytes": 5456789504
+      }
+    },
+    {
+      "epoch": 2,
+      "train": {
+        "loss": 0.03865434942387183,
+        "answer_tokens": 2151637,
+        "windows": 12702,
+        "optimizer_steps": 1588,
+        "empty_batches_skipped": 0,
+        "elapsed_seconds": 2038.1487106319996,
+        "answer_tokens_per_second": 1055.6820455622246,
+        "peak_allocated_bytes": 3631573504,
+        "peak_reserved_bytes": 5859442688
+      },
+      "validation": {
+        "loss": 0.04325069071534883,
+        "answer_tokens": 397121,
+        "windows": 2270,
+        "optimizer_steps": 0,
+        "empty_batches_skipped": 0,
+        "elapsed_seconds": 118.06792496800063,
+        "answer_tokens_per_second": 3363.496056254311,
+        "peak_allocated_bytes": 2531235840,
+        "peak_reserved_bytes": 5859442688
+      }
+    },
+    {
+      "epoch": 3,
+      "train": {
+        "loss": 0.028700053119733403,
+        "answer_tokens": 2151637,
+        "windows": 12702,
+        "optimizer_steps": 1588,
+        "empty_batches_skipped": 0,
+        "elapsed_seconds": 2035.3788906980008,
+        "answer_tokens_per_second": 1057.118657284556,
+        "peak_allocated_bytes": 3643965440,
+        "peak_reserved_bytes": 5859442688
+      },
+      "validation": {
+        "loss": 0.04853438949617692,
+        "answer_tokens": 397121,
+        "windows": 2270,
+        "optimizer_steps": 0,
+        "empty_batches_skipped": 0,
+        "elapsed_seconds": 118.71400715900018,
+        "answer_tokens_per_second": 3345.1907614247584,
+        "peak_allocated_bytes": 2531235840,
+        "peak_reserved_bytes": 5859442688
+      }
+    }
+  ],
+  "status": "complete",
+  "best_checkpoint": "checkpoints/epoch-2",
+  "checkpoint_sha256": {
+    "checkpoints/epoch-2/checkpoint.json": "36ff37269a943ae682a437219fc0ec56195dbe01d708001576c00df54b31ba7b",
+    "checkpoints/epoch-2/head.safetensors": "0a09908fd9b4d7f261bea64a1e230a814f736e05b017b6ab3ae13e48d50aeebf",
+    "checkpoints/epoch-2/encoder/config.json": "f295786e36cabd2023fd17bbf048f355926bb80a9ced63d22826f3310f70a9dd",
+    "checkpoints/epoch-2/encoder/model.safetensors": "6f3ae1252d196772d90fdfd0e8db50c6c5c7eed9b58a3d5a9d818c7e268b1751",
+    "checkpoints/epoch-2/tokenizer/special_tokens_map.json": "ea97ecdbcc73713039d8d64dbb05e3689495c96657fbd9a18f5bed381be81049",
+    "checkpoints/epoch-2/tokenizer/tokenizer.json": "533bd74d5ef0c44a29246e0f41f94e1fe60add4f6476de92e71d81546f8f1085",
+    "checkpoints/epoch-2/tokenizer/tokenizer_config.json": "2966a59b9e9cf122279aec1249e22e5bc7ad8430c754e95031b13fd128d4e560"
+  },
+  "total_seconds": 6706.543965631
+}

@@ -27,8 +27,11 @@ reviews are allowed. Full details are in `docs/TEAM.md`.
 Preserve source IDs, original response text/character offsets, four annotation
 types, overlapping spans, and annotation metadata. Annotation-only fields must
 not become model input. Keep each source group on one side of train/validation.
-Use validation for decisions. Freeze and commit the new-model protocol before
-official test evaluation. The protocol is currently a draft, not frozen.
+Use validation for decisions. The final scientific decision is frozen in
+`docs/FINAL_PROTOCOL.json`, with exact job/protocol pairs under `configs/final/`.
+Official test evaluation has completed through that frozen pipeline. Do not
+retune models, thresholds, features, splits or selection criteria against test
+results. `docs/PROTOCOL_DRAFT.md` remains an archived design draft.
 
 Do not alter BANKING77 data, protocols, teammate implementations, or existing
 personal contribution reports as part of this new project.

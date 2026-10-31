@@ -1,5 +1,11 @@
 # Kaynak bağlamlı çok etiketli Transformer — 4. kişi
 
+> Tarihsel kayıt: Bu belge ilk plan/teslim/kontrol sırasındaki durumu anlatır.
+> Güncel teknik sonuçlar [FINAL_REPORT.md](../results/FINAL_REPORT.md), nihai
+> kararlar [FINAL_PROTOCOL.json](FINAL_PROTOCOL.json) içindedir. Kullanıcının
+> son atamasıyla sunum dışındaki teknik tamamlama işi 1. kişi tarafından yapıldı;
+> ilk uygulamaların katkı sahipliği korunur.
+
 Kod teslimi: 31 Ekim 2026. Gerçek pretrained GPU pilotu ve uzunluk profili geçti;
 [güncel ölçümler](TRANSFORMER_PILOT.md). Nihai başarı ölçümü henüz yapılmadı.
 Tam train/predict koşumları 1. kişinin PC'sinde

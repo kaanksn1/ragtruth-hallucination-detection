@@ -1,5 +1,11 @@
 # Merkezî koşum — Serdar'ın bölümü
 
+Güncel durum: tam eğitimler, validation seçimi ve dondurulmuş ayarlarla resmî test
+değerlendirmesi tamamlandı. [Teknik rapor](../results/FINAL_REPORT.md),
+[nihai karar](FINAL_PROTOCOL.json) ve `configs/final/` altındaki commit edilmiş
+job/protokol çiftleri güncel teslimdir. Aşağıdaki tarihli ilk kontroller,
+yapıldıkları tarihteki durumu kaydeder.
+
 Bu katman yalnız veri indirme/doğrulama, komut çalıştırma ve kayıt tutmayı
 yapar. CRF, Transformer, veri hizalama ve ortak scorer ilgili üyelerden gelir.
 Tam model eğitimi henüz başlamadı. Nihai test protokolü hâlâ taslak.
@@ -69,8 +75,8 @@ içinde olmalıdır. Çıktı yolları o koşum klasörüne göredir. Beklenen d
 exit code sıfır bile olsa koşum başarısızdır.
 
 ```powershell
-python scripts/run_job.py configs/jobs/crf.json --check-only
-python scripts/run_job.py configs/jobs/crf.json configs/jobs/transformer.json
+python scripts/run_job.py configs/jobs/crf_validation.json --check-only
+python scripts/run_job.py configs/jobs/crf_validation.json configs/jobs/transformer_train.json
 ```
 
 Komutlar sırayla çalışır; ilk hata sonraki işi durdurur. `outputs/.run.lock`

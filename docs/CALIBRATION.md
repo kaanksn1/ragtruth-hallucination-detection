@@ -1,5 +1,11 @@
 # Validation ile tür başına eşik seçimi
 
+> Tarihsel kayıt: Bu belge ilk plan/teslim/kontrol sırasındaki durumu anlatır.
+> Güncel teknik sonuçlar [FINAL_REPORT.md](../results/FINAL_REPORT.md), nihai
+> kararlar [FINAL_PROTOCOL.json](FINAL_PROTOCOL.json) içindedir. Kullanıcının
+> son atamasıyla sunum dışındaki teknik tamamlama işi 1. kişi tarafından yapıldı;
+> ilk uygulamaların katkı sahipliği korunur.
+
 Bu deney mevcut ModernBERT ağırlıklarını yeniden eğitmez. İlk koşumun sabit
 0.5 eşiğini karşılaştırma olarak korur; ayrı bir decoder artifact'i üretir.
 Model checkpoint'i, ham anotasyonlar ve orijinal tahmin dosyaları değiştirilmez.

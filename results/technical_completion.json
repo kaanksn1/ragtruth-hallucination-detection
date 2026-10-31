@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "started_utc": "2026-10-31T20:22:11.454085+00:00",
+  "stages": {
+    "weighted_calibration": {
+      "record": "outputs/runs/20261031T202223538583Z-weighted-calibration/run.json"
+    },
+    "selected_on_validation": {
+      "winner": "base"
+    },
+    "selected_validation_replay": {
+      "record": "outputs/runs/20261031T202509367177Z-selected-validation-replay/run.json"
+    },
+    "validation_comparison": {
+      "record": "outputs/runs/20261031T202736222556Z-technical-validation-comparison/run.json"
+    },
+    "freezing_scientific_decision": {},
+    "prepare_frozen_test": {},
+    "final_crf_source": {
+      "record": "outputs/runs/20261031T202752426074Z-final-predict-crf-source/run.json"
+    },
+    "final_crf_response_only": {
+      "record": "outputs/runs/20261031T202805690074Z-final-predict-crf-response-only/run.json"
+    },
+    "final_transformer": {
+      "record": "outputs/runs/20261031T202820352826Z-final-predict-transformer/run.json"
+    },
+    "final_evaluation": {
+      "record": "outputs/runs/20261031T203122081939Z-final-evaluate/run.json"
+    }
+  },
+  "official_test_enabled": true,
+  "official_test_evaluated": true,
+  "phase": "final_evaluation",
+  "updated_utc": "2026-10-31T20:31:21.137644+00:00",
+  "selection": {
+    "winner": "base",
+    "rule": "higher validation macro F1, then any F1; exact tie prefers base",
+    "base_metrics": {
+      "any": {
+        "precision": 0.5075890100843795,
+        "recall": 0.5780453506767446,
+        "f1": 0.5405309152672383,
+        "gold_chars": 102402
+      },
+      "Evident Conflict": {
+        "precision": 0.5297106622433124,
+        "recall": 0.5016304780084307,
+        "f1": 0.515288302457158,
+        "gold_chars": 25146
+      },
+      "Subtle Conflict": {
+        "precision": 0.016307893020221786,
+        "recall": 0.030120481927710843,
+        "f1": 0.021159542953872196,
+        "gold_chars": 830
+      },
+      "Evident Baseless Info": {
+        "precision": 0.5134919048570857,
+        "recall": 0.5337072816038226,
+        "f1": 0.523404472062344,
+        "gold_chars": 57762
+      },
+      "Subtle Baseless Info": {
+        "precision": 0.14527312700828682,
+        "recall": 0.45672054444917054,
+        "f1": 0.22043162513793013,
+        "gold_chars": 18808
+      },
+      "macro_f1_types": 0.32007098565282605
+    },
+    "weighted_metrics": {
+      "any": {
+        "precision": 0.4406921844993379,
+        "recall": 0.620739829300209,
+        "f1": 0.5154455260885255,
+        "gold_chars": 102402
+      },
+      "Evident Conflict": {
+        "precision": 0.4890434491138392,
+        "recall": 0.4641692515708264,
+        "f1": 0.4762818027870157,
+        "gold_chars": 25146
+      },
+      "Subtle Conflict": {
+        "precision": 0.005936073059360731,
+        "recall": 0.06265060240963856,
+        "f1": 0.010844629822732014,
+        "gold_chars": 830
+      },
+      "Evident Baseless Info": {
+        "precision": 0.43515059387318683,
+        "recall": 0.5847962328174232,
+        "f1": 0.4989954796584631,
+        "gold_chars": 57762
+      },
+      "Subtle Baseless Info": {
+        "precision": 0.11757584741575254,
+        "recall": 0.5060612505316886,
+        "f1": 0.1908179631114675,
+        "gold_chars": 18808
+      },
+      "macro_f1_types": 0.29423496884491956
+    },
+    "base_calibration": "outputs/runs/20261031T140016156258Z-transformer-calibration/calibration.json",
+    "weighted_calibration": "outputs/runs/20261031T202223538583Z-weighted-calibration/calibration.json",
+    "selected_calibration": "outputs/runs/20261031T140016156258Z-transformer-calibration/calibration.json",
+    "official_test_used": false
+  },
+  "weighted_calibration": "outputs/runs/20261031T202223538583Z-weighted-calibration",
+  "validation_comparison": "outputs/runs/20261031T202736222556Z-technical-validation-comparison/comparison.json",
+  "final_comparison": "outputs/runs/20261031T203122081939Z-final-evaluate/comparison.json",
+  "scientific_decision": "docs/FINAL_PROTOCOL.json",
+  "test_predictions": {
+    "crf_source": "outputs/runs/20261031T202752426074Z-final-predict-crf-source/predictions.jsonl",
+    "crf_response_only": "outputs/runs/20261031T202805690074Z-final-predict-crf-response-only/predictions.jsonl",
+    "transformer": "outputs/runs/20261031T202820352826Z-final-predict-transformer/predictions.jsonl"
+  },
+  "finished_utc": "2026-10-31T20:31:24.356385+00:00"
+}

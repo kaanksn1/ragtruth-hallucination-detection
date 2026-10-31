@@ -12,13 +12,18 @@ Depo: [kaanksn1/ragtruth-hallucination-detection](https://github.com/kaanksn1/ra
 Ekip davetleri 30 Ekim'de gönderildi; katılım için GitHub davetini kabul etmek gerekir.
 Başlangıç görünürlüğü private'tır.
 
-Bu bağımsız depo yeni projenin başlangıç alanıdır. BANKING77 dosyaları, deneyleri ve
-kişisel katkı raporları bu çalışma sırasında değiştirilmedi. Veri, CRF ve Transformer
-kodu teslim edildi. 31 Ekim'de 1. kişinin PC'sinde 300 train / 100 validation cevabıyla
-kısa CRF doğrulaması geçti; tam eğitim, nihai sonuç analizi ve sunum bekliyor.
-Resmî test değerlendirmesi yapılmadı.
-29 Ekim'de sentetik girdilerle GPU forward/backward/optimizer kontrolü yapıldı;
-bu işlem gerçek veriyle model eğitimi veya başarı deneyi değildir.
+Bu bağımsız depo RAGTruth projesinin teknik teslimidir. Veri hazırlığı, tam CRF
+ve Transformer eğitimleri, validation ile eşik/model seçimi, ortak değerlendirme,
+hata analizi ve yerel demo tamamlandı. Nihai kararlar testten önce commit ile
+sabitlendi; resmî test yalnız bu sabit ayarlarla değerlendirildi.
+
+Sonuçlar ve sınırlamalar: [teknik rapor](results/FINAL_REPORT.md).
+Kısa Türkçe açıklama: [bulgular ve metriklerin anlamı](results/BULGULAR_TR.md).
+Paketin kullanımı: [teknik teslim rehberi](docs/TECHNICAL_HANDOFF.md).
+Yerel demo `artifacts/comparison-demo.html`, ZIP
+`artifacts/ragtruth_technical_handoff.zip` yolundadır; bu büyük yerel dosyalar
+Git'e alınmaz. Slayt ve sunum bu teslimin kapsamı dışındadır. BANKING77
+dosyaları ve önceki kişisel katkı raporları değiştirilmedi.
 
 ## Veri kaynağı ve ilk kontrol
 
@@ -63,12 +68,14 @@ yüzde 95'lik uzunluğu 917 kelimedir. **Bunlar model tokenı değildir.** Kayna
 bağlamını 512 tokenda sessizce kesmek kanıtı kaybettirebilir. Tokenizer ile
 gerçek uzunluklar ve pencereleme maliyeti ayrıca ölçülmeli.
 
-## 4–5 günlük çalışma kapsamı
+## Başlangıç kapsamı — tarihsel plan
 
 Paylaşılan beş ders dosyası incelendi. CRF + kaynak bağlamlı küçük Transformer
 ders içeriğiyle uyumlu; P2'ye özel zorunlu model sayısı henüz kesinleşmedi.
 [Slayt eşleştirmesi ve P1/P2 ayrımı](docs/LECTURE_ALIGNMENT.md) kaydedildi.
-Aşağıdaki kapsam hocanın güncel P2 yönergesine göre güncellenebilecek bir taslaktır.
+Aşağıdaki bölüm başlangıç planını kaydeder; gerçekleştirilen kapsam ve nihai
+sınırlamalar teknik raporda açıklanır. Kaynak etkisi kontrolü CRF üzerinde
+tamamlandı; yalnız-cevap Transformer eğitimi yapılmadı.
 
 1. Kaynak–cevap eşlemesini, dört türü ve karakter konumlarını koruyan ortak
    veri sözleşmesi oluşturmak.
@@ -159,7 +166,8 @@ python scripts/inspect_training_data.py
 python -m unittest discover -s tests -v
 ```
 
-Betik yalnız standart Python kütüphanesini kullanır. Eğitim anotasyonlarını
+Veri indirme ve ilk inceleme betikleri yalnız standart Python kütüphanesini kullanır.
+Model eğitimleri için ilgili requirements dosyaları gereklidir. Eğitim anotasyonlarını
 inceler; resmî testin yalnız kayıt kimliklerini ve split üyeliğini kullanır.
 Resmî test etiketlerini incelemez veya onlarla model seçmez.
 
@@ -177,7 +185,9 @@ tepkisi verdi. Canlı tabloya buradan yazılmadı; görev kontenjanı ayrıca ko
 
 ## Değerlendirme disiplini
 
-[Protokol taslağına](docs/PROTOCOL_DRAFT.md) uyulmalı. Hazır anotasyonlu veri
+Nihai kararlar [FINAL_PROTOCOL.json](docs/FINAL_PROTOCOL.json) ile donduruldu.
+Test sonuçları model, eşik veya checkpoint seçimine geri beslenmez.
+[PROTOCOL_DRAFT.md](docs/PROTOCOL_DRAFT.md) başlangıç taslağı olarak korunur. Hazır anotasyonlu veri
 üzerinde çalışıldığından, veri temizliği için ekstra puan garanti edilmez.
 Bu ilk inceleme sıfır hatalı span konumu buldu; gerçek olmayan temizleme emeği
 iddiası eklenmemeli.
@@ -188,6 +198,7 @@ Dört bağımsız hata türü ve örtüşen etiketler için Transformer kodu,
 eğitim/tahmin CLI'ı ve küçük testler eklendi. Kurulum, pencereleme/loss
 kararları, checkpoint ve 1. kişinin GPU koşum komutları:
 [TRANSFORMER.md](docs/TRANSFORMER.md). CPU kontrolleri ve gerçek pretrained GPU
-pilotu tamamlandı; nihai başarı değerlendirmesi tam eğitim sonrasında yapılacak.
+pilotu, tam eğitimleri, validation kalibrasyonu ve sabit modellerin resmî test
+değerlendirmesi tamamlandı; sonuçlar [teknik raporda](results/FINAL_REPORT.md).
 [Merkezî inceleme ve düzeltmeler](docs/TRANSFORMER_INTEGRATION.md) veri/checkpoint
 kimliği, test protokolü ve mevcut ROCm ortamıyla uyumu açıklar.

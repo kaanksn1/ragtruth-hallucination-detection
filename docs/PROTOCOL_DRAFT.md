@@ -1,6 +1,12 @@
 # RAGTruth — deney protokolü taslağı
 
-Durum: **TASLAK; henüz nihai test için dondurulmadı.** Bu dosya resmî test
+> Tarihsel kayıt: Bu belge ilk plan/teslim/kontrol sırasındaki durumu anlatır.
+> Güncel teknik sonuçlar [FINAL_REPORT.md](../results/FINAL_REPORT.md), nihai
+> kararlar [FINAL_PROTOCOL.json](FINAL_PROTOCOL.json) içindedir. Kullanıcının
+> son atamasıyla sunum dışındaki teknik tamamlama işi 1. kişi tarafından yapıldı;
+> ilk uygulamaların katkı sahipliği korunur.
+
+Durum: **TARİHSEL TASLAK; güncel nihai karar FINAL_PROTOCOL.json içindedir.** Bu dosya resmî test
 değerlendirmesine izin veren donmuş bir deney protokolü değildir.
 
 ## Girdi ve hedef

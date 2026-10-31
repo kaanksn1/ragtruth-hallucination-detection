@@ -1,5 +1,8 @@
 # Transformer merkezî incelemesi — 31 Ekim 2026
 
+Sonraki adım tamamlandı: [gerçek pretrained GPU pilotu ve süre ölçümü](TRANSFORMER_PILOT.md).
+Aşağıdaki metin ilk kod incelemesinin kaydıdır.
+
 İncelenen ilk teslim: 4. kişinin PR #4'ü, `ea358486f530271b6c921011c6413fe562c81f38`.
 Modelin ve ilk testlerin yazarlığı 4. kişiye aittir. Kullanıcının açık
 atamasıyla repo sahibi entegrasyon hatalarını ayrı commit'te düzeltir.

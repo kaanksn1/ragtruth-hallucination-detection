@@ -141,8 +141,8 @@ veya mevcut ortamla uyumlu, kaydı tutulmuş bir kullanım yolu seçilmeli.
 
 29 Ekim'de aynı ortamda 256 ve 512 tokenlık sentetik encoder/optimizer
 kontrolleri geçti. [GPU hazırlığı ve ölçüm sınırları](docs/GPU_READINESS.md)
-kaydedildi. Transformer teslimi incelendi; gerçek pretrained modelin GPU pilotu
-için [sınırlı merkezî job](configs/jobs/transformer_pilot.json) hazır. Henüz çalıştırılmadı.
+kaydedildi. 31 Ekim'de gerçek pretrained GPU pilotu ve uzunluk profili geçti;
+üç epoch için yaklaşık 2–3,5 saat planlandı. [Gerçek pilot ölçümü](docs/TRANSFORMER_PILOT.md).
 
 ## Yeniden çalıştırma
 
@@ -187,7 +187,7 @@ iddiası eklenmemeli.
 Dört bağımsız hata türü ve örtüşen etiketler için Transformer kodu,
 eğitim/tahmin CLI'ı ve küçük testler eklendi. Kurulum, pencereleme/loss
 kararları, checkpoint ve 1. kişinin GPU koşum komutları:
-[TRANSFORMER.md](docs/TRANSFORMER.md). Küçük CPU kontrolleri tamamlandı;
-pretrained modelin GPU pilotu, tam eğitim ve başarı değerlendirmesi bekliyor.
+[TRANSFORMER.md](docs/TRANSFORMER.md). CPU kontrolleri ve gerçek pretrained GPU
+pilotu tamamlandı; nihai başarı değerlendirmesi tam eğitim sonrasında yapılacak.
 [Merkezî inceleme ve düzeltmeler](docs/TRANSFORMER_INTEGRATION.md) veri/checkpoint
 kimliği, test protokolü ve mevcut ROCm ortamıyla uyumu açıklar.

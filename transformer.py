@@ -230,6 +230,10 @@ def run_epoch(model, loader, device, config, optimizer=None):
                     step(pending_tokens)
                     steps += 1
                     pending_tokens = pending_batches = 0
+            if windows % 500 == 0:
+                print(json.dumps({"phase": "train" if training else "validation", "windows": windows,
+                    "optimizer_steps": steps, "elapsed_seconds": time.perf_counter() - started,
+                    "loss_so_far": total_loss / total_tokens}), flush=True)
         if training and pending_tokens:
             step(pending_tokens)
             steps += 1
@@ -308,7 +312,12 @@ def load_checkpoint(path, device="cpu"):
             raise ValueError(f"checkpoint checksum mismatch: {name}")
     config = saved["config"]
     validate_config(config)
-    encoder = AutoModel.from_pretrained(path / "encoder", local_files_only=True,
+    enc_config = AutoConfig.from_pretrained(path / "encoder", local_files_only=True)
+    # ModernBertConfig.to_dict intentionally omits reference_compile. Restore
+    # the same portable policy used for initial training before model loading.
+    if enc_config.model_type == "modernbert":
+        enc_config.reference_compile = False
+    encoder = AutoModel.from_pretrained(path / "encoder", config=enc_config, local_files_only=True,
                                         attn_implementation=config["attention_implementation"])
     model = HallucinationTransformer(encoder, config["dropout"])
     model.classifier.load_state_dict(load_file(str(path / "head.safetensors")))

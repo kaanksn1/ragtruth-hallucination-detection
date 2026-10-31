@@ -1,7 +1,8 @@
 # Kaynak bağlamlı çok etiketli Transformer — 4. kişi
 
-Kod teslimi: 31 Ekim 2026. Tam eğitim, gerçek pretrained modelin GPU pilotu ve
-başarı ölçümü henüz yapılmadı. Tam train/predict koşumları 1. kişinin PC'sinde
+Kod teslimi: 31 Ekim 2026. Gerçek pretrained GPU pilotu ve uzunluk profili geçti;
+[güncel ölçümler](TRANSFORMER_PILOT.md). Nihai başarı ölçümü henüz yapılmadı.
+Tam train/predict koşumları 1. kişinin PC'sinde
 çalıştırılır. Bu belge deney sonucunu veya donmuş test protokolünü temsil etmez.
 
 Merkezî incelemede veri/checkpoint eşlemesi ve test girdileri kontrolü düzeltildi;

@@ -1,7 +1,8 @@
 # GPU hazırlığı — 29 Ekim 2026
 
-Durum: **Sentetik donanım kontrolü geçti. Gerçek Transformer GPU pilotu
-henüz yapılmadı.** Bu kontrol repo sahibinin donanım/koşum sorumluluğudur;
+Güncel durum (31 Ekim): **Gerçek pretrained GPU pilotu ve 2048-token uzunluk
+profili geçti.** [Ölçüm ve 2–3,5 saat planlama aralığı](TRANSFORMER_PILOT.md).
+Aşağıdaki 29 Ekim kaydı ilk sentetik kontroldür. Bu kontrol repo sahibinin sorumluluğudur;
 2. kişinin veri hazırlığını veya 4. kişinin model uygulamasını tamamlamaz.
 
 31 Ekim'de gerçek verinin küçük bir bölümüyle yapılan CRF CPU doğrulaması

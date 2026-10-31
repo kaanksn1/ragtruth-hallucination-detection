@@ -67,6 +67,7 @@ def environment_snapshot():
         except metadata.PackageNotFoundError:
             versions[package] = None
     runtime_keys = ("HSA_ENABLE_DXG_DETECTION", "HF_HUB_OFFLINE", "TRANSFORMERS_OFFLINE",
+                    "HF_HUB_CACHE", "HF_HUB_DISABLE_XET",
                     "TOKENIZERS_PARALLELISM", "OMP_NUM_THREADS", "MKL_NUM_THREADS",
                     "CUDA_VISIBLE_DEVICES", "HIP_VISIBLE_DEVICES", "ROCR_VISIBLE_DEVICES")
     return {"python": platform.python_version(), "executable": sys.executable,

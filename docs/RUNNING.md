@@ -150,4 +150,6 @@ Mevcut ROCm ortamının paketleri değiştirilmedi; requirements 4.57.6 ile uyum
 Pretrained gerçek pilot job'ı hazır ve henüz çalıştırılmadı; önce sabit
 revision'ın model ağırlıkları indirilmeli. Sonraki komut ve sonuçların
 sınırları [TRANSFORMER_INTEGRATION.md](TRANSFORMER_INTEGRATION.md) içinde.
-Tam eğitim ve resmî test başlatılmadı; ortak scorer 5. kişiden bekleniyor.
+Bu ilk inceleme sırasında tam eğitim ve resmî test başlatılmamıştı.
+Sonraki gerçek pretrained pilot ve uzunluk profili tamamlandı:
+[ölçümler ve tam eğitim komutu](TRANSFORMER_PILOT.md). Ortak scorer 5. kişiden bekleniyor.

@@ -230,6 +230,10 @@ def run_epoch(model, loader, device, config, optimizer=None):
                     step(pending_tokens)
                     steps += 1
                     pending_tokens = pending_batches = 0
+            if windows % 500 == 0:
+                print(json.dumps({"phase": "train" if training else "validation", "windows": windows,
+                    "optimizer_steps": steps, "elapsed_seconds": time.perf_counter() - started,
+                    "loss_so_far": total_loss / total_tokens}), flush=True)
         if training and pending_tokens:
             step(pending_tokens)
             steps += 1

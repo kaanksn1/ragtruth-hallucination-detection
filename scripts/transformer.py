@@ -147,6 +147,9 @@ def cmd_train(args):
     }
     started, best = time.monotonic(), float("inf")
     for epoch in range(config["epochs"]):
+        print(json.dumps({"epoch_started": epoch + 1, "epochs": config["epochs"],
+                          "train_responses": len(records["train"]),
+                          "validation_responses": len(records["validation"])}), flush=True)
         train = tr.run_epoch(model, tr.make_loader(records["train"], tokenizer, config, True, epoch),
                              device, config, optimizer)
         validation = tr.run_epoch(model, tr.make_loader(records["validation"], tokenizer, config), device, config)

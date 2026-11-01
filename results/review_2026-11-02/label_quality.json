@@ -1,0 +1,216 @@
+{
+  "schema_version": 2,
+  "generated_utc": "2026-11-01T23:30:20.315413+00:00",
+  "scope": "good-quality train+validation; original official-test annotation files never opened",
+  "quality_filter": "good",
+  "label_types": [
+    "Evident Conflict",
+    "Subtle Conflict",
+    "Evident Baseless Info",
+    "Subtle Baseless Info"
+  ],
+  "provenance": {
+    "inputs_sha256": {
+      "data/processed/train.jsonl": "005def627fa45493e024e1b9e2295d289a0698ea475b888e8e2320d86151bb96",
+      "data/processed/validation.jsonl": "d070d62056b2a7f11a58748291f6fd1881cceabc35e3db29435f1ae7d488c5ec",
+      "data/splits/split_manifest_v1.csv": "7d292931c9337c9a4e30e9a62c7f09e72e8e8c51e31bc22b0522515aa3248a5f",
+      "data/splits/split_summary_v1.json": "dcef97fb4275a21a62700cf8be9f30dad4305093771fbac8674470c8c10da7b1",
+      "configs/source.json": "4eeff7829d65dc2befe938f7686c009c1d9c566ac5dff59a638edc06ed5089b2"
+    },
+    "frozen_protocol_sha256": "19c1c169f6563793fc7dae47856babc9915f98b8850df57cee4917efa39422f3",
+    "source_revision": "c103204b9ce28d6bbad859304bf30de72b8ed8fe",
+    "declared_raw_sha256": {
+      "response.jsonl": "e4c2e4ac24fff676d8984cc61c35d791612fadc58015335d97dd632375e18073",
+      "source_info.jsonl": "0dffc26ea9f3c1c3d7c7e8336b56ef1646e3cec876edffcca3c9c624d12d578b",
+      "LICENSE": "b7fd7d6bdfe0cbba63c63a310914beb4a4acb8bf08da73849219f45385f5b244"
+    },
+    "raw_files_opened": false,
+    "official_test_annotations_opened": false,
+    "counts_before_quality_filter": {
+      "train": {
+        "responses": 12828,
+        "quality": {
+          "good": 12702,
+          "truncated": 25,
+          "incorrect_refusal": 101
+        },
+        "sources": 2138,
+        "source_groups": 2136
+      },
+      "validation": {
+        "responses": 2262,
+        "quality": {
+          "good": 2240,
+          "incorrect_refusal": 19,
+          "truncated": 3
+        },
+        "sources": 377,
+        "source_groups": 377
+      }
+    },
+    "cross_split_source_text_overlaps": {
+      "exact": 0,
+      "casefold_whitespace": 0
+    },
+    "code_sha256": "dec0005471542724966d1ab05c024f03b0712f75ffb9f5b975905de8e6e1ef2a"
+  },
+  "method_limits": [
+    "Format and descriptive patterns are checked; no semantic gold adjudication is performed.",
+    "A note header is not an independent annotation. Header/label differences are not proven gold errors or inter-annotator agreement.",
+    "Repeated generated responses are not independent annotator samples; pair comparisons share records and are neither IAA nor a model-performance ceiling.",
+    "Source ID, exact source text and manifest content group are different grouping rules. A manifest group need not have identical model input; these pair sets overlap and must not be summed.",
+    "Missing, ambiguous, misspelled and prose-only note headers stay unparsed; substring mentions of a category are not parsed as declarations.",
+    "Raw source hashes are cross-checked as frozen provenance declarations; raw files, including mixed-split response.jsonl, are never opened.",
+    "No labels, text, offsets, flags, splits or model settings are changed. Official-test annotation files are never opened."
+  ],
+  "responses": 14942,
+  "spans": 12693,
+  "boundaries": {
+    "edge_whitespace": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "edge_punctuation": {
+      "count": 4782,
+      "pct": 37.67
+    },
+    "mid_word_start": {
+      "count": 3,
+      "pct": 0.02
+    },
+    "mid_word_end": {
+      "count": 4,
+      "pct": 0.03
+    },
+    "ends_sentence": {
+      "count": 3788,
+      "pct": 29.84
+    }
+  },
+  "types": {
+    "Evident Conflict": {
+      "spans": 4687,
+      "median_words": 5,
+      "p90_words": 13,
+      "max_words": 96,
+      "implicit_true_pct": 0.11,
+      "due_to_null_pct": 0.34
+    },
+    "Subtle Conflict": {
+      "spans": 185,
+      "median_words": 5,
+      "p90_words": 14,
+      "max_words": 49,
+      "implicit_true_pct": 0.54,
+      "due_to_null_pct": 0.0
+    },
+    "Evident Baseless Info": {
+      "spans": 5467,
+      "median_words": 6,
+      "p90_words": 23,
+      "max_words": 239,
+      "implicit_true_pct": 1.08,
+      "due_to_null_pct": 25.9
+    },
+    "Subtle Baseless Info": {
+      "spans": 2354,
+      "median_words": 5.0,
+      "p90_words": 19,
+      "max_words": 148,
+      "implicit_true_pct": 74.3,
+      "due_to_null_pct": 0.34
+    }
+  },
+  "note_type_vs_label_type": {
+    "parser_version": "explicit-first-line-header-v2",
+    "parsed": 11812,
+    "unparsed": 881,
+    "unparsed_reasons": {
+      "missing_or_null": 84,
+      "unrecognized_or_ambiguous": 797
+    },
+    "disagreements": 77,
+    "disagreement_pct": 0.65,
+    "interpretation": "Explicit note-header/label-field differences only; not semantic gold errors or IAA.",
+    "pairs": [
+      {
+        "label_type": "Evident Baseless Info",
+        "note_type": "Evident Conflict",
+        "count": 28
+      },
+      {
+        "label_type": "Subtle Baseless Info",
+        "note_type": "Evident Baseless Info",
+        "count": 16
+      },
+      {
+        "label_type": "Evident Baseless Info",
+        "note_type": "Subtle Baseless Info",
+        "count": 15
+      },
+      {
+        "label_type": "Evident Conflict",
+        "note_type": "Evident Baseless Info",
+        "count": 11
+      },
+      {
+        "label_type": "Evident Conflict",
+        "note_type": "Subtle Conflict",
+        "count": 4
+      },
+      {
+        "label_type": "Subtle Conflict",
+        "note_type": "Evident Conflict",
+        "count": 3
+      }
+    ]
+  },
+  "identical_response_pairs": {
+    "grouping": "source_id + exact response text",
+    "pairs": 43,
+    "positive_in_both": 0,
+    "cross_source_id_pairs": 0,
+    "different_source_text_pairs": 0,
+    "same_binary_decision_pct": 100.0,
+    "identical_labels_pct": 100.0,
+    "any_character_agreement_f1": null,
+    "typed_character_agreement_f1": {
+      "Evident Conflict": null,
+      "Subtle Conflict": null,
+      "Evident Baseless Info": null,
+      "Subtle Baseless Info": null
+    }
+  },
+  "identical_source_text_response_pairs": {
+    "grouping": "source_text + exact response text",
+    "pairs": 44,
+    "positive_in_both": 0,
+    "cross_source_id_pairs": 1,
+    "different_source_text_pairs": 0,
+    "same_binary_decision_pct": 100.0,
+    "identical_labels_pct": 100.0,
+    "any_character_agreement_f1": null,
+    "typed_character_agreement_f1": {
+      "Evident Conflict": null,
+      "Subtle Conflict": null,
+      "Evident Baseless Info": null,
+      "Subtle Baseless Info": null
+    }
+  },
+  "same_manifest_group_response_pairs": {
+    "grouping": "manifest_group + exact response text",
+    "pairs": 44,
+    "positive_in_both": 0,
+    "cross_source_id_pairs": 1,
+    "different_source_text_pairs": 0,
+    "same_binary_decision_pct": 100.0,
+    "identical_labels_pct": 100.0,
+    "any_character_agreement_f1": null,
+    "typed_character_agreement_f1": {
+      "Evident Conflict": null,
+      "Subtle Conflict": null,
+      "Evident Baseless Info": null,
+      "Subtle Baseless Info": null
+    }
+  }
+}

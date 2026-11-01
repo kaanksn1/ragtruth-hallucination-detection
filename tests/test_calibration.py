@@ -5,6 +5,7 @@ import gzip
 import io
 import json
 from pathlib import Path
+import sys
 import tempfile
 from types import SimpleNamespace
 import unittest
@@ -22,6 +23,60 @@ if fixtures.HAVE_HF:
 
 
 class CalibrationTests(unittest.TestCase):
+    def test_empty_invalid_scores_and_invalid_floors_are_rejected_by_all_searches(self):
+        rows = [{"id": "r", "response": "a", "labels": []}]
+        for function in (calibration.tune_thresholds, calibration.tune_global_threshold, calibration.tune_joint_thresholds):
+            with self.subTest(function=function.__name__), self.assertRaisesRegex(ValueError, "nonempty"):
+                function([], {}, [.1, .5])
+            with self.assertRaisesRegex(ValueError, "scores"):
+                function(rows, {"r": [[float("nan")], [0.], [0.], [0.]]}, [.1])
+            for floor in (-1, 2, float("nan"), True):
+                with self.subTest(floor=floor), self.assertRaisesRegex(ValueError, "precision floor"):
+                    function(rows, {"r": [[0.]] * 4}, [.1], min_precision=floor)
+
+    def test_no_eligible_grid_point_fails_closed_instead_of_selecting_the_maximum(self):
+        rows = [{"id": "r", "response": "x" * 200,
+                 "labels": [{"start": 0, "end": 1, "label_type": LABEL_TYPES[0]}]}]
+        cache = {"r": [[.99] * 200, [0.] * 200, [0.] * 200, [0.] * 200]}
+        for function in (calibration.tune_thresholds, calibration.tune_global_threshold, calibration.tune_joint_thresholds):
+            with self.subTest(function=function.__name__), self.assertRaisesRegex(calibration.NoEligibleThreshold, "no eligible"):
+                function(rows, cache, [.01, .5, .6])
+        historical, _ = calibration.tune_thresholds(rows, cache, [.01, .5, .6], min_precision=0)
+        self.assertEqual(historical[LABEL_TYPES[0]], .6)
+
+    def test_no_positive_gold_can_abstain_but_cannot_admit_confident_false_positives(self):
+        rows = [{"id": "r", "response": "abc", "labels": []}]
+        for function in (calibration.tune_thresholds, calibration.tune_global_threshold, calibration.tune_joint_thresholds):
+            with self.subTest(function=function.__name__):
+                thresholds, _ = function(rows, {"r": [[.1] * 3] * 4}, [.05, .5])
+                self.assertEqual(set(thresholds.values()), {.5})
+                with self.assertRaises(calibration.NoEligibleThreshold):
+                    function(rows, {"r": [[1.] * 3] * 4}, [.05, .5])
+
+    def test_default_and_global_cannot_bypass_a_raw_type_precision_floor(self):
+        rows = [{"id": "r", "response": "x" * 200,
+                 "labels": [{"start": 0, "end": 200, "label_type": LABEL_TYPES[1]}]}]
+        cache = {"r": [[.9] * 200, [.6] * 200, [0.] * 200, [0.] * 200]}
+        comparison = calibration.compare_configurations(rows, cache, [.5, .95], .5, "successor_any")
+        # Default has perfect untyped F1 but all type-0 predictions are false.
+        self.assertEqual(comparison["metrics"]["default"]["any"]["f1"], 1)
+        self.assertFalse(comparison["constraints"]["default"]["eligible"])
+        self.assertNotEqual(comparison["winner"], "default")
+        self.assertTrue(comparison["constraints"][comparison["winner"]]["eligible"])
+        thresholds, search = calibration.tune_global_threshold(rows, cache, [.5, .95])
+        self.assertEqual(set(thresholds.values()), {.95})
+        self.assertFalse(search[0]["precision_constraint"]["eligible"])
+
+    def test_selection_mode_is_declared_and_legacy_checkpoint_selection_is_preserved(self):
+        self.assertEqual(calibration.selection_mode({"selection_metric": "macro_f1_types"}), "legacy_macro")
+        self.assertEqual(calibration.selection_mode({"selection_metric": "detection_f1_then_macro_f1_types"}), "successor_any")
+        with self.assertRaisesRegex(ValueError, "conflicts"):
+            calibration.selection_mode({"selection_metric": "macro_f1_types"}, "successor_any")
+        rows = [{"candidate_index": 0, "calibrated_metrics": {"any": {"f1": .5}, "macro_f1_types": .3}},
+                {"candidate_index": 1, "calibrated_metrics": {"any": {"f1": .4}, "macro_f1_types": .4}}]
+        self.assertEqual(calibration.select_checkpoint(rows, metric="macro_f1_types")["candidate_index"], 1)
+        self.assertEqual(calibration.select_checkpoint(rows)["candidate_index"], 0)
+
     def test_rare_class_can_be_recovered_without_changing_weights_and_ties_are_conservative(self):
         rows = [{"id": "positive", "response": "a b", "labels": [{"start": 0, "end": 3, "label_type": LABEL_TYPES[1]}]},
                 {"id": "negative", "response": "a", "labels": []}]
@@ -195,6 +250,131 @@ class CalibrationTests(unittest.TestCase):
                     del bad[omitted]
                     with self.subTest(omitted=omitted), self.assertRaisesRegex(ValueError, "frozen test job"):
                         cli.verify_frozen_inputs(args, bad)
+
+
+class CalibrationCLIPolicyTests(unittest.TestCase):
+    """Exercise CLI orchestration using synthetic cached probabilities, without models."""
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        self.checkpoint = self.root / "outputs/train/checkpoints/epoch-1"
+        self.checkpoint.mkdir(parents=True)
+        self.identity = {"train.jsonl": "train-hash", "validation.jsonl": "dev-hash"}
+        self.saved = {"config": {"threshold": .5, "aggregation": "min", "processed_dir": "data/processed",
+                                 "split_manifest": "data/splits/manifest.csv"},
+                      "metadata": {"data_sha256": self.identity}}
+        (self.checkpoint / "checkpoint.json").write_text(json.dumps(self.saved), encoding="utf-8")
+        self.rows = [{"id": "r", "response": "x" * 12, "labels": [
+            {"start": 0, "end": 2, "label_type": LABEL_TYPES[0]},
+            {"start": 10, "end": 12, "label_type": LABEL_TYPES[1]}]}]
+        self.cache = {"r": [[.6] * 10 + [0., 0.], [0.] * 10 + [.6, .6], [0.] * 12, [0.] * 12]}
+        self.output = self.root / "outputs/calibration"
+        self.config_path = self.root / "config.json"
+
+    def run_cli(self, mode, *, explicit=None, second_checkpoint=False):
+        config = {"schema_version": 1, "split": "validation", "selection_metric": calibration.SELECTION_MODES[mode],
+                  "threshold_grid": [.5, .7], "checkpoints": [self.checkpoint.relative_to(self.root).as_posix()]}
+        if second_checkpoint:
+            other = self.checkpoint.parent / "epoch-2"
+            other.mkdir()
+            (other / "checkpoint.json").write_text(json.dumps(self.saved), encoding="utf-8")
+            config["checkpoints"].append(other.relative_to(self.root).as_posix())
+        self.config_path.write_text(json.dumps(config), encoding="utf-8")
+        def records(*args, with_labels=True):
+            return copy.deepcopy(self.rows) if with_labels else [
+                {k: v for k, v in row.items() if k != "labels"} for row in self.rows]
+        def cache(*args):
+            self.assertTrue(all("labels" not in record for record in args[4]))
+        fake_core = SimpleNamespace(choose_device=lambda value: SimpleNamespace(type="cpu"))
+        argv = ["--config", str(self.config_path), "--output", str(self.output), "--device", "cpu"]
+        if explicit:
+            argv += ["--selection-mode", explicit]
+        with patch.object(calibration, "ROOT", self.root), \
+             patch.object(calibration, "producer_identity", return_value={"code_sha256": {"fixture": "fixed"}}), \
+             patch.object(calibration, "verify_data", return_value=self.identity), \
+             patch.object(calibration, "verify_validation_identity"), \
+             patch.object(calibration, "read_records", side_effect=records), \
+             patch.object(calibration, "build_cache", side_effect=cache), \
+             patch.object(calibration, "read_cache", return_value=self.cache, side_effect=getattr(self, "cache_sequence", None)), \
+             patch.dict(sys.modules, {"transformer": fake_core}), redirect_stdout(io.StringIO()):
+            return calibration.main(argv)
+
+    def test_successor_joint_winner_is_exported_as_a_loadable_decoder_artifact(self):
+        before = (self.checkpoint / "checkpoint.json").read_bytes()
+        self.assertEqual(self.run_cli("successor_any", explicit="successor_any"), 0)
+        artifact = calibration.load_calibration(self.output / "calibration.json", self.checkpoint, self.saved)
+        self.assertEqual(artifact["selected_configuration"], "joint")
+        self.assertEqual(artifact["thresholds_by_type"][LABEL_TYPES[0]], .7)
+        self.assertEqual(artifact["thresholds_by_type"][LABEL_TYPES[1]], .5)
+        self.assertAlmostEqual(artifact["validation_metrics"]["any"]["f1"], 2 / 3)
+        self.assertEqual(artifact["selection_policy"]["version"], "constrained-any-v2")
+        report = json.loads((self.output / "calibration_report.json").read_text(encoding="utf-8"))
+        self.assertEqual(report["selected"], artifact)
+        self.assertEqual(report["producer"], artifact["producer"])
+        self.assertGreaterEqual(report["elapsed_seconds"], 0)
+        self.assertLessEqual(report["started_utc"], report["finished_utc"])
+        self.assertEqual((self.checkpoint / "checkpoint.json").read_bytes(), before)
+
+    def test_explicit_legacy_config_uses_original_pertype_not_joint_selection(self):
+        with patch.object(calibration, "tune_joint_thresholds", side_effect=AssertionError("legacy ran joint search")), \
+             patch.object(calibration, "tune_global_threshold", side_effect=AssertionError("legacy ran global search")):
+            self.assertEqual(self.run_cli("legacy_macro"), 0)
+        artifact = calibration.load_calibration(self.output / "calibration.json", self.checkpoint, self.saved)
+        self.assertEqual(artifact["selection_metric"], "macro_f1_types")
+        self.assertEqual(artifact["selected_configuration"], "per_type")
+        self.assertEqual(artifact["selection_policy"]["minimum_validation_type_precision"], 0)
+        self.assertAlmostEqual(artifact["validation_metrics"]["any"]["f1"], .5)
+
+    def test_mode_mismatch_is_rejected_before_creating_outputs(self):
+        with self.assertRaisesRegex(ValueError, "conflicts"):
+            self.run_cli("legacy_macro", explicit="successor_any")
+        self.assertFalse(self.output.exists())
+
+    def test_all_unsafe_decoders_keep_default_diagnostics_without_exporting_a_model(self):
+        self.rows = [{"id": "r", "response": "x" * 200,
+                      "labels": [{"start": 0, "end": 1, "label_type": LABEL_TYPES[0]}]}]
+        self.cache = {"r": [[1.] * 200, [0.] * 200, [0.] * 200, [0.] * 200]}
+        with self.assertRaisesRegex(calibration.NoEligibleThreshold, "diagnostics retained"):
+            self.run_cli("successor_any")
+        report = json.loads((self.output / "calibration_report.json").read_text(encoding="utf-8"))
+        self.assertEqual(report["status"], "rejected_no_eligible_configuration")
+        self.assertIsNone(report["candidates"][0]["configuration_winner"])
+        self.assertFalse(report["candidates"][0]["configuration_constraints"]["default"]["eligible"])
+        self.assertTrue((self.output / "validation_predictions_default_1.jsonl").is_file())
+        self.assertFalse((self.output / "calibration.json").exists())
+        self.assertFalse((self.output / "validation_predictions.jsonl").exists())
+
+    def test_rejected_checkpoint_does_not_prevent_exporting_another_eligible_checkpoint(self):
+        self.rows = [{"id": "r", "response": "x" * 200, "labels": [
+            {"start": 0, "end": 1, "label_type": LABEL_TYPES[0]},
+            {"start": 198, "end": 200, "label_type": LABEL_TYPES[1]}]}]
+        bad = {"r": [[1.] * 200, [0.] * 200, [0.] * 200, [0.] * 200]}
+        good = {"r": [[.6] + [0.] * 199, [0.] * 198 + [.6, .6], [0.] * 200, [0.] * 200]}
+        self.cache_sequence = [bad, good]
+        self.assertEqual(self.run_cli("successor_any", second_checkpoint=True), 0)
+        artifact = calibration.load_calibration(self.output / "calibration.json", self.checkpoint.parent / "epoch-2", self.saved)
+        self.assertTrue(artifact["checkpoint"].endswith("epoch-2"))
+        self.assertFalse((self.output / "validation_predictions_candidate_1.jsonl").exists())
+        self.assertTrue((self.output / "validation_predictions_candidate_2.jsonl").is_file())
+        self.assertTrue((self.output / "validation_predictions_default_1.jsonl").is_file())
+
+    def test_historical_configs_and_successor_job_choose_consistent_modes(self):
+        root = Path(__file__).resolve().parents[1]
+        decision = json.loads((root / "docs/FINAL_PROTOCOL.json").read_text(encoding="utf-8"))
+        for name in ("configs/calibration.json", "configs/calibration_weighted_policy.json",
+                     "configs/jobs/transformer_calibration.json"):
+            self.assertEqual(sha256_file(root / name), decision["code_sha256"][name])
+        old = json.loads((root / "configs/jobs/transformer_calibration.json").read_text(encoding="utf-8"))
+        new = json.loads((root / "configs/jobs/transformer_calibration_v2.json").read_text(encoding="utf-8"))
+        self.assertFalse(any("validation_predictions_candidate_" in name for name in new["expected_outputs"]))
+        for job, mode in ((old, "legacy_macro"), (new, "successor_any")):
+            config_path = job["command"][job["command"].index("--config") + 1]
+            config = json.loads((root / config_path).read_text(encoding="utf-8"))
+            requested = (job["command"][job["command"].index("--selection-mode") + 1]
+                         if "--selection-mode" in job["command"] else None)
+            self.assertEqual(calibration.selection_mode(config, requested), mode)
+            self.assertIn(config_path, job["inputs"])
 
 
 @unittest.skipUnless(fixtures.HAVE_HF, "install requirements-transformer.txt")

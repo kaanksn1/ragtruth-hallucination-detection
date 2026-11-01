@@ -36,9 +36,11 @@ Resmî test, `quality=good` olan 2.675 cevap üzerinde değerlendirildi:
 | CRF (kaynaklı) | 0,3544 | 0,1976 | 0,0667 | 0,6624 |
 | Transformer | **0,5206** | **0,2984** | **0,0678** | **0,7285** |
 
-\* Sonradan eklenen açıklayıcı metrik; model seçiminde kullanılmadı.
+\* Cevap düzeyi: cevapta en az bir hatalı span var/yok kararı. Sonradan eklenen
+açıklayıcı metriktir; model seçiminde kullanılmadı ve karakter F1'la aynı görev değildir.
 
-Skorlar, proje scorer'ı dışında [bağımsız olarak yeniden üretildi](results/independent_rescore.md).
+Sabit tahminlerin skorları, dosya kimliği ve tam kohort kontrolüyle proje scorer'ı
+dışında [bağımsız olarak yeniden üretildi](results/independent_rescore.md).
 
 Modeller sorunlu bölgeleri kısmen buluyor, ancak span sınırlarını tam tutturmakta
 zorlanıyor. Subtle Conflict F1 üç modelde de 0'dır; bu tür testte yalnızca 15 cevapta
@@ -49,26 +51,34 @@ Ayrıntılar: [teknik rapor](results/FINAL_REPORT.md) · [Türkçe bulgular](res
 
 ## Son geliştirmeler
 
-- **Seçim düzeltmeleri:** Model seçiminde detection F1 önceliklendirildi, ortak eşik
-  araması ve %1 kesinlik tabanı eklendi. Validation detection F1 değerleri
-  Transformer'da %55,07, CRF'te %39,22 oldu. Yukarıdaki donmuş test sonuçları değişmedi.
-  Bkz. [proje devri](PROJECT_HANDOFF.md).
+- **Yeni seçim deneyleri:** Ayrı oturumda any-F1 öncelikli seçim ve ortak eşik
+  araması denendi. Raporlanan validation F1: Transformer %55,07, CRF %39,22.
+  Bunlar bağımsız test sonucu değildir; yeni oturumun tahmin/ağırlıkları bu depoda yoktur.
+  Teslim edilen Transformer calibration JSON'u global %55,00 ayarını içerir;
+  %55,07 joint sonucu ayrı deney raporundadır. Eski donmuş test sonuçları değişmedi.
+  Tarihsel macro-F1 seçim modu korunur; yeni any-F1 modu ve güncel komutlar
+  [kalibrasyon rehberinde](docs/CALIBRATION.md) açıklanır.
+- **Doğrulama düzeltmeleri:** Eksik/tekrar tahminler ve değişmiş girdiler reddedilir;
+  test raporu açık izin gerektirir. Etiket denetimi yalnız train/validation okur.
 - **Bağımsız doğrulama:** Test skorları yeniden üretildi ve etiket kalitesi denetlendi.
+  Düzeltmeler ve kontroller: [2 Kasım inceleme raporu](results/review_2026-11-02/REVIEW.md).
 - **V2 denemeleri:** Focal loss, BCE ve yapılandırılmış modeller ayrı bir iç holdout ile
   [`feature/ragtruth-v2`](https://github.com/kaanksn1/ragtruth-hallucination-detection/tree/feature/ragtruth-v2)
   branch'inde tutulur. Bu sonuçlar resmî testle doğrudan karşılaştırılamaz.
 
 ## Kurulum
 
-Python 3.12 gerekir. Veri indirme ve testler için ek paket gerekmez:
+Python 3.12 gerekir. Veri indirme/hazırlama standart kütüphane ile çalışır:
 
 ```bash
 python scripts/download_data.py
 python scripts/prepare_data.py
-python -m unittest discover -s tests -v
 ```
 
 Model bağımlılıkları `requirements-crf.txt` ve `requirements-transformer.txt` içindedir.
+Tam test kapsamı için bu bağımlılıkları uygun ortamda kurup
+`python -m unittest discover -s tests -v` çalıştırın. Bağımlılık bulunmayan ortamda
+bazı testler atlanır; yeşil sonuç bütün model kontrollerinin çalıştığı anlamına gelmez.
 Eğitim ve değerlendirme adımları: [çalıştırma rehberi](docs/RUNNING.md) ·
 [teknik teslim rehberi](docs/TECHNICAL_HANDOFF.md).
 

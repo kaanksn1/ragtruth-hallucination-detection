@@ -1,0 +1,55 @@
+{
+  "format_version": "ragtruth-data-v1",
+  "study_id": "ragtruth-v2-fresh-original-train-holdout",
+  "seed": 20261101,
+  "holdout_fraction": 0.1,
+  "stratify_by": [
+    "task_type"
+  ],
+  "grouping": "original manifest group_id; source and same-content groups stay together",
+  "selection_rule": "shuffle sorted original-train groups by task; round 10%, retaining at least one train group per stratum",
+  "source_sha256": {
+    "original_train.jsonl": "005def627fa45493e024e1b9e2295d289a0698ea475b888e8e2320d86151bb96",
+    "original_validation.jsonl": "d070d62056b2a7f11a58748291f6fd1881cceabc35e3db29435f1ae7d488c5ec",
+    "original_manifest.csv": "7d292931c9337c9a4e30e9a62c7f09e72e8e8c51e31bc22b0522515aa3248a5f"
+  },
+  "sources_per_split": {
+    "train": {
+      "Data2txt": 676,
+      "QA": 642,
+      "Summary": 607,
+      "total": 1925
+    },
+    "validation": {
+      "Data2txt": 132,
+      "QA": 126,
+      "Summary": 119,
+      "total": 377
+    },
+    "test": {
+      "Data2txt": 75,
+      "QA": 71,
+      "Summary": 67,
+      "total": 213
+    }
+  },
+  "groups_per_split": {
+    "train": 1923,
+    "validation": 377,
+    "test": 213
+  },
+  "responses_per_split": {
+    "train": 11550,
+    "validation": 2262,
+    "test": 1278
+  },
+  "processed_sha256": {
+    "train.jsonl": "ce2f925a9ac985fbb0181af4ebc42990c9b6058d893ab32dd217bb4607b1f6c1",
+    "crf_train.jsonl": "b232ecbfb8d0c8507bae7cb319cb463dd7d416ec5ec38fabe744f40e8b6f07c4",
+    "validation.jsonl": "33ff43e88643c2edb059013ed99ff9dff667b6b1814238f541924a061b897ba2",
+    "crf_validation.jsonl": "505b98937074e027d0cd6c2267dbd629c30c9179e91c4675bc7a60dcbf39c9f1"
+  },
+  "original_official_test_annotations_read": false,
+  "holdout_role": "fresh study holdout carved only from original project's train; not original official test",
+  "holdout_materialization_policy": "only after committed frozen docs/V2_FINAL_PROTOCOL.json; no holdout class stats"
+}

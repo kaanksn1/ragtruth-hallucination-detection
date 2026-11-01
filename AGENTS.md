@@ -1,5 +1,20 @@
 # Project 2 — RAGTruth scope and ownership
 
+## Explicit improvement assignment — 1 November 2026
+
+The user asked to improve the low F1 and authorized work during today/overnight.
+This isolated V2 worktree may implement fresh-model loss/structured-decoder
+experiments and a new source-group holdout drawn only from the original
+project-training partition. Preserve original main, final protocols/results,
+and all BANKING77 work. Never read or rerun the original official test here.
+Every V2 encoder starts from the original pinned pretrained weights, not a V1
+task-finetuned checkpoint, since those saw the new holdout during V1 training.
+Use the existing validation partition only for development; freeze all V2 model
+and decoder choices before materializing/scoring the new internal holdout.
+The new holdout is a separate study cohort, not a replacement official-test score.
+No score improvement or specific percentage is guaranteed. All four raw types,
+overlaps, original text and source grouping remain intact.
+
 The user selected RAGTruth and assigned a five-person workflow on 2026-10-29.
 All full training and model-prediction runs, including the CPU CRF baseline,
 must run on the repository owner's PC. Person 5 presents.

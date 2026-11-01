@@ -51,6 +51,11 @@ def validate_config(config):
     weighting = config.get("positive_weighting", "none")
     if weighting not in {"none", "sqrt_capped"}:
         raise ValueError("positive_weighting must be none or sqrt_capped")
+    validate_loss_parameters(config.get("loss", "bce"), config.get("focal_gamma", 2.0), config.get("focal_alpha", .75))
+    if config.get("loss", "bce") == "focal" and weighting != "none":
+        raise ValueError("focal loss cannot be combined with positive_weighting")
+    if type(config.get("save_all_epochs", False)) is not bool:
+        raise ValueError("save_all_epochs must be boolean")
     cap = config.get("positive_weighting_cap", 50.0)
     if type(cap) not in (int, float) or not math.isfinite(cap) or cap < 1:
         raise ValueError("positive_weighting_cap must be finite and at least one")
@@ -180,9 +185,49 @@ def masked_bce_loss(logits, labels, response_mask, attention_mask, pos_weight=No
     return nn.BCEWithLogitsLoss(pos_weight=pos_weight)(selected, labels[active].float())
 
 
+def validate_loss_parameters(loss, gamma=2.0, alpha=.75):
+    if not isinstance(loss, str) or loss not in {"bce", "focal"}:
+        raise ValueError("loss must be bce or focal")
+    if type(gamma) not in (int, float) or not math.isfinite(gamma) or gamma < 0:
+        raise ValueError("focal_gamma must be finite and nonnegative")
+    if type(alpha) not in (int, float) or not math.isfinite(alpha) or not 0 < alpha < 1:
+        raise ValueError("focal_alpha must be finite and in (0,1)")
+
+
+def masked_focal_loss(logits, labels, response_mask, attention_mask, *, gamma=2.0, alpha=.75):
+    """Independent sigmoid focal loss over the same four valid response targets.
+
+    Select before BCE so source/padding NaNs cannot affect the result. The
+    tiny probability floor prevents undefined gradients at saturated p_t=1
+    for fractional gamma; it does not clip logits or invent target labels.
+    """
+    validate_loss_parameters("focal", gamma, alpha)
+    if logits.shape != labels.shape or logits.shape[-1] != len(LABEL_TYPES):
+        raise ValueError("logits and labels must have matching [batch, sequence, 4] shapes")
+    if response_mask.shape != logits.shape[:2] or attention_mask.shape != response_mask.shape:
+        raise ValueError("masks must match [batch, sequence]")
+    active = response_mask.bool() & attention_mask.bool()
+    selected, targets = logits[active].float(), labels[active].float()
+    if not selected.numel():
+        return selected.sum()
+    if (not torch.isfinite(selected).all() or not torch.isfinite(targets).all()
+            or ((targets != 0) & (targets != 1)).any()):
+        raise ValueError("focal loss needs finite response logits and binary targets")
+    bce = nn.functional.binary_cross_entropy_with_logits(selected, targets, reduction="none")
+    probability = selected.sigmoid()
+    p_t = probability * targets + (1 - probability) * (1 - targets)
+    modulation = torch.ones_like(bce) if gamma == 0 else (1 - p_t).clamp_min(torch.finfo(selected.dtype).tiny).pow(gamma)
+    alpha_t = alpha * targets + (1 - alpha) * (1 - targets)
+    return (bce * alpha_t * modulation).mean()
+
+
 class HallucinationTransformer(nn.Module):
-    def __init__(self, encoder, dropout=0.1, positive_weights=None):
+    def __init__(self, encoder, dropout=0.1, positive_weights=None, *, loss="bce", focal_gamma=2.0, focal_alpha=.75):
         super().__init__()
+        validate_loss_parameters(loss, focal_gamma, focal_alpha)
+        if loss == "focal" and positive_weights is not None and any(value != 1 for value in positive_weights):
+            raise ValueError("focal loss cannot be combined with positive weights")
+        self.loss_mode, self.focal_gamma, self.focal_alpha = loss, focal_gamma, focal_alpha
         self.encoder = encoder
         self.dropout = nn.Dropout(dropout)
         self.classifier = nn.Linear(encoder.config.hidden_size, len(LABEL_TYPES))
@@ -196,6 +241,7 @@ class HallucinationTransformer(nn.Module):
 
     @classmethod
     def from_pretrained(cls, config):
+        validate_config(config)
         if config.get("positive_weighting", "none") == "sqrt_capped" and "positive_weights" not in config:
             raise ValueError("derive train-only positive_weights before constructing the weighted model")
         enc_config = AutoConfig.from_pretrained(config["model_name"], revision=config["revision"])
@@ -208,7 +254,8 @@ class HallucinationTransformer(nn.Module):
         )
         if config["gradient_checkpointing"]:
             encoder.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
-        return cls(encoder, config["dropout"], config.get("positive_weights"))
+        return cls(encoder, config["dropout"], config.get("positive_weights"), loss=config.get("loss", "bce"),
+                   focal_gamma=config.get("focal_gamma", 2.0), focal_alpha=config.get("focal_alpha", .75))
 
     def forward(self, input_ids, attention_mask, response_mask, labels=None, token_type_ids=None):
         if input_ids.numel() == 0:
@@ -220,7 +267,12 @@ class HallucinationTransformer(nn.Module):
                 inputs["token_type_ids"] = token_type_ids
             hidden = self.encoder(**inputs).last_hidden_state
             logits = self.classifier(self.dropout(hidden))
-        loss = None if labels is None else masked_bce_loss(logits, labels, response_mask, attention_mask, self.positive_weights)
+        loss = None
+        if labels is not None:
+            loss = (masked_focal_loss(logits, labels, response_mask, attention_mask,
+                                     gamma=self.focal_gamma, alpha=self.focal_alpha)
+                    if self.loss_mode == "focal" else
+                    masked_bce_loss(logits, labels, response_mask, attention_mask, self.positive_weights))
         return {"logits": logits, "loss": loss}
 
 
@@ -393,6 +445,16 @@ def predict_records(model, records, tokenizer, config, device):
 def save_checkpoint(path, model, tokenizer, config, metadata):
     """Self-contained inference checkpoint; intentionally no optimizer/resume state."""
     path = Path(path)
+    validate_config(config)
+    if (config.get("loss", "bce") != model.loss_mode or
+            (model.loss_mode == "focal" and (model.focal_gamma != config.get("focal_gamma", 2.0)
+                                            or model.focal_alpha != config.get("focal_alpha", .75)))):
+        raise ValueError("checkpoint config does not match the model's loss settings")
+    metadata = dict(metadata)
+    loss_parameters = {"gamma": model.focal_gamma, "alpha": model.focal_alpha} if model.loss_mode == "focal" else None
+    if metadata.get("loss_mode", model.loss_mode) != model.loss_mode or metadata.get("loss_parameters", loss_parameters) != loss_parameters:
+        raise ValueError("checkpoint metadata does not match the model's loss settings")
+    metadata.update(loss_mode=model.loss_mode, loss_parameters=loss_parameters)
     if config.get("positive_weighting", "none") == "sqrt_capped" and "positive_weights" not in config:
         raise ValueError("weighted checkpoint requires recorded train-derived positive_weights")
     actual_weights = model.positive_weights
@@ -429,6 +491,11 @@ def load_checkpoint(path, device="cpu"):
             raise ValueError(f"checkpoint checksum mismatch: {name}")
     config = saved["config"]
     validate_config(config)
+    loss_mode = config.get("loss", "bce")
+    loss_parameters = {"gamma": config.get("focal_gamma", 2.0), "alpha": config.get("focal_alpha", .75)} if loss_mode == "focal" else None
+    metadata = saved.get("metadata", {})
+    if metadata.get("loss_mode", loss_mode) != loss_mode or metadata.get("loss_parameters", loss_parameters) != loss_parameters:
+        raise ValueError("checkpoint loss metadata differs from its config")
     if config.get("positive_weighting", "none") == "sqrt_capped" and "positive_weights" not in config:
         raise ValueError("weighted checkpoint is missing its train-derived positive_weights")
     enc_config = AutoConfig.from_pretrained(path / "encoder", local_files_only=True)
@@ -438,7 +505,8 @@ def load_checkpoint(path, device="cpu"):
         enc_config.reference_compile = False
     encoder = AutoModel.from_pretrained(path / "encoder", config=enc_config, local_files_only=True,
                                         attn_implementation=config["attention_implementation"])
-    model = HallucinationTransformer(encoder, config["dropout"], config.get("positive_weights"))
+    model = HallucinationTransformer(encoder, config["dropout"], config.get("positive_weights"), loss=config.get("loss", "bce"),
+                                    focal_gamma=config.get("focal_gamma", 2.0), focal_alpha=config.get("focal_alpha", .75))
     model.classifier.load_state_dict(load_file(str(path / "head.safetensors")))
     tokenizer = AutoTokenizer.from_pretrained(path / "tokenizer", local_files_only=True, use_fast=True)
     validate_tokenizer(tokenizer, config, encoder.config)

@@ -1,5 +1,11 @@
 # Anonymous — NLP Proje 2: RAGTruth
 
+> **V2 geliştirme dalı — 1 Kasım 2026:** Kullanıcı düşük F1 için gece boyunca
+> ek deney istedi. Bu dalın [sınırlandırılmış planı](docs/V2_PLAN.md) üç yeni
+> modeli aynı yeni ayrımda karşılaştırır. Eski resmî test yeniden kullanılmaz;
+> yeni kontrol kümesi yalnız önceki train'den ayrılır. Aşağıdaki V1 sonuçları
+> tarihsel teslimdir; V2 sonuçları tamamlanınca `results/v2/` altında yer alır.
+
 **Amaç:** Kaynak içerik ve yapay zekâ cevabını birlikte inceleyerek cevaptaki
 kaynakla çelişen veya kaynakta desteklenmeyen metin bölümlerini işaretlemek.
 

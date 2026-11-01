@@ -140,11 +140,17 @@ def cmd_train(args):
     tr.validate_tokenizer(tokenizer, config, model.encoder.config)
     optimizer = torch.optim.AdamW(model.parameters(), lr=config["learning_rate"], weight_decay=config["weight_decay"])
     out.mkdir(parents=True, exist_ok=True)
+    loss_mode = config.get("loss", "bce")
+    loss_parameters = ({"gamma": config.get("focal_gamma", 2.0), "alpha": config.get("focal_alpha", .75)}
+                       if loss_mode == "focal" else None)
+    selection_metric = ("minimum validation masked sigmoid focal loss; earliest epoch breaks ties" if loss_mode == "focal" else
+                        "minimum validation weighted masked BCE using fixed train-derived positive weights; earliest epoch breaks ties"
+                        if weighting is not None else
+                        "minimum validation masked BCE over all windows; earliest epoch breaks ties")
     summary = {
         "config": config, "label_types": list(tr.LABEL_TYPES), "data_sha256": identity,
-        "selection_metric": ("minimum validation weighted masked BCE using fixed train-derived positive weights; earliest epoch breaks ties"
-                             if weighting is not None else
-                             "minimum validation masked BCE over all windows; earliest epoch breaks ties"),
+        "selection_metric": selection_metric, "loss_mode": loss_mode, "loss_parameters": loss_parameters,
+        "save_all_epochs": config.get("save_all_epochs", False), "saved_checkpoints": [],
         "positive_weighting": weighting if weighting is not None else {"method": "none", "weights_vector": [1.0] * len(tr.LABEL_TYPES)},
         "threshold_note": "fixed config threshold, not tuned on test",
         "counts": {split: len(rows) for split, rows in records.items()},
@@ -170,12 +176,16 @@ def cmd_train(args):
             raise ValueError("train/validation contains no valid answer tokens")
         row = {"epoch": epoch + 1, "train": train, "validation": validation}
         summary["epochs"].append(row)
-        if validation["loss"] < best:
-            best = validation["loss"]
-            relative = f"checkpoints/epoch-{epoch + 1}"
+        improved = validation["loss"] < best
+        relative = f"checkpoints/epoch-{epoch + 1}"
+        if improved or config.get("save_all_epochs", False):
             tr.save_checkpoint(out / relative, model, tokenizer, config,
-                               {"epoch": epoch + 1, "validation_loss": best, "data_sha256": identity,
-                                "positive_weighting": weighting})
+                               {"epoch": epoch + 1, "validation_loss": validation["loss"], "data_sha256": identity,
+                                "positive_weighting": weighting, "loss_mode": loss_mode,
+                                "loss_parameters": loss_parameters, "selection_metric": selection_metric})
+            summary["saved_checkpoints"].append(relative)
+        if improved:
+            best = validation["loss"]
             summary["best_checkpoint"] = relative
         write_json(out / "transformer_summary.json", summary)
         print(json.dumps(row), flush=True)

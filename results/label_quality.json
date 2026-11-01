@@ -1,0 +1,112 @@
+{
+  "scope": "good-quality train+validation; official test labels not read",
+  "responses": 14942,
+  "spans": 12693,
+  "boundaries": {
+    "edge_whitespace": {
+      "count": 0,
+      "pct": 0.0
+    },
+    "edge_punctuation": {
+      "count": 4782,
+      "pct": 37.67
+    },
+    "mid_word_start": {
+      "count": 3,
+      "pct": 0.02
+    },
+    "mid_word_end": {
+      "count": 4,
+      "pct": 0.03
+    },
+    "ends_sentence": {
+      "count": 3788,
+      "pct": 29.84
+    }
+  },
+  "types": {
+    "Evident Conflict": {
+      "spans": 4687,
+      "median_words": 5,
+      "p90_words": 13,
+      "max_words": 96,
+      "implicit_true_pct": 0.11,
+      "due_to_null_pct": 0.34
+    },
+    "Subtle Conflict": {
+      "spans": 185,
+      "median_words": 5,
+      "p90_words": 14,
+      "max_words": 49,
+      "implicit_true_pct": 0.54,
+      "due_to_null_pct": 0.0
+    },
+    "Evident Baseless Info": {
+      "spans": 5467,
+      "median_words": 6,
+      "p90_words": 23,
+      "max_words": 239,
+      "implicit_true_pct": 1.08,
+      "due_to_null_pct": 25.9
+    },
+    "Subtle Baseless Info": {
+      "spans": 2354,
+      "median_words": 5.0,
+      "p90_words": 19,
+      "max_words": 148,
+      "implicit_true_pct": 74.3,
+      "due_to_null_pct": 0.34
+    }
+  },
+  "note_type_vs_label_type": {
+    "parsed": 11836,
+    "unparsed": 857,
+    "disagreements": 77,
+    "disagreement_pct": 0.65,
+    "pairs": [
+      {
+        "label_type": "Evident Baseless Info",
+        "note_type": "Evident Conflict",
+        "count": 28
+      },
+      {
+        "label_type": "Subtle Baseless Info",
+        "note_type": "Evident Baseless Info",
+        "count": 16
+      },
+      {
+        "label_type": "Evident Baseless Info",
+        "note_type": "Subtle Baseless Info",
+        "count": 15
+      },
+      {
+        "label_type": "Evident Conflict",
+        "note_type": "Evident Baseless Info",
+        "count": 11
+      },
+      {
+        "label_type": "Evident Conflict",
+        "note_type": "Subtle Conflict",
+        "count": 4
+      },
+      {
+        "label_type": "Subtle Conflict",
+        "note_type": "Evident Conflict",
+        "count": 3
+      }
+    ]
+  },
+  "identical_response_pairs": {
+    "pairs": 43,
+    "positive_in_both": 0,
+    "same_binary_decision_pct": 100.0,
+    "identical_labels_pct": 100.0,
+    "any_character_agreement_f1": null,
+    "typed_character_agreement_f1": {
+      "Evident Conflict": null,
+      "Subtle Conflict": null,
+      "Evident Baseless Info": null,
+      "Subtle Baseless Info": null
+    }
+  }
+}

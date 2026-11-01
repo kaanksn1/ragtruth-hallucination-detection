@@ -1,0 +1,207 @@
+{
+  "candidates": {
+    "default": {
+      "thresholds": {
+        "Evident Conflict": 0.5,
+        "Subtle Conflict": 0.5,
+        "Evident Baseless Info": 0.5,
+        "Subtle Baseless Info": 0.5
+      },
+      "validation": {
+        "any": {
+          "precision": 0.5960545973108787,
+          "recall": 0.1714321985898713,
+          "f1": 0.2662793696057761,
+          "gold_chars": 102402
+        },
+        "Evident Conflict": {
+          "precision": 0.5063152114222954,
+          "recall": 0.1099976139346218,
+          "f1": 0.18073115750269528,
+          "gold_chars": 25146
+        },
+        "Subtle Conflict": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_chars": 830
+        },
+        "Evident Baseless Info": {
+          "precision": 0.529014598540146,
+          "recall": 0.20075482150895052,
+          "f1": 0.2910569513817424,
+          "gold_chars": 57762
+        },
+        "Subtle Baseless Info": {
+          "precision": 0.14631197097944376,
+          "recall": 0.032167162909400256,
+          "f1": 0.052739397637623676,
+          "gold_chars": 18808
+        },
+        "macro_f1_types": 0.13113187663051534
+      }
+    },
+    "global": {
+      "thresholds": {
+        "Evident Conflict": 0.15,
+        "Subtle Conflict": 0.15,
+        "Evident Baseless Info": 0.15,
+        "Subtle Baseless Info": 0.15
+      },
+      "validation": {
+        "any": {
+          "precision": 0.36523739199809885,
+          "recall": 0.4202359328919357,
+          "f1": 0.39081117407730315,
+          "gold_chars": 102402
+        },
+        "Evident Conflict": {
+          "precision": 0.26757283814069915,
+          "recall": 0.3655849836952199,
+          "f1": 0.3089928238912324,
+          "gold_chars": 25146
+        },
+        "Subtle Conflict": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_chars": 830
+        },
+        "Evident Baseless Info": {
+          "precision": 0.31663299843476167,
+          "recall": 0.4097503549046086,
+          "f1": 0.3572231739251836,
+          "gold_chars": 57762
+        },
+        "Subtle Baseless Info": {
+          "precision": 0.12487229497538777,
+          "recall": 0.1429710761378137,
+          "f1": 0.13331019780873535,
+          "gold_chars": 18808
+        },
+        "macro_f1_types": 0.19988154890628784
+      }
+    },
+    "per_type": {
+      "thresholds": {
+        "Evident Conflict": 0.2,
+        "Subtle Conflict": 0.5,
+        "Evident Baseless Info": 0.2,
+        "Subtle Baseless Info": 0.05
+      },
+      "validation": {
+        "any": {
+          "precision": 0.35173069306930693,
+          "recall": 0.43364387414308314,
+          "f1": 0.3884155835068138,
+          "gold_chars": 102402
+        },
+        "Evident Conflict": {
+          "precision": 0.31369213947272506,
+          "recall": 0.3080410403245049,
+          "f1": 0.31084090772286765,
+          "gold_chars": 25146
+        },
+        "Subtle Conflict": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_chars": 830
+        },
+        "Evident Baseless Info": {
+          "precision": 0.3593807531380753,
+          "recall": 0.37174959315813166,
+          "f1": 0.365460548709919,
+          "gold_chars": 57762
+        },
+        "Subtle Baseless Info": {
+          "precision": 0.10285350276856736,
+          "recall": 0.33480433857932795,
+          "f1": 0.15736402144169134,
+          "gold_chars": 18808
+        },
+        "macro_f1_types": 0.2084163694686195
+      }
+    },
+    "joint": {
+      "thresholds": {
+        "Evident Conflict": 0.15,
+        "Subtle Conflict": 0.5,
+        "Evident Baseless Info": 0.2,
+        "Subtle Baseless Info": 0.1
+      },
+      "validation": {
+        "any": {
+          "precision": 0.37528781793842036,
+          "recall": 0.4106462764399133,
+          "f1": 0.3921716747803704,
+          "gold_chars": 102402
+        },
+        "Evident Conflict": {
+          "precision": 0.26757283814069915,
+          "recall": 0.3655849836952199,
+          "f1": 0.3089928238912324,
+          "gold_chars": 25146
+        },
+        "Subtle Conflict": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gold_chars": 830
+        },
+        "Evident Baseless Info": {
+          "precision": 0.3593807531380753,
+          "recall": 0.37174959315813166,
+          "f1": 0.365460548709919,
+          "gold_chars": 57762
+        },
+        "Subtle Baseless Info": {
+          "precision": 0.11158088819658582,
+          "recall": 0.18662271373883454,
+          "f1": 0.1396598030438675,
+          "gold_chars": 18808
+        },
+        "macro_f1_types": 0.2035282939112547
+      }
+    }
+  },
+  "winner": "joint",
+  "joint_search_info": {
+    "evaluated_combinations": 1372,
+    "eligible_per_type": {
+      "Evident Conflict": [
+        0.05,
+        0.1,
+        0.15,
+        0.2,
+        0.3,
+        0.4,
+        0.5
+      ],
+      "Subtle Conflict": [
+        0.2,
+        0.3,
+        0.4,
+        0.5
+      ],
+      "Evident Baseless Info": [
+        0.05,
+        0.1,
+        0.15,
+        0.2,
+        0.3,
+        0.4,
+        0.5
+      ],
+      "Subtle Baseless Info": [
+        0.05,
+        0.1,
+        0.15,
+        0.2,
+        0.3,
+        0.4,
+        0.5
+      ]
+    }
+  }
+}

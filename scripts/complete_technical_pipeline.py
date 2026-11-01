@@ -204,13 +204,19 @@ def saved_improving_checkpoints(run_dir, summary=None):
 
 
 def choose_experiment(base, weighted):
+    """Higher validation detection ('any') character F1 wins; macro F1 only breaks ties.
+
+    Detection F1 is the primary hallucination-detection metric; comparing families by
+    macro F1 first can promote a family with a much lower 'any' F1 for a small macro
+    gain (see docs/CALIBRATION.md, 2026-11-01 note).
+    """
     require(base.get("label_types") == weighted.get("label_types") == list(LABEL_TYPES), "calibration label order mismatch")
     require(base.get("data_sha256") and base["data_sha256"] == weighted.get("data_sha256"), "calibration data identity mismatch")
     def key(artifact):
         require(artifact.get("status") == "selected_on_validation" and artifact.get("validation_split") == "validation",
                 "experiment decoder was not selected on validation")
         metrics = artifact.get("validation_metrics", {})
-        values = (metrics.get("macro_f1_types"), metrics.get("any", {}).get("f1"))
+        values = (metrics.get("any", {}).get("f1"), metrics.get("macro_f1_types"))
         require(all(type(v) in (int, float) and math.isfinite(v) and 0 <= v <= 1 for v in values),
                 "invalid validation selection metrics")
         return values
@@ -442,7 +448,7 @@ class Pipeline:
         require(path_inside(self.root, weighted_artifact["checkpoint"]).is_relative_to(weighted / "checkpoints"), "wrong weighted checkpoint run")
         winner = choose_experiment(base, weighted_artifact)
         selected_dir = weighted_calibration if winner == "weighted" else base_calibration
-        selection = {"winner": winner, "rule": "higher validation macro F1, then any F1; exact tie prefers base",
+        selection = {"winner": winner, "rule": "higher validation detection ('any') F1, then macro F1; exact tie prefers base",
             "base_metrics": base["validation_metrics"], "weighted_metrics": weighted_artifact["validation_metrics"],
             "base_calibration": relative(self.root, base_calibration / "calibration.json"),
             "weighted_calibration": relative(self.root, weighted_calibration / "calibration.json"),

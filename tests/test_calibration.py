@@ -36,6 +36,87 @@ class CalibrationTests(unittest.TestCase):
         self.assertEqual(calibration.decode_cached(rows[0], cache["positive"], thresholds)["spans"], rows[0]["labels"])
         self.assertEqual(calibration.decode_cached(rows[0], cache["positive"], {t: .5 for t in LABEL_TYPES})["spans"], [])
 
+    def test_flooding_threshold_is_rejected_below_the_precision_floor(self):
+        # A long response with one true-positive character; the lowest threshold floods
+        # all 200 characters positive (precision 1/200 = 0.5%, below the 1% floor) and
+        # would otherwise win on raw F1 (~0.995%) over predicting nothing (F1 0%).
+        response = "x" * 200
+        rows = [{"id": "r", "response": response, "labels": [{"start": 0, "end": 1, "label_type": LABEL_TYPES[0]}]}]
+        cache = {"r": [[0.02] * 200, [0.] * 200, [0.] * 200, [0.] * 200]}
+        thresholds, table = calibration.tune_thresholds(rows, cache, [.01, .5])
+        self.assertEqual(thresholds[LABEL_TYPES[0]], .5)
+        flooded = next(row for row in table[LABEL_TYPES[0]] if row["threshold"] == .01)
+        self.assertLess(flooded["precision"], calibration.MIN_PRECISION_FLOOR)
+        self.assertGreater(flooded["f1"], 0)  # the rejected option is not simply the worst F1
+
+    def test_global_threshold_is_one_shared_value_picked_by_detection_f1(self):
+        rows = [{"id": "positive", "response": "a b", "labels": [{"start": 0, "end": 3, "label_type": LABEL_TYPES[1]}]},
+                {"id": "negative", "response": "a", "labels": []}]
+        cache = {"positive": [[0., 0., 0.], [.6, 0., .6], [0., 0., 0.], [0., 0., 0.]],
+                 "negative": [[0.], [.1], [0.], [0.]]}
+        thresholds, rows_searched = calibration.tune_global_threshold(rows, cache, [.2, .5, .8])
+        self.assertEqual(len(set(thresholds.values())), 1)  # one shared value for every type
+        # .2 and .5 both recall the rare span perfectly (tie); .8 misses it. Ties prefer the
+        # higher (more conservative) threshold, matching the convention used elsewhere.
+        self.assertEqual(thresholds[LABEL_TYPES[1]], .5)
+        self.assertEqual(len(rows_searched), 3)
+
+    def test_joint_search_beats_independent_per_type_when_they_disagree(self):
+        # 12-character response. LABEL_TYPES[0]'s own-best threshold (0.5) recalls its 2 gold
+        # characters but floods 8 unrelated ones; LABEL_TYPES[1] is clean. Independently,
+        # type[0]'s own F1 at 0.5 (0.333) beats predicting nothing (0.0), so tune_thresholds
+        # keeps it -- but for the combined 'any' metric, dropping type[0] entirely raises
+        # detection F1 from 0.5 to 0.667. Mirrors scripts/baseline_crf.py's equivalent test.
+        response = "x" * 12
+        rows = [{"id": "r", "response": response,
+                "labels": [{"start": 0, "end": 2, "label_type": LABEL_TYPES[0]},
+                          {"start": 10, "end": 12, "label_type": LABEL_TYPES[1]}]}]
+        cache = {"r": [[0.6] * 10 + [0.0, 0.0], [0.0] * 10 + [0.6, 0.6], [0.0] * 12, [0.0] * 12]}
+        grid = [0.5, 0.7]
+
+        independent, _ = calibration.tune_thresholds(rows, cache, grid)
+        self.assertEqual(independent[LABEL_TYPES[0]], 0.5)  # own F1 0.333 beats 0.0 at 0.7
+        independent_spans = [calibration.decode_cached(r, cache[r["id"]], independent) for r in rows]
+        independent_any_f1 = calibration.char_scores(
+            {r["id"]: r["labels"] for r in rows}, {s["id"]: s["spans"] for s in independent_spans})["any"]["f1"]
+        self.assertAlmostEqual(independent_any_f1, 0.5)
+
+        joint, info = calibration.tune_joint_thresholds(rows, cache, grid)
+        self.assertEqual(joint[LABEL_TYPES[0]], 0.7)  # joint search drops the flooding type
+        self.assertEqual(joint[LABEL_TYPES[1]], 0.5)
+        self.assertAlmostEqual(info["selected"]["any"]["f1"], 2 / 3)
+        self.assertGreater(info["selected"]["any"]["f1"], independent_any_f1)  # the guarantee this exists for
+
+    def test_joint_search_also_respects_the_precision_floor(self):
+        # Same flooding construction as test_flooding_threshold_is_rejected_below_the_precision_floor,
+        # but exercised through the joint (combinatorial) search path specifically.
+        response = "x" * 200
+        rows = [{"id": "r", "response": response, "labels": [{"start": 0, "end": 1, "label_type": LABEL_TYPES[0]}]}]
+        cache = {"r": [[0.02] * 200, [0.0] * 200, [0.0] * 200, [0.0] * 200]}
+        joint, info = calibration.tune_joint_thresholds(rows, cache, [.01, .5])
+        self.assertEqual(joint[LABEL_TYPES[0]], .5)  # the .01 flood (0.5% precision) is never eligible
+        self.assertEqual(info["eligible_per_type"][LABEL_TYPES[0]], [.5])
+
+    def test_select_best_configuration_never_prefers_a_detection_f1_regression(self):
+        # Mirrors the real CRF measurement (docs/BASELINE_CRF.md, 2026-11-01): per-type
+        # tuning raised macro F1 (19.99%->20.84%) but lowered detection F1 (39.08%->38.84%).
+        # The selector must keep whichever configuration has the better detection F1.
+        candidates = {"default": {"any": {"f1": 0.20}, "macro_f1_types": 0.10},
+                      "global": {"any": {"f1": 0.3908}, "macro_f1_types": 0.1999},
+                      "per_type": {"any": {"f1": 0.3884}, "macro_f1_types": 0.2084}}
+        self.assertEqual(calibration.select_best_configuration(candidates), "global")
+
+    def test_detection_f1_outranks_macro_f1_for_checkpoint_selection(self):
+        def candidate(index, any_f1, macro_f1):
+            return {"candidate_index": index, "calibrated_metrics": {"any": {"f1": any_f1}, "macro_f1_types": macro_f1}}
+
+        # Candidate 1 has the higher macro F1 but a lower detection ('any') F1; it must lose.
+        winner = calibration.select_checkpoint([candidate(0, 0.40, 0.30), candidate(1, 0.35, 0.45)])
+        self.assertEqual(winner["candidate_index"], 0)
+        # Exact ties on both metrics keep the earliest-declared candidate.
+        tie = calibration.select_checkpoint([candidate(0, 0.5, 0.2), candidate(1, 0.5, 0.2)])
+        self.assertEqual(tie["candidate_index"], 0)
+
     def test_invalid_grids_or_mismatched_cache_ids_are_rejected(self):
         for grid in ([], [.1, .1], [.5, .1], [0], [float("nan")], [True]):
             with self.subTest(grid=grid), self.assertRaises(ValueError):

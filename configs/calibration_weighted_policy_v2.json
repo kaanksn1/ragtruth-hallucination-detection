@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "split": "validation",
+  "checkpoints": [],
+  "threshold_grid": [
+    0.005,
+    0.01,
+    0.02,
+    0.05,
+    0.1,
+    0.15,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    0.95
+  ],
+  "selection_metric": "detection_f1_then_macro_f1_types",
+  "threshold_tie_break": "higher threshold",
+  "checkpoint_tie_break": "higher macro character F1 (4-type average), then earlier declared checkpoint",
+  "note": "Corrected successor to configs/calibration_weighted_policy.json (2026-11-01): detection F1 ('any') is now the primary within-family checkpoint-selection key, macro F1 only the tie-break. configs/calibration_weighted_policy.json is left untouched because its SHA-256 is pinned in docs/FINAL_PROTOCOL.json. The cross_experiment_selection field below is unchanged and still describes the historical weighted-vs-unweighted family comparison implemented in scripts/build_technical_report.py, which is intentionally not modified here (see report).",
+  "training_config": "configs/transformer_weighted.json",
+  "checkpoint_candidate_policy": "all saved improving weighted-validation-BCE checkpoints in epoch order",
+  "max_checkpoint_candidates": 3,
+  "cross_experiment_selection": "highest macro typed character F1, then any character F1; exact tie prefers original unweighted model"
+}

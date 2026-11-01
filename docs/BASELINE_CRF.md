@@ -228,3 +228,48 @@ kontrolünü çalıştırmak için sabit CRF paketini kurar.
   yol kontrolü gerçek Türkçe klasör adıyla da geçti.
 - Önceki başarısız Windows yol denemesi ayrı koşum logunda korundu; üzerine
   yazılmadı. Tam veri sonucu, hata analizi, slayt ve resmî test hâlâ bekliyor.
+
+## Tam veri koşumu, joint eşik araması ve nadir tür incelemesi — 1 Kasım 2026
+
+Gerçek veri indirildi/hazırlandı (dört işlenmiş dosya, donmuş hash'lerle bayt
+bayt eşleşti) ve `configs/crf.json` ile tam koşum yapıldı: `outputs/crf_local_validation_run1/`
+(run_job sarmalayıcısı değil, git deposu olmadığından `baseline_crf.py` doğrudan
+çağrıldı; 1497 saniye ≈ 25 dk). Seçilen ayar/çözümleme (`c1_0.1_c2_1`,
+`posterior_0.15`, any F1 0.3908) donmuş `results/training_crf.json` ile aynı;
+kaydedilen `.crfsuite` dosyalarının SHA-256'sı da donmuş `FINAL_PROTOCOL.json`
+ile bayt bayt eşleşti (seed 42, deterministik L-BFGS).
+
+**Yeni: birlikte (joint) eşik araması** (`tune_joint_thresholds`,
+`select_best_configuration`). Tür başına bağımsız arama (`tune_type_thresholds`)
+her türün kendi F1'ini en iyiler; bu, birleşik 'any' F1'i kazara düşürebilir.
+Gerçek validation'da ölçülen: paylaşılan eşik any F1 **39.08%**, bağımsız tür
+başına **38.84%** (düşüş), joint arama **39.22%** (artış, +0.14 puan; bu önceki
+iki yapılandırmayı da geride bırakır). Dört yapılandırma arasından detection
+F1'i en yüksek olanı seçen `select_best_configuration` bu koşumda **joint**'i
+seçti. Hiçbir yapılandırmada herhangi bir tür 10 katı tahmin/gold oranını
+geçmedi (en yüksek: tür başına Subtle Baseless Info 3.26x).
+
+**Subtle Conflict: eşik sorunu değil.** Zaten eğitilmiş modelle (yeniden eğitim
+yok) gerçek 155 validation gold token'ının üzerindeki en yüksek P(B/I)
+olasılığı **0.0036**'dır (ortalama 0.0004) — eşik ne olursa olsun yakalanamaz.
+0.001 gibi aşırı düşük bir eşikte (yapılandırılmış ızgaranın altında, hiçbir
+seçim mantığı tarafından önerilmez) FP patlaması gerçekten gözlenir: 830 gold
+karaktere karşı 136.693 tahmin (**164.69x**, F1 %0.07) — projenin orijinal
+aşırı FP kaygısının somut mekanizması budur, ama mevcut `[0.05,0.5]` ızgarası
+ve %1 precision tabanı bunu zaten dışarıda tutuyor.
+
+**Hedefli regularizasyon denemesi** (yalnız Subtle Conflict tipi, ~225 sn,
+yeniden eğitim gerekti): mevcut ayar (`c1=0.1,c2=1.0,minfreq=2`) train
+gold token'larında gerçek sinyal öğreniyor (ortalama P=0.232, maks 0.917) ama
+validation'a hiç taşımıyor (ortalama 0.0004) — klasik ezberleme, `top_weights`
+içindeki aşırı özgül kelimelerle (`feminist`, `vegetarian`, `misleading`)
+tutarlı. Çok daha az regularizasyon denemesi (`c1=0,c2=0.001,minfreq=1`,
+88.347 özellik) **daha da kötü** sonuç verdi (train'de bile ortalama P=0.0004):
+aynı 150 iterasyon sınırıyla bu kadar çok özellik yakınsamıyor. Sonuç: sorun
+regularizasyon gücü değil; 160 train örneği bu özellik kümesiyle genelleyen
+bir sinyal üretmiyor. Daha fazla teknik aynı anda denenmedi.
+
+**Sonuç:** CRF mimarisi Subtle Conflict'i güvenilir şekilde öğrenemiyor; bu
+sınırlama burada belgeleniyor, puan yapay olarak şişirilmiyor. Transformer bu
+türde sıfır olmayan (küçük de olsa) F1 üretiyor; nihai sistemde bu tür için
+Transformer'a öncelik verilmesi önerilir.

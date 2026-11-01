@@ -21,6 +21,7 @@ The project scorer belongs to 5. kişi; numbers here are for model selection.
 from __future__ import annotations
 
 import argparse
+import itertools
 import json
 import platform
 import re
@@ -264,6 +265,161 @@ def select_candidate(candidates: list) -> dict:
     return max(candidates, key=lambda c: c["validation"]["any"]["f1"])
 
 
+# ------------------------------------------------- per-type threshold calibration
+MIN_PRECISION_FLOOR = 0.01
+"""Below this validation precision, a threshold is excluded from per-type selection.
+
+The shared grid/decoding search above picks ONE posterior threshold for all
+four types from their combined ('any') character F1. A rare type's few gold
+characters barely move that aggregate, so a threshold that floods the rare
+type with false positives can still report a nonzero (if tiny) F1 for that
+type and would otherwise be preferred over predicting nothing at all -- the
+exact failure this floor exists to block. A threshold predicting zero
+characters is always eligible regardless of precision (it cannot be a false
+positive flood). If no grid threshold clears the floor for a type, the
+highest (most conservative) threshold is kept instead of the nominal best-F1
+one, so a degenerate flood is never selected merely for a marginal F1 gain.
+"""
+
+
+def _type_prf(tp: int, fp: int, fn: int) -> dict:
+    predicted, gold = tp + fp, tp + fn
+    precision = tp / predicted if predicted else 0.0
+    recall = tp / gold if gold else 0.0
+    f1 = 2 * tp / (predicted + gold) if predicted + gold else 0.0
+    return {"precision": precision, "recall": recall, "f1": f1,
+            "true_positive_chars": tp, "predicted_chars": predicted, "gold_chars": gold}
+
+
+def _predicted_char_sets(examples: list, run: dict, label_type: str, grid: list) -> dict:
+    """{threshold: {response_id: predicted character set}} for one type, every grid point."""
+    return {threshold: {ex["id"]: _chars(tags_to_char_spans(
+                ex["offsets"], threshold_tags(run["probs"][ex["id"]][label_type], threshold), label_type), label_type)
+            for ex in examples} for threshold in sorted(grid)}
+
+
+def _eligible_thresholds(rows: list, grid: list, min_precision: float) -> list:
+    """Grid points clearing the false-positive floor; the single most conservative one if none do."""
+    eligible = [row["threshold"] for row in rows if row["predicted_chars"] == 0 or row["precision"] >= min_precision]
+    return eligible if eligible else [max(sorted(grid))]
+
+
+def tune_type_thresholds(examples: list, run: dict, gold: dict, grid: list,
+                         min_precision: float = MIN_PRECISION_FLOOR) -> tuple[dict, dict]:
+    """Independent per-type posterior threshold, chosen only from that type's own characters.
+
+    Unlike ``decodings``/``select_candidate`` above (one shared threshold,
+    picked from the combined 'any' F1), every type here searches the same
+    posterior grid on its own predicted/gold characters, with false positives
+    monitored and bounded by ``min_precision``.
+    """
+    gold_chars = {rid: {t: _chars(spans, t) for t in LABEL_TYPES} for rid, spans in gold.items()}
+    selected, table = {}, {}
+    for label_type in LABEL_TYPES:
+        char_sets = _predicted_char_sets(examples, run, label_type, grid)
+        rows = []
+        for threshold in sorted(grid):
+            tp = fp = fn = 0
+            for ex in examples:
+                predicted = char_sets[threshold][ex["id"]]
+                g = gold_chars[ex["id"]][label_type]
+                tp, fp, fn = tp + len(g & predicted), fp + len(predicted - g), fn + len(g - predicted)
+            rows.append({"threshold": threshold, **_type_prf(tp, fp, fn)})
+        table[label_type] = rows
+        eligible_values = set(_eligible_thresholds(rows, grid, min_precision))
+        eligible_rows = [row for row in rows if row["threshold"] in eligible_values]
+        best = max(eligible_rows, key=lambda row: (row["f1"], row["threshold"]))
+        selected[label_type] = best["threshold"]
+    return selected, table
+
+
+def tune_joint_thresholds(examples: list, run: dict, gold: dict, grid: list,
+                          min_precision: float = MIN_PRECISION_FLOOR) -> tuple[dict, dict]:
+    """Per-type thresholds chosen jointly to maximize the combined ('any') detection F1.
+
+    ``tune_type_thresholds`` lets each type maximize its *own* F1 independently, which can
+    leave the primary detection metric on the table (two types trading precision for recall
+    in ways that do not help, or even hurt, their union). This instead searches combinations
+    of thresholds -- restricted to each type's own false-positive-floor-eligible values, so a
+    flooding threshold is never admitted just because some combination nominally helps the
+    union -- and keeps the combination with the highest combined 'any' F1. Ties prefer the
+    combination with the higher macro F1, then the earliest in grid order.
+    """
+    gold_any = {rid: _chars(spans) for rid, spans in gold.items()}
+    gold_by_type = {rid: {t: _chars(spans, t) for t in LABEL_TYPES} for rid, spans in gold.items()}
+    char_sets, eligible = {}, {}
+    independent_table = {}
+    for label_type in LABEL_TYPES:
+        char_sets[label_type] = _predicted_char_sets(examples, run, label_type, grid)
+        rows = []
+        for threshold in sorted(grid):
+            tp = fp = fn = 0
+            for ex in examples:
+                predicted = char_sets[label_type][threshold][ex["id"]]
+                g = gold_by_type[ex["id"]][label_type]
+                tp, fp, fn = tp + len(g & predicted), fp + len(predicted - g), fn + len(g - predicted)
+            rows.append({"threshold": threshold, **_type_prf(tp, fp, fn)})
+        independent_table[label_type] = rows
+        eligible[label_type] = sorted(_eligible_thresholds(rows, grid, min_precision))
+
+    best_combo, best_key = None, None
+    evaluated = []
+    for combo in itertools.product(*(eligible[t] for t in LABEL_TYPES)):
+        tp = fp = fn = 0
+        type_tp = {t: 0 for t in LABEL_TYPES}
+        type_predicted = {t: 0 for t in LABEL_TYPES}
+        type_gold = {t: 0 for t in LABEL_TYPES}
+        for ex in examples:
+            rid = ex["id"]
+            predicted_any = set()
+            for label_type, threshold in zip(LABEL_TYPES, combo):
+                predicted = char_sets[label_type][threshold][rid]
+                predicted_any |= predicted
+                g = gold_by_type[rid][label_type]
+                type_tp[label_type] += len(g & predicted)
+                type_predicted[label_type] += len(predicted)
+                type_gold[label_type] += len(g)
+            g_any = gold_any[rid]
+            tp, fp, fn = tp + len(g_any & predicted_any), fp + len(predicted_any - g_any), fn + len(g_any - predicted_any)
+        any_scores = _type_prf(tp, fp, fn)
+        per_type = {t: _type_prf(type_tp[t], type_predicted[t] - type_tp[t], type_gold[t] - type_tp[t]) for t in LABEL_TYPES}
+        macro_f1 = sum(per_type[t]["f1"] for t in LABEL_TYPES) / len(LABEL_TYPES)
+        key = (any_scores["f1"], macro_f1, combo)  # tie-break: higher macro F1, then higher thresholds (more conservative)
+        evaluated.append({"thresholds": dict(zip(LABEL_TYPES, combo)), "any": any_scores,
+                          "macro_f1_types": macro_f1, "per_type": per_type})
+        if best_key is None or key > best_key:
+            best_key, best_combo = key, evaluated[-1]
+    return best_combo["thresholds"], {"evaluated_combinations": len(evaluated), "eligible_per_type": eligible,
+                                      "selected": best_combo, "independent_table": independent_table}
+
+
+def select_best_configuration(candidates: dict) -> str:
+    """Highest validation detection ('any') F1 among named configurations; macro F1 only ties.
+
+    ``candidates`` maps a configuration name (e.g. 'default', 'global', 'per_type', 'joint')
+    to its validation ``char_scores``-shaped metrics. This never lets a configuration with a
+    macro-F1 or per-class gain but a *lower* detection F1 be preferred over one that is
+    strictly better (or equal) on the primary metric -- the exact failure this guards against
+    is a per-type search independently improving several classes while the union regresses.
+    """
+    if not candidates:
+        raise ValueError("no configurations to select from")
+    order = list(candidates)  # earliest-declared wins ties
+    return max(order, key=lambda name: (candidates[name]["any"]["f1"], candidates[name]["macro_f1_types"],
+                                        -order.index(name)))
+
+
+def decode_per_type(examples: list, run: dict, thresholds_by_type: dict) -> tuple[dict, dict]:
+    """Spans per response using one independently-tuned threshold for each type."""
+    spans, invalid = {}, {t: 0 for t in LABEL_TYPES}
+    for ex in examples:
+        tags = {t: threshold_tags(run["probs"][ex["id"]][t], thresholds_by_type[t]) for t in LABEL_TYPES}
+        for t in LABEL_TYPES:
+            invalid[t] += invalid_starts(tags[t])
+        spans[ex["id"]] = tags_to_spans(ex["offsets"], tags)
+    return spans, invalid
+
+
 # ---------------------------------------------------------------- CRFsuite
 def setting_name(setting: dict) -> str:
     return f"c1_{setting['c1']:g}_c2_{setting['c2']:g}"
@@ -451,7 +607,8 @@ def cmd_train(args, pycrfsuite) -> dict:
     if {ex["id"] for ex in train} & {ex["id"] for ex in validation}:
         raise ValueError("train and validation response IDs overlap")
     reserved = ("grid", "response_only", "models", "crf_summary.json", "crf_report.md",
-                "validation_predictions.jsonl", "validation_predictions_response_only.jsonl")
+                "validation_predictions.jsonl", "validation_predictions_response_only.jsonl",
+                "validation_predictions_per_type.jsonl", "validation_predictions_joint.jsonl")
     if any((out / name).exists() for name in reserved):
         raise FileExistsError("refusing to overwrite an existing CRF training run")
     out.mkdir(parents=True, exist_ok=True)
@@ -493,6 +650,46 @@ def cmd_train(args, pycrfsuite) -> dict:
     write_predictions(out / "validation_predictions.jsonl", validation,
                       spans_of[(best["name"], best["decoding"]["name"])])
     summary["top_weights"] = {t: top_weights(taggers[best["name"]][t]) for t in LABEL_TYPES}
+
+    # 1b) per-type posterior thresholds for the chosen setting: the shared decoding above
+    # picks one threshold from the combined 'any' F1, which can quietly flood a rare type
+    # with false positives while barely moving that aggregate. This independent, bounded
+    # search (see MIN_PRECISION_FLOOR) is additive and does not replace `selected` above.
+    per_type_thresholds, per_type_table = tune_type_thresholds(
+        validation, runs[best["name"]], gold, config["decoding"]["posterior_thresholds"])
+    per_type_spans, per_type_invalid = decode_per_type(validation, runs[best["name"]], per_type_thresholds)
+    summary["selected_per_type"] = {
+        "setting": best["setting"], "name": best["name"], "thresholds_by_type": per_type_thresholds,
+        "threshold_search": per_type_table, "min_precision_floor": MIN_PRECISION_FLOOR,
+        "validation": char_scores(gold, per_type_spans), "invalid_i_starts": per_type_invalid,
+    }
+    write_predictions(out / "validation_predictions_per_type.jsonl", validation, per_type_spans)
+
+    # 1c) joint per-type thresholds: unlike 1b, chosen together to directly maximize the
+    # combined 'any' detection F1 (measured to beat both `selected` and `selected_per_type`
+    # on validation -- see docs/BASELINE_CRF.md, 2026-11-01 note).
+    joint_thresholds, joint_search = tune_joint_thresholds(
+        validation, runs[best["name"]], gold, config["decoding"]["posterior_thresholds"])
+    joint_spans, joint_invalid = decode_per_type(validation, runs[best["name"]], joint_thresholds)
+    summary["selected_joint"] = {
+        "setting": best["setting"], "name": best["name"], "thresholds_by_type": joint_thresholds,
+        "evaluated_combinations": joint_search["evaluated_combinations"], "min_precision_floor": MIN_PRECISION_FLOOR,
+        "validation": char_scores(gold, joint_spans), "invalid_i_starts": joint_invalid,
+    }
+    write_predictions(out / "validation_predictions_joint.jsonl", validation, joint_spans)
+
+    # 1d) final configuration choice across all three threshold strategies plus the
+    # un-calibrated default (0.5 for every type), ranked by detection F1 first.
+    default_spans, _ = decode_per_type(validation, runs[best["name"]], {t: 0.5 for t in LABEL_TYPES})
+    configuration_metrics = {
+        "default": char_scores(gold, default_spans), "global": best["validation"],
+        "per_type": summary["selected_per_type"]["validation"], "joint": summary["selected_joint"]["validation"],
+    }
+    summary["best_configuration"] = {
+        "winner": select_best_configuration(configuration_metrics),
+        "rule": "highest validation detection ('any') F1, then macro F1, then earliest-declared on an exact tie",
+        "candidates": {name: metrics["any"]["f1"] for name, metrics in configuration_metrics.items()},
+    }
 
     # 2) response-only control: same setting, decoding, split and budget; no source features
     if use_source and config.get("response_only_control", True):
@@ -594,6 +791,41 @@ def render_report(summary: dict) -> str:
     selected = summary["selected"]
     lines += ["", f"Seçilen: **{selected['name']}, {selected['decoding']['name']}** "
                   "(en yüksek validation F1 any; eşitlikte tablodaki ilk satır).", ""]
+    if "selected_per_type" in summary:
+        per_type = summary["selected_per_type"]
+        lines += ["## Tür başına bağımsız eşik (ek, `selected`i değiştirmez)", "",
+                  f"Tek paylaşılan eşik, nadir türü neredeyse hiç etkilemeyen birleşik 'any' F1 ile seçilir; "
+                  f"bu arama her türün kendi F1'ini kullanır ve precision < {per_type['min_precision_floor']:.0%} "
+                  "olan eşikleri (sıfır tahmin hariç) eler.", "",
+                  "| Tür | Eşik | P | R | F1 | Tahmin edilen karakter | Gold karakter |",
+                  "| --- | ---: | ---: | ---: | ---: | ---: | ---: |"]
+        for label_type in LABEL_TYPES:
+            threshold = per_type["thresholds_by_type"][label_type]
+            row = next(r for r in per_type["threshold_search"][label_type] if r["threshold"] == threshold)
+            lines.append(f"| {label_type} | {threshold:g} | {row['precision']:.3f} | {row['recall']:.3f} | "
+                         f"{row['f1']:.3f} | {row['predicted_chars']:,} | {row['gold_chars']:,} |")
+        lines += ["", f"Birleşik (any, tür başına eşiklerle): F1 {per_type['validation']['any']['f1']:.3f}, "
+                      f"macro F1 {per_type['validation']['macro_f1_types']:.3f}.", ""]
+    if "selected_joint" in summary:
+        joint = summary["selected_joint"]
+        lines += ["## Birlikte (joint) eşik araması (ek, `selected`i değiştirmez)", "",
+                  f"Tür başına bağımsız arama her türün kendi F1'ini en iyiler; bu arama "
+                  f"{joint['evaluated_combinations']:,} eşik kombinasyonunu doğrudan birleşik "
+                  "'any' F1'e göre dener (yine precision < "
+                  f"{joint['min_precision_floor']:.0%} eşikleri eler).", "",
+                  "| Tür | Eşik |", "| --- | ---: |"]
+        for label_type in LABEL_TYPES:
+            lines.append(f"| {label_type} | {joint['thresholds_by_type'][label_type]:g} |")
+        lines += ["", f"Birleşik (any, joint eşiklerle): F1 {joint['validation']['any']['f1']:.3f}, "
+                      f"macro F1 {joint['validation']['macro_f1_types']:.3f}.", ""]
+    if "best_configuration" in summary:
+        best_cfg = summary["best_configuration"]
+        lines += ["## Dört yapılandırmanın karşılaştırması ve nihai seçim", "",
+                  "| Yapılandırma | Detection F1 (any) |", "| --- | ---: |"]
+        for name, f1 in best_cfg["candidates"].items():
+            marker = " **(seçilen)**" if name == best_cfg["winner"] else ""
+            lines.append(f"| {name} | {f1:.3f}{marker} |")
+        lines += ["", f"Kural: {best_cfg['rule']}.", ""]
     if "response_only_control" in summary:
         control = summary["response_only_control"]
         lines += ["## Kaynak özelliklerinin katkısı (aynı ayar ve çözümleme, aynı veri)", "", head,

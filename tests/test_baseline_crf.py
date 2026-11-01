@@ -109,6 +109,97 @@ class MetricTests(unittest.TestCase):
         self.assertEqual(CRF.select_candidate(candidates)["name"], "b")
 
 
+class SelectBestConfigurationTests(unittest.TestCase):
+    @staticmethod
+    def metrics(any_f1, macro_f1):
+        return {"any": {"f1": any_f1}, "macro_f1_types": macro_f1}
+
+    def test_detection_f1_outranks_macro_f1_which_outranks_declaration_order(self):
+        # A per-type-style configuration can raise macro F1 while lowering detection F1
+        # (exactly what the real CRF run showed: macro 19.99%->20.84%, any 39.08%->38.84%).
+        # Both 'global' and 'per_type' here have a higher macro F1 than 'default', but a
+        # lower detection F1 -- they must still lose to whichever has the best detection F1.
+        candidates = {"default": self.metrics(0.40, 0.15), "global": self.metrics(0.391, 0.20),
+                      "per_type": self.metrics(0.388, 0.208), "joint": self.metrics(0.40, 0.19)}
+        # 'default' and 'joint' tie on detection F1 (0.40); 'joint' wins on the macro F1 tie-break.
+        self.assertEqual(CRF.select_best_configuration(candidates), "joint")
+        exact_tie = {"global": self.metrics(0.5, 0.2), "per_type": self.metrics(0.5, 0.2)}
+        self.assertEqual(CRF.select_best_configuration(exact_tie), "global")  # declared first
+
+    def test_empty_candidates_are_rejected(self):
+        with self.assertRaises(ValueError):
+            CRF.select_best_configuration({})
+
+
+class PerTypeThresholdTests(unittest.TestCase):
+    """The shared-threshold grid picks one posterior cutoff from the combined 'any' F1,
+    which a rare type's few gold characters barely move. `tune_type_thresholds` instead
+    searches each type independently against its own characters, with a false-positive
+    guardrail (MIN_PRECISION_FLOOR) so flooding a rare type is never preferred merely for
+    a marginal F1 gain over predicting nothing."""
+
+    RARE = LABEL_TYPES[1]
+    RARE_OTHER = LABEL_TYPES[0]
+
+    def test_each_type_is_tuned_against_its_own_characters(self):
+        offsets = [(0, 2), (3, 5)]
+        gold = {"r": [{"start": 0, "end": 2, "label_type": self.RARE}]}
+        run = {"probs": {"r": {t: ([0.6, 0.1] if t == self.RARE else [0.0, 0.0]) for t in LABEL_TYPES}}}
+        examples = [{"id": "r", "offsets": offsets}]
+        thresholds, table = CRF.tune_type_thresholds(examples, run, gold, [0.05, 0.3, 0.5])
+        self.assertEqual(thresholds[self.RARE], 0.5)
+        best = next(row for row in table[self.RARE] if row["threshold"] == 0.5)
+        self.assertEqual(best["f1"], 1.0)
+        for other in LABEL_TYPES:
+            if other != self.RARE:
+                self.assertEqual(thresholds[other], 0.5)  # never predicts; ties keep the highest threshold
+
+    def test_joint_search_beats_independent_per_type_when_they_disagree(self):
+        # 12 single-character tokens. Evident Conflict's own-best threshold (0.5) recalls its
+        # 2 gold characters but also floods 8 unrelated characters; Subtle Conflict is clean.
+        # Independently, EC's own F1 at 0.5 (0.333) beats predicting nothing (0.0), so
+        # tune_type_thresholds keeps it -- but for the combined 'any' metric, dropping EC
+        # entirely (predicting nothing, threshold 0.7) raises detection F1 from 0.5 to 0.667.
+        offsets = [(i, i + 1) for i in range(12)]
+        gold = {"r": [{"start": 0, "end": 2, "label_type": self.RARE_OTHER},
+                      {"start": 10, "end": 12, "label_type": self.RARE}]}
+        probs = {self.RARE_OTHER: [0.6] * 10 + [0.0, 0.0], self.RARE: [0.0] * 10 + [0.6, 0.6]}
+        probs.update({t: [0.0] * 12 for t in LABEL_TYPES if t not in (self.RARE, self.RARE_OTHER)})
+        run = {"probs": {"r": probs}}
+        examples = [{"id": "r", "offsets": offsets}]
+        grid = [0.5, 0.7]
+
+        independent, _ = CRF.tune_type_thresholds(examples, run, gold, grid)
+        self.assertEqual(independent[self.RARE_OTHER], 0.5)  # own F1 0.333 beats 0.0 at 0.7
+        independent_spans, _ = CRF.decode_per_type(examples, run, independent)
+        independent_any_f1 = CRF.char_scores(gold, independent_spans)["any"]["f1"]
+        self.assertAlmostEqual(independent_any_f1, 0.5)
+
+        joint, info = CRF.tune_joint_thresholds(examples, run, gold, grid)
+        self.assertEqual(joint[self.RARE_OTHER], 0.7)  # joint search drops the flooding type
+        self.assertEqual(joint[self.RARE], 0.5)
+        self.assertAlmostEqual(info["selected"]["any"]["f1"], 2 / 3)
+        self.assertGreater(info["selected"]["any"]["f1"], independent_any_f1)  # the guarantee this exists for
+
+    def test_flooding_threshold_is_rejected_below_the_precision_floor(self):
+        offsets = [(2 * i, 2 * i + 1) for i in range(200)]  # 200 single-char tokens, one true positive
+        gold = {"r": [{"start": 0, "end": 1, "label_type": self.RARE}]}
+        probs = {self.RARE: [0.02] * 200}
+        probs.update({t: [0.0] * 200 for t in LABEL_TYPES if t != self.RARE})
+        run = {"probs": {"r": probs}}
+        examples = [{"id": "r", "offsets": offsets}]
+        thresholds, table = CRF.tune_type_thresholds(examples, run, gold, [0.01, 0.5])
+        flooded = next(row for row in table[self.RARE] if row["threshold"] == 0.01)
+        self.assertLess(flooded["precision"], CRF.MIN_PRECISION_FLOOR)
+        self.assertGreater(flooded["f1"], 0)  # the rejected option is not simply the worst F1
+        # Consecutive flagged tokens decode as one bridged span (same rule as viterbi runs),
+        # so 200 scattered single-char tokens flood into one 399-character span here.
+        self.assertEqual(flooded["predicted_chars"], 399)
+        self.assertEqual(thresholds[self.RARE], 0.5)  # conservative fallback, not the degenerate flood
+        spans, _ = CRF.decode_per_type(examples, run, thresholds)
+        self.assertEqual(spans["r"], [])
+
+
 @unittest.skipIf(pycrfsuite is None, "python-crfsuite not installed (pip install -r requirements-crf.txt)")
 class TinyTrainingTests(unittest.TestCase):
     def test_train_and_predict_round_trip(self):

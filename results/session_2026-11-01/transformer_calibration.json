@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "status": "selected_on_validation",
+  "validation_split": "validation",
+  "label_types": [
+    "Evident Conflict",
+    "Subtle Conflict",
+    "Evident Baseless Info",
+    "Subtle Baseless Info"
+  ],
+  "threshold_grid": [
+    0.005,
+    0.01,
+    0.02,
+    0.05,
+    0.1,
+    0.15,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6
+  ],
+  "checkpoint": "outputs/transformer_full_train_run1/checkpoints/epoch-2",
+  "checkpoint_sha256": "337d920a6c8a72442b26137704d2cac7b3152a6020d50c9ade894bd710bf83d7",
+  "data_sha256": {
+    "split_summary": "dcef97fb4275a21a62700cf8be9f30dad4305093771fbac8674470c8c10da7b1",
+    "split_manifest": "7d292931c9337c9a4e30e9a62c7f09e72e8e8c51e31bc22b0522515aa3248a5f",
+    "train.jsonl": "005def627fa45493e024e1b9e2295d289a0698ea475b888e8e2320d86151bb96",
+    "validation.jsonl": "d070d62056b2a7f11a58748291f6fd1881cceabc35e3db29435f1ae7d488c5ec"
+  },
+  "thresholds_by_type": {
+    "Evident Conflict": 0.2,
+    "Subtle Conflict": 0.2,
+    "Evident Baseless Info": 0.2,
+    "Subtle Baseless Info": 0.2
+  },
+  "selection_metric": "detection_f1_then_macro_f1_types",
+  "threshold_tie_break": "higher threshold",
+  "checkpoint_tie_break": "higher macro character F1 (4-type average), then earlier declared checkpoint",
+  "validation_metrics": {
+    "any": {
+      "precision": 0.5438789152024446,
+      "recall": 0.5561903087830316,
+      "f1": 0.5499657206863587,
+      "gold_chars": 102402
+    },
+    "Evident Conflict": {
+      "precision": 0.5640686274509804,
+      "recall": 0.45760757178080014,
+      "f1": 0.5052913537961621,
+      "gold_chars": 25146
+    },
+    "Subtle Conflict": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "gold_chars": 830
+    },
+    "Evident Baseless Info": {
+      "precision": 0.4249302729918018,
+      "recall": 0.6092933070184551,
+      "f1": 0.5006793043354555,
+      "gold_chars": 57762
+    },
+    "Subtle Baseless Info": {
+      "precision": 0.3365650969529086,
+      "recall": 0.0646001701403658,
+      "f1": 0.10839503970024088,
+      "gold_chars": 18808
+    },
+    "macro_f1_types": 0.2785914244579646
+  },
+  "official_test_evaluated": false
+}

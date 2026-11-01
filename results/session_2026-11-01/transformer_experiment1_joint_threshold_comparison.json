@@ -1,0 +1,219 @@
+{
+  "baseline_global_any_f1": 0.55,
+  "configuration_metrics": {
+    "default": {
+      "any": {
+        "precision": 0.7261277280328529,
+        "recall": 0.334983691724771,
+        "f1": 0.45846447879286034,
+        "gold_chars": 102402
+      },
+      "Evident Conflict": {
+        "precision": 0.7416292364230298,
+        "recall": 0.2889127495426708,
+        "f1": 0.4158319500887185,
+        "gold_chars": 25146
+      },
+      "Subtle Conflict": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "gold_chars": 830
+      },
+      "Evident Baseless Info": {
+        "precision": 0.6135566491748008,
+        "recall": 0.39067206814168487,
+        "f1": 0.4773801842586814,
+        "gold_chars": 57762
+      },
+      "Subtle Baseless Info": {
+        "precision": 0.5315315315315315,
+        "recall": 0.01882177796682263,
+        "f1": 0.0363561671972887,
+        "gold_chars": 18808
+      },
+      "macro_f1_types": 0.23239207538617215
+    },
+    "global": {
+      "any": {
+        "precision": 0.5438789152024446,
+        "recall": 0.5561903087830316,
+        "f1": 0.5499657206863587,
+        "gold_chars": 102402
+      },
+      "Evident Conflict": {
+        "precision": 0.5640686274509804,
+        "recall": 0.45760757178080014,
+        "f1": 0.5052913537961621,
+        "gold_chars": 25146
+      },
+      "Subtle Conflict": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "gold_chars": 830
+      },
+      "Evident Baseless Info": {
+        "precision": 0.4249302729918018,
+        "recall": 0.6092933070184551,
+        "f1": 0.5006793043354555,
+        "gold_chars": 57762
+      },
+      "Subtle Baseless Info": {
+        "precision": 0.3365650969529086,
+        "recall": 0.0646001701403658,
+        "f1": 0.10839503970024088,
+        "gold_chars": 18808
+      },
+      "macro_f1_types": 0.2785914244579646
+    },
+    "per_type": {
+      "any": {
+        "precision": 0.4873090915187178,
+        "recall": 0.5677135212202886,
+        "f1": 0.524447451511051,
+        "gold_chars": 102402
+      },
+      "Evident Conflict": {
+        "precision": 0.5640686274509804,
+        "recall": 0.45760757178080014,
+        "f1": 0.5052913537961621,
+        "gold_chars": 25146
+      },
+      "Subtle Conflict": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "gold_chars": 830
+      },
+      "Evident Baseless Info": {
+        "precision": 0.485889295106151,
+        "recall": 0.5246009487206121,
+        "f1": 0.5045036045485574,
+        "gold_chars": 57762
+      },
+      "Subtle Baseless Info": {
+        "precision": 0.13744137571651902,
+        "recall": 0.5048383666524883,
+        "f1": 0.21606061985163608,
+        "gold_chars": 18808
+      },
+      "macro_f1_types": 0.3064638945490889
+    },
+    "joint": {
+      "any": {
+        "precision": 0.5417072133780528,
+        "recall": 0.5599207046737369,
+        "f1": 0.550663394910851,
+        "gold_chars": 102402
+      },
+      "Evident Conflict": {
+        "precision": 0.5640686274509804,
+        "recall": 0.45760757178080014,
+        "f1": 0.5052913537961621,
+        "gold_chars": 25146
+      },
+      "Subtle Conflict": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "gold_chars": 830
+      },
+      "Evident Baseless Info": {
+        "precision": 0.4249302729918018,
+        "recall": 0.6092933070184551,
+        "f1": 0.5006793043354555,
+        "gold_chars": 57762
+      },
+      "Subtle Baseless Info": {
+        "precision": 0.28217175672148265,
+        "recall": 0.11495108464483199,
+        "f1": 0.16335474121647148,
+        "gold_chars": 18808
+      },
+      "macro_f1_types": 0.29233134983702225
+    }
+  },
+  "thresholds_by_config": {
+    "default": {
+      "Evident Conflict": 0.5,
+      "Subtle Conflict": 0.5,
+      "Evident Baseless Info": 0.5,
+      "Subtle Baseless Info": 0.5
+    },
+    "global": {
+      "Evident Conflict": 0.2,
+      "Subtle Conflict": 0.2,
+      "Evident Baseless Info": 0.2,
+      "Subtle Baseless Info": 0.2
+    },
+    "per_type": {
+      "Evident Conflict": 0.2,
+      "Subtle Conflict": 0.6,
+      "Evident Baseless Info": 0.3,
+      "Subtle Baseless Info": 0.05
+    },
+    "joint": {
+      "Evident Conflict": 0.2,
+      "Subtle Conflict": 0.6,
+      "Evident Baseless Info": 0.2,
+      "Subtle Baseless Info": 0.15
+    }
+  },
+  "winner": "joint",
+  "joint_search": {
+    "evaluated_combinations": 9317,
+    "eligible_per_type": {
+      "Evident Conflict": [
+        0.005,
+        0.01,
+        0.02,
+        0.05,
+        0.1,
+        0.15,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6
+      ],
+      "Subtle Conflict": [
+        0.1,
+        0.15,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6
+      ],
+      "Evident Baseless Info": [
+        0.005,
+        0.01,
+        0.02,
+        0.05,
+        0.1,
+        0.15,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6
+      ],
+      "Subtle Baseless Info": [
+        0.005,
+        0.01,
+        0.02,
+        0.05,
+        0.1,
+        0.15,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6
+      ]
+    },
+    "seconds": 101.52506730001187
+  },
+  "cache_reused": "outputs\\transformer_calibration_run1\\probabilities\\candidate-2.jsonl.gz"
+}

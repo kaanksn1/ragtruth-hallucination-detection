@@ -18,4 +18,4 @@ Dağılım `docs/TEAM.md` ile aynıdır:
 | 4 | Adnan Demir | `adnan-demir` | Transformer ve seçim düzeltmeleri |
 | 5 | Ozan Serhan Denizhan | `serhandenizhan` | Bağımsız doğrulama, slaytlar ve sunum |
 
-Model eğitimini çalıştırmak, modelin kodunun yazarlığını değiştirmez.
+

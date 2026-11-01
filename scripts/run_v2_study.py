@@ -12,7 +12,7 @@ from datetime import datetime, timezone
 import json
 import math
 import os
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 import subprocess
 import sys
 
@@ -57,6 +57,20 @@ def metric_key(artifact):
 def select_family(artifacts):
     require(set(artifacts) <= set(FAMILIES) and {'bce', 'focal'} <= set(artifacts), 'missing required model family')
     return max(artifacts, key=lambda name: (*metric_key(artifacts[name]), -FAMILIES.index(name)))
+
+
+def wsl_git_environment(root, git_dir, original):
+    """Bypass the Windows .git pointer when Linux Git opens this worktree."""
+    root, git_dir, original = map(PureWindowsPath, (root, git_dir, original))
+    require(all(path.is_absolute() and '..' not in path.parts for path in (root,git_dir,original)),
+            'Git environment requires absolute nontraversing Windows paths')
+    common = original / '.git'
+    worktrees = common / 'worktrees'
+    require(root != original and root.is_relative_to(original), 'V2 worktree must be inside original project')
+    require(git_dir != worktrees and git_dir.is_relative_to(worktrees),
+            'worktree Git directory must be inside original .git/worktrees')
+    return ['GIT_DIR='+windows_to_wsl(git_dir), 'GIT_COMMON_DIR='+windows_to_wsl(common),
+            'GIT_WORK_TREE='+windows_to_wsl(root)]
 
 
 def pilot_resources(summary):
@@ -186,9 +200,12 @@ class Study:
             path = self.work / (name + '.json')
             write_new(path, config)
         if gpu:
+            git_dir = git(self.root,'rev-parse','--absolute-git-dir').decode('utf-8').strip()
+            git_environment = wsl_git_environment(str(self.root),git_dir,str(self.original))
             argv = ['wsl.exe','--distribution','Ubuntu-24.04','--user','serda','--cd',windows_to_wsl(str(self.root)),
                 '--','env','HSA_ENABLE_DXG_DETECTION=1','HF_HUB_CACHE=.cache/hf-hub','HF_HUB_OFFLINE=1',
-                'TRANSFORMERS_OFFLINE=1','/opt/banking77-venv/bin/python','scripts/run_job.py',relative(self.root,path)]
+                'TRANSFORMERS_OFFLINE=1',*git_environment,
+                '/opt/banking77-venv/bin/python','scripts/run_job.py',relative(self.root,path)]
         else:
             argv = [str(self.cpu),'scripts/run_job.py',relative(self.root,path)]
         record_path = parse_job_record(self.execute(argv,name), root=self.root)

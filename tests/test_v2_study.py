@@ -22,6 +22,19 @@ def artifact(value=.3, any_f1=.5):
 
 
 class SelectionTests(unittest.TestCase):
+    def test_wsl_git_environment_containment_and_unicode(self):
+        original=r'C:\Users\with spaces\ç\project'
+        root=original+r'\.cache\ragtruth-v2'
+        git_dir=original+r'\.git\worktrees\ragtruth-v2'
+        self.assertEqual(study.wsl_git_environment(root,git_dir,original),[
+            'GIT_DIR=/mnt/c/Users/with spaces/ç/project/.git/worktrees/ragtruth-v2',
+            'GIT_COMMON_DIR=/mnt/c/Users/with spaces/ç/project/.git',
+            'GIT_WORK_TREE=/mnt/c/Users/with spaces/ç/project/.cache/ragtruth-v2'])
+        for invalid in (r'C:\other\.git\worktrees\ragtruth-v2',original+r'\.git',
+                        original+r'\.git\worktrees',original+r'\.git\worktrees\..\escape','relative'):
+            with self.subTest(invalid=invalid),self.assertRaises(ValueError):
+                study.wsl_git_environment(root,invalid,original)
+
     def test_pilot_linear_budget_memory_and_finite_guards(self):
         summary={'epochs':[{'train':{'elapsed_seconds':32,'peak_allocated_bytes':8*1024**3},
                             'validation':{'elapsed_seconds':16,'peak_allocated_bytes':5*1024**3}}]}
@@ -230,6 +243,9 @@ class StudyFixture(unittest.TestCase):
             self.assertEqual(argv[7:9],['--','env'])
             self.assertIn('HF_HUB_OFFLINE=1',argv)
             self.assertIn('TRANSFORMERS_OFFLINE=1',argv)
+            for value in ('GIT_DIR=/mnt/c/fixture/.git/worktrees/ragtruth-v2',
+                          'GIT_COMMON_DIR=/mnt/c/fixture/.git','GIT_WORK_TREE=/mnt/c/fixture/.cache/ragtruth-v2'):
+                self.assertIn(value,argv)
             self.assertEqual(argv[-3:-1],['/opt/banking77-venv/bin/python','scripts/run_job.py'])
             config=study.read_json(self.root/argv[-1])
             write(run/'run.json',{'status':'completed','exit_code':0,'config':config,
@@ -239,8 +255,14 @@ class StudyFixture(unittest.TestCase):
         # On Linux the fake-root path is POSIX; exercise the same argv with a
         # stand-in converter, while the actual pure Windows conversion is checked below.
         with (patch.object(self.study,'execute',side_effect=execute),
-              patch.object(study,'windows_to_wsl',return_value='/mnt/c/fixture with spaces/ç')):
+              patch.object(study,'windows_to_wsl',return_value='/mnt/c/fixture with spaces/ç'),
+              patch.object(study,'wsl_git_environment',return_value=[
+                  'GIT_DIR=/mnt/c/fixture/.git/worktrees/ragtruth-v2','GIT_COMMON_DIR=/mnt/c/fixture/.git',
+                  'GIT_WORK_TREE=/mnt/c/fixture/.cache/ragtruth-v2']) as git_environment):
             self.study.job('gpu_fixture',['{python}','train.py'],['result.json'])
+            git_environment.assert_called_once()
+            self.assertEqual(git_environment.call_args.args[0],str(self.root))
+            self.assertEqual(git_environment.call_args.args[2],str(self.study.original))
         self.assertEqual(study.windows_to_wsl(r'C:\Users\with spaces\ç\repo'),'/mnt/c/Users/with spaces/ç/repo')
 
     def test_structured_calibration_grid_and_validation_only_command(self):

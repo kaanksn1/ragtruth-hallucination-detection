@@ -1,0 +1,213 @@
+{
+  "test": {
+    "responses": 2675,
+    "models": {
+      "crf_source": {
+        "any_p": 0.3260248887488678,
+        "any_r": 0.3882863340563991,
+        "any_f1": 0.3544421670047148,
+        "macro_f1": 0.1976000478288782,
+        "per_type_f1": {
+          "Evident Conflict": 0.2714962648184685,
+          "Subtle Conflict": 0.0,
+          "Evident Baseless Info": 0.33176859136113995,
+          "Subtle Baseless Info": 0.18713533513590436
+        },
+        "exact_typed_f1": 0.06668430801799417,
+        "overlap_typed_f1": 0.31835872865295883,
+        "predicted_spans": 2251,
+        "gold_spans": 1528,
+        "response_level": {
+          "precision": 0.6244131455399061,
+          "recall": 0.7051961823966065,
+          "f1": 0.6623505976095617,
+          "positive_rate": 0.3525233644859813,
+          "accuracy": 0.7465420560747663
+        }
+      },
+      "crf_response_only": {
+        "any_p": 0.18315034770264685,
+        "any_r": 0.23902210236266636,
+        "any_f1": 0.20738909490454607,
+        "macro_f1": 0.11945358772646021,
+        "per_type_f1": {
+          "Evident Conflict": 0.27680690025460275,
+          "Subtle Conflict": 0.0,
+          "Evident Baseless Info": 0.146202444719132,
+          "Subtle Baseless Info": 0.05480500593210609
+        },
+        "exact_typed_f1": 0.06147434227663454,
+        "overlap_typed_f1": 0.2615754381004176,
+        "predicted_spans": 2311,
+        "gold_spans": 1528,
+        "response_level": {
+          "precision": 0.532244196044712,
+          "recall": 0.6564156945917285,
+          "f1": 0.5878442545109211,
+          "positive_rate": 0.3525233644859813,
+          "accuracy": 0.6755140186915888
+        }
+      },
+      "transformer": {
+        "any_p": 0.4827741702741703,
+        "any_r": 0.5648941783432022,
+        "any_f1": 0.5206157437174798,
+        "macro_f1": 0.2983996161567918,
+        "per_type_f1": {
+          "Evident Conflict": 0.4746496425370034,
+          "Subtle Conflict": 0.0,
+          "Evident Baseless Info": 0.5449643631856214,
+          "Subtle Baseless Info": 0.17398445890454228
+        },
+        "exact_typed_f1": 0.06779065683175273,
+        "overlap_typed_f1": 0.3806408384720982,
+        "predicted_spans": 4166,
+        "gold_spans": 1528,
+        "response_level": {
+          "precision": 0.6660808435852372,
+          "recall": 0.8038176033934252,
+          "f1": 0.7284959154252764,
+          "positive_rate": 0.3525233644859813,
+          "accuracy": 0.788785046728972
+        }
+      }
+    }
+  },
+  "validation": {
+    "responses": 2240,
+    "models": {
+      "crf_source": {
+        "any_p": 0.36523739199809885,
+        "any_r": 0.4202359328919357,
+        "any_f1": 0.3908111740773031,
+        "macro_f1": 0.19988154890628781,
+        "per_type_f1": {
+          "Evident Conflict": 0.3089928238912324,
+          "Subtle Conflict": 0.0,
+          "Evident Baseless Info": 0.35722317392518355,
+          "Subtle Baseless Info": 0.13331019780873532
+        },
+        "exact_typed_f1": 0.06412139011257954,
+        "overlap_typed_f1": 0.338223179661509,
+        "predicted_spans": 2235,
+        "gold_spans": 1851,
+        "response_level": {
+          "precision": 0.7000983284169124,
+          "recall": 0.7105788423153693,
+          "f1": 0.7052996532937098,
+          "positive_rate": 0.4473214285714286,
+          "accuracy": 0.734375
+        },
+        "boundary": {
+          "pred_stripped_exact": 0.06118453255017132,
+          "gold_and_pred_stripped_exact": 0.09642682329907,
+          "merge_gap1_exact": 0.0641842234198922,
+          "merge_gap1_any_f1": 0.3908058503271624,
+          "merge_gap1_both_stripped_exact": 0.09652131308182263,
+          "merge_gap3_exact": 0.0631055900621118,
+          "merge_gap3_any_f1": 0.3907172651062304,
+          "merge_gap3_both_stripped_exact": 0.09639751552795031
+        }
+      },
+      "crf_response_only": {
+        "any_p": 0.21456821571617704,
+        "any_r": 0.2500634753227476,
+        "any_f1": 0.23096002597590012,
+        "macro_f1": 0.13130336892447633,
+        "per_type_f1": {
+          "Evident Conflict": 0.30705351297336414,
+          "Subtle Conflict": 0.0,
+          "Evident Baseless Info": 0.1461959447335367,
+          "Subtle Baseless Info": 0.07196401799100449
+        },
+        "exact_typed_f1": 0.05283950617283951,
+        "overlap_typed_f1": 0.27575431931826744,
+        "predicted_spans": 2199,
+        "gold_spans": 1851,
+        "response_level": {
+          "precision": 0.6030245746691871,
+          "recall": 0.6367265469061876,
+          "f1": 0.6194174757281553,
+          "positive_rate": 0.4473214285714286,
+          "accuracy": 0.65
+        },
+        "boundary": {
+          "pred_stripped_exact": 0.05382716049382716,
+          "gold_and_pred_stripped_exact": 0.07753086419753086,
+          "merge_gap1_exact": 0.052852556186712765,
+          "merge_gap1_any_f1": 0.230968003788135,
+          "merge_gap1_both_stripped_exact": 0.07755001234872808,
+          "merge_gap3_exact": 0.051333668847508805,
+          "merge_gap3_any_f1": 0.23105835271213024,
+          "merge_gap3_both_stripped_exact": 0.0770005032712632
+        }
+      },
+      "transformer_default": {
+        "any_p": 0.7269321462414879,
+        "any_r": 0.32212261479267984,
+        "any_f1": 0.446423375445767,
+        "macro_f1": 0.2244403704695749,
+        "per_type_f1": {
+          "Evident Conflict": 0.3882395038167939,
+          "Subtle Conflict": 0.0,
+          "Evident Baseless Info": 0.48007982930117515,
+          "Subtle Baseless Info": 0.029442148760330578
+        },
+        "exact_typed_f1": 0.1192462156317578,
+        "overlap_typed_f1": 0.5108501711132272,
+        "predicted_spans": 1386,
+        "gold_spans": 1851,
+        "response_level": {
+          "precision": 0.9285714285714286,
+          "recall": 0.5578842315369261,
+          "f1": 0.6970074812967582,
+          "positive_rate": 0.4473214285714286,
+          "accuracy": 0.7830357142857143
+        },
+        "boundary": {
+          "pred_stripped_exact": 0.11615693543404387,
+          "gold_and_pred_stripped_exact": 0.16620327463700957,
+          "merge_gap1_exact": 0.11954165376277485,
+          "merge_gap1_any_f1": 0.4464533416335672,
+          "merge_gap1_both_stripped_exact": 0.16661505109941158,
+          "merge_gap3_exact": 0.11572327044025157,
+          "merge_gap3_any_f1": 0.44669542755906577,
+          "merge_gap3_both_stripped_exact": 0.16352201257861634
+        }
+      },
+      "transformer": {
+        "any_p": 0.5075890100843795,
+        "any_r": 0.5780453506767446,
+        "any_f1": 0.5405309152672383,
+        "macro_f1": 0.3200709856528261,
+        "per_type_f1": {
+          "Evident Conflict": 0.5152883024571581,
+          "Subtle Conflict": 0.021159542953872196,
+          "Evident Baseless Info": 0.523404472062344,
+          "Subtle Baseless Info": 0.22043162513793016
+        },
+        "exact_typed_f1": 0.06996720287365298,
+        "overlap_typed_f1": 0.3899752415866449,
+        "predicted_spans": 4552,
+        "gold_spans": 1851,
+        "response_level": {
+          "precision": 0.7375565610859729,
+          "recall": 0.8133732534930139,
+          "f1": 0.7736117702895111,
+          "positive_rate": 0.4473214285714286,
+          "accuracy": 0.7870535714285715
+        },
+        "boundary": {
+          "pred_stripped_exact": 0.06528189910979229,
+          "gold_and_pred_stripped_exact": 0.10869904732156802,
+          "merge_gap1_exact": 0.07056609691077309,
+          "merge_gap1_any_f1": 0.5405476975336262,
+          "merge_gap1_both_stripped_exact": 0.1094558569860436,
+          "merge_gap3_exact": 0.06980858935177739,
+          "merge_gap3_any_f1": 0.5405057748097871,
+          "merge_gap3_both_stripped_exact": 0.1087341161331832
+        }
+      }
+    }
+  }
+}

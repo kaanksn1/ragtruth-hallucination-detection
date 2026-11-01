@@ -10,7 +10,8 @@ original content group stay together. These groups form a fresh study holdout;
 they are not the original official test. Models for this study must start from
 the pretrained encoder and train only on the new V2 train file.
 
-Run `python scripts/prepare_v2_data.py` from this worktree to write development
+Run `python scripts/prepare_v2_data.py --source-root /path/to/original-project`
+from this worktree to write development
 JSONLs, CRF views, `split_manifest_v2.csv`, and `split_summary_v2.json`. Original
 response/source text, offsets, overlapping annotations, and metadata are retained.
 New `study_id` and `original_project_split` fields identify this study. Manifest
@@ -19,7 +20,10 @@ comes from the original manifest; no held-out label statistics are produced.
 
 Holdout annotations are not materialized during development. Only after a frozen
 `docs/V2_FINAL_PROTOCOL.json` is committed, run
-`python scripts/prepare_v2_data.py --include-holdout`. The command verifies that
+`python scripts/prepare_v2_data.py --source-root /path/to/original-project --include-holdout`.
+The default source path assumes the owner's nested worktree layout; other
+machines must supply it explicitly. See [reproduction details](V2_REPRODUCIBILITY.md).
+The command verifies that
 the protocol matches its committed bytes and writes the new study's test JSONLs.
 The development summary and manifest remain byte-identical, so model checkpoints
 keep the same data provenance. A separate frozen job must hash the eventual

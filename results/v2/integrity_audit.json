@@ -1,0 +1,286 @@
+{
+  "audit_kind": "read_only_frozen_v2_integrity",
+  "original_official_test_opened": false,
+  "counts": {
+    "train": {
+      "responses": 11550,
+      "quality": {
+        "good": 11431,
+        "truncated": 23,
+        "incorrect_refusal": 96
+      },
+      "response_id": 11550,
+      "source_id": 1925,
+      "source_group": 1923,
+      "source_text_exact": 1924,
+      "source_text_normalized": 1924
+    },
+    "validation": {
+      "responses": 2262,
+      "quality": {
+        "good": 2240,
+        "incorrect_refusal": 19,
+        "truncated": 3
+      },
+      "response_id": 2262,
+      "source_id": 377,
+      "source_group": 377,
+      "source_text_exact": 377,
+      "source_text_normalized": 377
+    },
+    "test": {
+      "responses": 1278,
+      "quality": {
+        "good": 1271,
+        "truncated": 2,
+        "incorrect_refusal": 5
+      },
+      "response_id": 1278,
+      "source_id": 213,
+      "source_group": 213,
+      "source_text_exact": 213,
+      "source_text_normalized": 213
+    }
+  },
+  "cross_split_overlaps": {
+    "train_vs_validation": {
+      "response_id": 0,
+      "source_id": 0,
+      "source_group": 0,
+      "source_text_exact": 0,
+      "source_text_normalized": 0
+    },
+    "train_vs_test": {
+      "response_id": 0,
+      "source_id": 0,
+      "source_group": 0,
+      "source_text_exact": 0,
+      "source_text_normalized": 0
+    },
+    "validation_vs_test": {
+      "response_id": 0,
+      "source_id": 0,
+      "source_group": 0,
+      "source_text_exact": 0,
+      "source_text_normalized": 0
+    }
+  },
+  "answer_boilerplate_overlap": {
+    "train_vs_validation": {
+      "distinct_answers": 1,
+      "responses": 203,
+      "responses_with_gold_spans": 0,
+      "good_responses": 101
+    },
+    "train_vs_test": {
+      "distinct_answers": 1,
+      "responses": 171,
+      "responses_with_gold_spans": 0,
+      "good_responses": 83
+    },
+    "validation_vs_test": {
+      "distinct_answers": 1,
+      "responses": 44,
+      "responses_with_gold_spans": 0,
+      "good_responses": 22
+    }
+  },
+  "all_original_train_dev_records_preserved": true,
+  "all_gold_bounds_and_text_valid": true,
+  "frozen_hashes_verified": {
+    "inputs_sha256": 97,
+    "artifacts_sha256": 24
+  },
+  "independent_metric_checks": {
+    "validation/bce": {
+      "responses": 2240,
+      "all_aggregate_counts_and_prf_match": true,
+      "task_and_generator_breakdowns_verified": 9
+    },
+    "validation/focal": {
+      "responses": 2240,
+      "all_aggregate_counts_and_prf_match": true,
+      "task_and_generator_breakdowns_verified": 9
+    },
+    "validation/structured": {
+      "responses": 2240,
+      "all_aggregate_counts_and_prf_match": true,
+      "task_and_generator_breakdowns_verified": 9
+    },
+    "test/bce": {
+      "responses": 1271,
+      "all_aggregate_counts_and_prf_match": true,
+      "task_and_generator_breakdowns_verified": 9
+    },
+    "test/focal": {
+      "responses": 1271,
+      "all_aggregate_counts_and_prf_match": true,
+      "task_and_generator_breakdowns_verified": 9
+    },
+    "test/structured": {
+      "responses": 1271,
+      "all_aggregate_counts_and_prf_match": true,
+      "task_and_generator_breakdowns_verified": 9
+    }
+  },
+  "all_nine_epoch_checkpoints_verified": {
+    "bce/epoch-1": {
+      "manifest": "outputs/runs/20261101T015315059063Z-v2-bce-train/checkpoints/epoch-1/checkpoint.json",
+      "manifest_sha256": "9cdc57b9fe6e873a599f57a99d932d1e20b9f5fe40349f576499bdcc11676079",
+      "verified_files": 6,
+      "bytes": 599688643
+    },
+    "bce/epoch-2": {
+      "manifest": "outputs/runs/20261101T015315059063Z-v2-bce-train/checkpoints/epoch-2/checkpoint.json",
+      "manifest_sha256": "c3de67639bcbcdb8518a2a999379a2257e0e8b3965a53abd43d1702ae163a057",
+      "verified_files": 6,
+      "bytes": 599688643
+    },
+    "bce/epoch-3": {
+      "manifest": "outputs/runs/20261101T015315059063Z-v2-bce-train/checkpoints/epoch-3/checkpoint.json",
+      "manifest_sha256": "189f9023474b8a57d138ac83b424d678daf61834679553094adda464252e0131",
+      "verified_files": 6,
+      "bytes": 599688643
+    },
+    "focal/epoch-1": {
+      "manifest": "outputs/runs/20261101T035241061932Z-v2-focal-train/checkpoints/epoch-1/checkpoint.json",
+      "manifest_sha256": "b146d52353f49f12df5f2923998fdf583086e75a532b2ecc90a1e7b0182d8096",
+      "verified_files": 6,
+      "bytes": 599688643
+    },
+    "focal/epoch-2": {
+      "manifest": "outputs/runs/20261101T035241061932Z-v2-focal-train/checkpoints/epoch-2/checkpoint.json",
+      "manifest_sha256": "e0fd58706b22f94953c7a2a77cfe2a3664a165a99b235361995da82295c5a642",
+      "verified_files": 6,
+      "bytes": 599688643
+    },
+    "focal/epoch-3": {
+      "manifest": "outputs/runs/20261101T035241061932Z-v2-focal-train/checkpoints/epoch-3/checkpoint.json",
+      "manifest_sha256": "5b812fa7cb932069546dc33d15ef64e7364eed65c26150e4414dc75813d9076a",
+      "verified_files": 6,
+      "bytes": 599688643
+    },
+    "structured/epoch-1": {
+      "manifest": "outputs/runs/20261101T054848837153Z-v2-structured-train/checkpoints/epoch-1/checkpoint.json",
+      "manifest_sha256": "46359a0acce4c36fe77290c4fd04a4632ad254f126d0c7c3bcb6c2a2b3e2465e",
+      "verified_files": 6,
+      "bytes": 599713755
+    },
+    "structured/epoch-2": {
+      "manifest": "outputs/runs/20261101T054848837153Z-v2-structured-train/checkpoints/epoch-2/checkpoint.json",
+      "manifest_sha256": "9ce6ad49657a3e429d560841ae7b14fc596b98660beae25726614d12c9fe92b2",
+      "verified_files": 6,
+      "bytes": 599713755
+    },
+    "structured/epoch-3": {
+      "manifest": "outputs/runs/20261101T054848837153Z-v2-structured-train/checkpoints/epoch-3/checkpoint.json",
+      "manifest_sha256": "4eef6325dbe425798eca613de08249b2d3ae5a3f53cb55e15fd61213ca4f47ee",
+      "verified_files": 6,
+      "bytes": 599713755
+    }
+  },
+  "validation_only_gold_word_bio_roundtrip": {
+    "character": {
+      "any": {
+        "tp": 102402,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.9999804695129096,
+        "recall": 1.0,
+        "f1": 0.9999902346610939
+      },
+      "Evident Conflict": {
+        "tp": 25146,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.9999602338251083,
+        "recall": 1.0,
+        "f1": 0.9999801165172092
+      },
+      "Subtle Conflict": {
+        "tp": 830,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "Evident Baseless Info": {
+        "tp": 57762,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.9999826878797846,
+        "recall": 1.0,
+        "f1": 0.9999913438649642
+      },
+      "Subtle Baseless Info": {
+        "tp": 18808,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "macro_f1_types": 0.9999928650955434,
+      "micro_typed": {
+        "tp": 102546,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.9999804969380193,
+        "recall": 1.0,
+        "f1": 0.9999902483739164
+      }
+    },
+    "span_exact": {
+      "any": {
+        "tp": 1842,
+        "fp": 2,
+        "fn": 9,
+        "precision": 0.9989154013015185,
+        "recall": 0.9951377633711507,
+        "f1": 0.9970230040595399
+      },
+      "typed": {
+        "tp": 1842,
+        "fp": 2,
+        "fn": 9,
+        "precision": 0.9989154013015185,
+        "recall": 0.9951377633711507,
+        "f1": 0.9970230040595399
+      },
+      "Evident Conflict": {
+        "tp": 666,
+        "fp": 1,
+        "fn": 4,
+        "precision": 0.9985007496251874,
+        "recall": 0.9940298507462687,
+        "f1": 0.9962602842183994
+      },
+      "Subtle Conflict": {
+        "tp": 25,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "Evident Baseless Info": {
+        "tp": 808,
+        "fp": 1,
+        "fn": 5,
+        "precision": 0.9987639060568603,
+        "recall": 0.993849938499385,
+        "f1": 0.9963008631319359
+      },
+      "Subtle Baseless Info": {
+        "tp": 343,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "macro_f1_types": 0.9981402868375838
+    }
+  }
+}

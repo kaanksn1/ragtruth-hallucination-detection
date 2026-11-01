@@ -38,6 +38,6 @@ Dört türün tek tek skorları [holdout tablosunda](holdout_comparison.md). Any
 
 ## Dosyalar
 
-[Dev karşılaştırması](dev_comparison.md), [holdout karşılaştırması](holdout_comparison.md), [dev hata örnekleri](error_analysis.md), [grafikler](figures/holdout/). Demo kaydedilmiş dev tahminlerini gösterir; canlı inference değildir. Kaynaklar ve önceden ilan edilmiş kurallar [V2_PLAN.md](../../docs/V2_PLAN.md) içindedir.
+[Dev karşılaştırması](dev_comparison.md), [holdout karşılaştırması](holdout_comparison.md), [dev hata örnekleri](error_analysis.md), [kümesi açık yazılmış grafikler](figures/audited_holdout/), [ayrıntılı denetim](AUDIT_TR.md). Demo kaydedilmiş dev tahminlerini gösterir; canlı inference değildir. Kaynaklar ve önceden ilan edilmiş kurallar [V2_PLAN.md](../../docs/V2_PLAN.md) içindedir.
 
 Deneyin bilimsel kararı `docs/V2_FINAL_PROTOCOL.json`, byte-bound job çiftleri `configs/v2/final/` altındadır. Orijinal resmî test burada açılmadı veya yeniden skorlanmadı.

@@ -4,7 +4,12 @@
 > ek deney istedi. Bu dalın [sınırlandırılmış planı](docs/V2_PLAN.md) üç yeni
 > modeli aynı yeni ayrımda karşılaştırır. Eski resmî test yeniden kullanılmaz;
 > yeni kontrol kümesi yalnız önceki train'den ayrılır. Aşağıdaki V1 sonuçları
-> tarihsel teslimdir; V2 sonuçları tamamlanınca `results/v2/` altında yer alır.
+> tarihsel teslimdir. **V2 tamamlandı:** [sonuçlar](results/v2/FINAL_REPORT.md),
+> [ayrıntılı denetim](results/v2/AUDIT_TR.md) ve
+> [yeniden üretim rehberi](docs/V2_REPRODUCIBILITY.md).
+> Yeni internal holdout'ta dev ile seçilmiş BCE modelinin any F1'ı %50,14,
+> dört-tür macro F1'ı %27,23. Bu küme eski resmî testle aynı değildir.
+> Denetlenmiş yerel paket: `artifacts/ragtruth_v2_audited.zip`.
 
 **Amaç:** Kaynak içerik ve yapay zekâ cevabını birlikte inceleyerek cevaptaki
 kaynakla çelişen veya kaynakta desteklenmeyen metin bölümlerini işaretlemek.
@@ -15,7 +20,8 @@ ifadelerini bulmak. Bu proje, cevabın kaynağa bağlılığını inceler; genel
 bir gerçek dünya doğrulama sistemi olduğu iddiasında bulunmaz.
 
 Depo: [kaanksn1/ragtruth-hallucination-detection](https://github.com/kaanksn1/ragtruth-hallucination-detection).
-Ekip davetleri 30 Ekim'de gönderildi; katılım için GitHub davetini kabul etmek gerekir.
+Ekip davetleri 30 Ekim'de gönderildi; 1 Kasım denetiminde beş ekip üyesinin
+erişimi doğrulandı ve bekleyen davet bulunmadı.
 Başlangıç görünürlüğü private'tır.
 
 Bu bağımsız depo RAGTruth projesinin teknik teslimidir. Veri hazırlığı, tam CRF

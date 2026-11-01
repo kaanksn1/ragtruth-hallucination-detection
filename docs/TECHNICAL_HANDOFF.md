@@ -1,5 +1,10 @@
 # Teknik paketi kullanma
 
+**V2 güncellemesi:** Güncel denetlenmiş paket `artifacts/ragtruth_v2_audited.zip`;
+raporları paket içinde `results/v2/` altındadır. [V2 denetimi](../results/v2/AUDIT_TR.md)
+ve [çalıştırma rehberi](V2_REPRODUCIBILITY.md) önceliklidir. Aşağıdaki V1 dosyaları
+tarihsel teslimi açıklar; yeni internal holdout ile eski resmî test ayrı tutulur.
+
 Proje, verilen kaynak ile LLM cevabını birlikte okuyup cevaptaki dört tür
 halüsinasyon aralığını bulur. Kaynakta desteklenmeyen bir ifade, dünyada mutlaka
 yanlış demek değildir. Etiketler veri setinin insan anotasyonlarıdır.

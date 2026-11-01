@@ -1,0 +1,49 @@
+{
+  "created_utc": "2026-11-01T11:07:52.638955+00:00",
+  "new_training_or_selection": false,
+  "original_official_test_opened": false,
+  "tests": {
+    "hf": {
+      "run": 253,
+      "skipped": 8,
+      "passed": 245,
+      "log_sha256": "379eb3a0751d4ad913459cb3633f6a963af2407671af2a4049d04286bda1f011"
+    },
+    "native": {
+      "run": 253,
+      "skipped": 52,
+      "passed": 201,
+      "log_sha256": "75775528a7db81994b88ff0a9090f8b8a68d1fb7f8eaf0a4f4c44c13569626ba"
+    }
+  },
+  "demo": {
+    "validation_records": 2240,
+    "models": [
+      "bce",
+      "focal",
+      "structured"
+    ],
+    "panels_checked": 8960,
+    "lossless_unicode_segments_checked": 47914,
+    "gold_and_predictions_match_saved_files": true,
+    "external_script_dependencies": 0,
+    "mit_notice_embedded": true,
+    "new_browser_interaction_test": false
+  },
+  "old_archive_findings": {
+    "missing_runtime_paths": [
+      "structured_transformer.py",
+      "data/splits/split_manifest_v2.csv",
+      "data/splits/split_summary_v2.json"
+    ],
+    "flattened_v2_report": true
+  },
+  "archive_contract": {
+    "required_v2_runtime_paths_present": true,
+    "repository_relative_results_v2_paths_preserved": true,
+    "critical_entrypoint_links_resolve": true,
+    "relative_markdown_links_checked": 108,
+    "remaining_historical_or_external_artifact_links": [],
+    "crc_and_sha_manifest_verification": "required by packager and checked after build"
+  }
+}

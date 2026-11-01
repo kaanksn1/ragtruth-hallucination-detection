@@ -4,11 +4,13 @@ Güncel durum: tam eğitimler, validation seçimi ve dondurulmuş ayarlarla resm
 değerlendirmesi tamamlandı. [Teknik rapor](../results/FINAL_REPORT.md),
 [nihai karar](FINAL_PROTOCOL.json) ve `configs/final/` altındaki commit edilmiş
 job/protokol çiftleri güncel teslimdir. Aşağıdaki tarihli ilk kontroller,
-yapıldıkları tarihteki durumu kaydeder.
+yapıldıkları tarihteki durumu kaydeder. Ayrı V2 çalışması da tamamlandı;
+[V2 rehberi](V2_REPRODUCIBILITY.md) farklı veri yollarını ve güncel paketlemeyi açıklar.
 
 Bu katman yalnız veri indirme/doğrulama, komut çalıştırma ve kayıt tutmayı
 yapar. CRF, Transformer, veri hizalama ve ortak scorer ilgili üyelerden gelir.
-Tam model eğitimi henüz başlamadı. Nihai test protokolü hâlâ taslak.
+Bu ilk kurulum kaydı yazıldığında tam eğitim başlamamış, test protokolü taslaktı.
+Bu tarihsel ifade yukarıdaki tamamlanmış güncel durumu değiştirmez.
 
 ## Veri ve testler
 

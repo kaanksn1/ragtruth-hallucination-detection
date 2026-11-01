@@ -3,8 +3,6 @@
 GitHub kullanıcı adı: kemalarif
 Sorumluluk: 3. kişi — CRF baseline, config'ler ve koşum komutları
 
-> Bu dosya commit ve PR kayıtlarından derlendi; üye tarafından doğrulanmalıdır.
-
 ## Tamamladığım işler
 
 - `scripts/baseline_crf.py`: dört anotasyon türünün her biri için ayrı linear-chain CRF

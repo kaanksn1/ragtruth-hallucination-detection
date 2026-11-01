@@ -33,11 +33,11 @@ def weighted_summary():
 
 
 class CompletionSelectionTests(unittest.TestCase):
-    def test_experiment_selection_macro_then_any_then_exact_tie_base(self):
-        self.assertEqual(pipeline.choose_experiment(artifact(), artifact()), "base")
-        self.assertEqual(pipeline.choose_experiment(artifact(.3, .9), artifact(.31, .1)), "weighted")
-        self.assertEqual(pipeline.choose_experiment(artifact(.3, .5), artifact(.3, .51)), "weighted")
-        self.assertEqual(pipeline.choose_experiment(artifact(.4, .2), artifact(.3, .9)), "base")
+    def test_experiment_selection_any_then_macro_then_exact_tie_base(self):
+        self.assertEqual(pipeline.choose_experiment(artifact(), artifact()), "base")  # exact tie keeps base
+        self.assertEqual(pipeline.choose_experiment(artifact(.3, .9), artifact(.31, .1)), "base")  # higher any wins despite lower macro
+        self.assertEqual(pipeline.choose_experiment(artifact(.3, .5), artifact(.3, .51)), "weighted")  # equal macro: any F1 breaks the tie
+        self.assertEqual(pipeline.choose_experiment(artifact(.4, .2), artifact(.3, .9)), "weighted")  # higher any outranks higher macro
 
     def test_calibration_identity_order_and_finite_metric_guards(self):
         for change in ({"data_sha256": {"other": "data"}}, {"label_types": list(reversed(LABEL_TYPES))},

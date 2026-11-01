@@ -84,3 +84,48 @@ düşük eşikle bulma, boşluk politikası, eşitlik kuralı, yanlış checkpoi
 bozuk önbellek, donmuş test artifact gereksinimi ve gold'suz CPU CLI inference.
 Son test orijinal checkpoint'in değişmediğini ve `--calibration` olmadan
 eski davranışın sürdüğünü kontrol eder. Mevcut 26 Transformer testi de geçti.
+
+## Düzeltme — 1 Kasım 2026: seçim metriği ve FP koruması
+
+Kod incelemesinde iki sorun doğrulandı: (1) `scripts/calibrate_transformer.py`
+checkpoint seçimini `macro_f1_types`'ı birincil anahtar olarak kullanıyordu
+(`any` F1 yalnız eşitlik bozucuydu); dört türün ortalaması tek bir türdeki
+kayda değer bir `any` F1 düşüşünü maskeleyebilir. (2) `tune_thresholds` hiçbir
+yanlış pozitif sınırı olmadan salt F1'e göre seçim yapıyordu: nadir bir türü
+neredeyse tüm karakterleri pozitif işaretleyecek kadar düşük bir eşik, "hiç
+tahmin etme" (F1 = 0) karşısında ölçülemeyecek kadar küçük ama sıfırdan farklı
+bir F1 ile kazanabilir.
+
+Düzeltme (`scripts/calibrate_transformer.py`, bağımsız test edilebilir
+`select_checkpoint`/`tune_thresholds` fonksiyonları): checkpoint seçimi artık
+önce `any` F1'e, sonra `macro_f1_types`'a bakıyor; eşik araması, sıfır tahmin
+dışında precision < `MIN_PRECISION_FLOOR` (0.01 = validation'da en az 100
+tahmin edilen karakterden biri gerçek pozitif olmalı) olan eşikleri eler; hiçbir
+eşik bu tabanı geçmezse en yüksek (en muhafazakâr) eşik tutulur. Aynı mantık
+`scripts/baseline_crf.py`'ye `tune_type_thresholds`/`decode_per_type` olarak
+eklendi: tek paylaşılan posterior eşiği yerine her tür kendi karakterlerine
+göre bağımsız ayarlanabiliyor (ek çıktı, mevcut `selected` alanını değiştirmez).
+
+`configs/calibration.json` ve `configs/calibration_weighted_policy.json`
+**değiştirilmedi**: SHA-256'ları `docs/FINAL_PROTOCOL.json` içinde donmuş
+kararın kanıt zinciri olarak sabitlenmiştir. Düzeltilmiş metrik adıyla yeni bir
+koşum için `configs/calibration_v2.json` / `configs/calibration_weighted_policy_v2.json`
+eklendi. Bu düzeltme yalnız kod/testler seviyesindedir; gerçek checkpoint'ler
+bu ortamda yok, dolayısıyla tam veri üzerinde yeniden kalibrasyon çalıştırılmadı.
+`scripts/build_technical_report.py` kasıtlı olarak değiştirilmedi: o script
+donmuş, tamamlanmış `results/FINAL_REPORT.md` kararının kendisini doğrular; bu
+düzeltme mevcut tarihi değil, yalnızca yeni koşumları etkiler.
+
+## Ek düzeltme — 1 Kasım 2026: default/global/tür-başına karşılaştırması
+
+İlk düzeltme checkpoint seçimini düzeltti, ama her checkpoint için nihai
+eşik hâlâ koşulsuz olarak tür-başına (`per_type`) sonucu kullanıyordu —
+`default_metrics` hesaplanıp kaydediliyordu ama hiçbir zaman gerçekten
+karşılaştırılmıyordu. Gerçek CRF ölçümü (`docs/BASELINE_CRF.md`, 1 Kasım 2026)
+tür-başına ayarın detection F1'i düşürebileceğini kanıtladı (macro %19.99→%20.84,
+any %39.08→%38.84). Aynı riski kapatmak için `tune_global_threshold` (CRF'nin
+paylaşılan eşik aramasıyla aynı mantık, tek değer tüm türlere) ve
+`select_best_configuration` eklendi: her checkpoint artık default/global/
+per_type'ı hesaplayıp detection F1'i (eşitlikte macro F1) en yüksek olanı
+seçiyor. `calibration_report.json`'da her üç yapılandırma da (`configuration_metrics`)
+ve kazanan (`configuration_winner`) ayrıca kaydedilir.

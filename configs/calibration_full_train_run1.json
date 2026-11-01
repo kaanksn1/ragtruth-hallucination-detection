@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "split": "validation",
+  "checkpoints": [
+    "outputs/transformer_full_train_run1/checkpoints/epoch-1",
+    "outputs/transformer_full_train_run1/checkpoints/epoch-2"
+  ],
+  "threshold_grid": [0.005, 0.01, 0.02, 0.05, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6],
+  "selection_metric": "detection_f1_then_macro_f1_types",
+  "threshold_tie_break": "higher threshold",
+  "checkpoint_tie_break": "higher macro character F1 (4-type average), then earlier declared checkpoint",
+  "note": "Calibration for this session's real full training run (outputs/transformer_full_train_run1), using the corrected detection-F1-first selection pipeline (configs/calibration_v2.json lineage)."
+}

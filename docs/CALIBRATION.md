@@ -1,5 +1,10 @@
 # Validation ile tür başına eşik seçimi
 
+> **2 Kasım 2026 inceleme düzeltmesi:** Tarihsel macro-first ve yeni any-first
+> seçim ayrı modlardır. Eski config/job dosyaları ve eski sonuç JSON'ları
+> byte düzeyinde korunur. Aşağıdaki 1 Kasım bölümleri ara geliştirme kaydıdır;
+> güncel mod, precision sınırı ve provenance kuralları belgenin sonundadır.
+
 > Tarihsel kayıt: Bu belge ilk plan/teslim/kontrol sırasındaki durumu anlatır.
 > Güncel teknik sonuçlar [FINAL_REPORT.md](../results/FINAL_REPORT.md), nihai
 > kararlar [FINAL_PROTOCOL.json](FINAL_PROTOCOL.json) içindedir. Kullanıcının
@@ -129,3 +134,88 @@ paylaşılan eşik aramasıyla aynı mantık, tek değer tüm türlere) ve
 per_type'ı hesaplayıp detection F1'i (eşitlikte macro F1) en yüksek olanı
 seçiyor. `calibration_report.json`'da her üç yapılandırma da (`configuration_metrics`)
 ve kazanan (`configuration_winner`) ayrıca kaydedilir.
+
+## İnceleme düzeltmesi — 2 Kasım 2026: geriye uyumlu açık modlar
+
+`scripts/calibrate_transformer.py` mode'u açık config'in `selection_metric`
+alanından çıkarır. İstenirse `--selection-mode legacy_macro` veya
+`--selection-mode successor_any` ile ayrıca sabitlenir; flag ile config
+çelişirse herhangi bir inference/çıktı oluşturmadan reddedilir.
+
+| Mod | Config metriği | Decoder/checkpoint seçimi |
+|---|---|---|
+| `legacy_macro` | `macro_f1_types` | Orijinal bağımsız tür eşikleri, precision tabanı yok; macro F1, ardından any F1, ardından erken aday. Default yalnız tanı karşılaştırması. |
+| `successor_any` | `detection_f1_then_macro_f1_types` | Default/global/per_type/joint içindeki uygun adaylar; önce any F1, sonra macro F1, sonra ilan edilmiş sıra. Checkpoint eşitliğinde erken aday. |
+
+Eski `configs/calibration.json`, `configs/calibration_weighted_policy.json`
+ve `configs/jobs/transformer_calibration.json` değiştirilmedi. Eski job
+default macro config'iyle tekrar uyumludur. Bu, geçmiş inference'ın donmuş
+kod hash'iyle aynı byte'lara sahip olduğunu iddia etmez: tam tarihsel replay
+ilgili eski commit/ortamı gerektirir. Mevcut resmî test yeniden ayar seçimi
+için kullanılmaz.
+
+`complete_technical_pipeline.py` tarihsel weighted/unweighted aile kararını
+ve config'ini **macro-first** tutar; oluşturduğu calibration job'ı açık
+`legacy_macro` flag'i taşır. Yeni any-first aile deneyi bu tarihsel pipeline'a
+sessizce geçirilmez. Saf `choose_experiment` fonksiyonuna successor metriği
+ancak açıkça verilebilir; mode'ları farklı decoder artifact'leri karıştırılmaz.
+
+Successor calibration ayrı komut/job üzerinden kullanılır:
+
+```text
+python scripts/calibrate_transformer.py --config configs/calibration_v2.json --selection-mode successor_any --output outputs/new-successor-calibration --device cuda
+python scripts/run_job.py configs/jobs/transformer_calibration_v2.json
+```
+
+Buradaki `v2` **calibration politika sürümüdür**. Ayrı `.cache/ragtruth-v2`
+worktree'sindeki fresh internal-holdout çalışmasıyla aynı deney değildir.
+Yeni config'teki checkpoint yolları kullanılacak gerçek dev çalışmasına ait
+olmalıdır. Bu inceleme sırasında komutlar gerçek veri/model üzerinde çalıştırılmadı.
+
+## Precision tabanı: uygun aday yoksa reddetme
+
+Successor modunda dört raw türün her biri için validation precision en az
+0,01 olmalı veya o tür hiç karakter tahmin etmemelidir. Bu yalnız bir dev
+uygunluk koşuludur; başka veride aynı precision'ın sağlanacağını garanti etmez.
+Default ve global adaylar da aynı koşuldan geçer. Özellikle any F1 iyi olsa
+bile yanlış türdeki yoğun işaretleme adayın uygun sayılmasına yetmez.
+
+Hiçbir grid eşiği uygun değilse `max(grid)` değeri otomatik seçilmez;
+`NoEligibleThreshold` ile o arama reddedilir. Diğer uygun yapılandırma veya
+checkpoint varsa seçim onlar arasında sürer. Hiçbiri uygun değilse işlem
+başarısız biter; `calibration.json` ve nihai prediction artifact'i üretilmez.
+`calibration_report.json` içinde default metrikleri, tür precision/sayıları ve
+reddedilme nedenleri; ayrı default prediction dosyaları tanı için korunur.
+Bir checkpoint reddedilip diğeri seçilebildiğinde yeni successor job yine
+tamamlanabilir; reddedilen checkpoint için `validation_predictions_candidate_N`
+dosyası zorunlu çıktı değildir. Default tanı tahminleri her aday için korunur.
+Boş validation reddedilir. Gold pozitif olmayan türlerde boş prediction uygundur;
+yanlış pozitifleri sırf daha yüksek eşik kalmadığı için kabul etmez.
+
+Legacy macro modu bu yeni precision politikasını uygulamaz; geçmiş kararın
+aynı seçim kuralını korumak için taban açıkça sıfırdır. Bu legacy modun
+yanlış alarmları engellediği anlamına gelmez.
+
+## Joint decoder artifact'i, üretici ve süre kayıtları
+
+Yeni `calibration.json` aynı dört `thresholds_by_type` alanını ve checkpoint/veri
+bağını kullanır; mevcut inference loader ile yüklenir. Ek olarak
+`selected_configuration`, sürümlü `selection_policy` ve gerçek üretici
+`producer` bilgileri bulunur. Joint kazanırsa yalnız bir karşılaştırma JSON'ı
+değil, doğrudan kullanılabilir normal decoder artifact'i dışa aktarılır.
+
+Producer kaydı script ile kullanılan hizalama/model/CRF kaynaklarının gerçek
+SHA-256'larını, varsa Git commit'ini ve dirty durumunu kaydeder. Kod veya config
+koşum sırasında değişirse artifact seçimi reddedilir. `calibration_report.json`
+başlangıç/bitiş UTC zamanlarını, calibration'ın toplam elapsed süresini ve
+ayrı threshold arama sürelerini kaydeder. Cache metadata'sındaki inference
+süresi ile CPU eşik aramasının süresi aynı iş değildir.
+
+`results/session_2026-11-01/` eski oturumunun JSON'ları değiştirilmedi.
+Oradaki kalibrasyon raporunun producer hash'i mevcut committed kaynakla
+eşleşmez ve joint denemesi ayrıca cache üstünde yapılmıştır. Eski global
+decoder artifact'ini sonradan joint sonucuymuş gibi yeniden adlandırmak veya
+eski metrikleri yeni producer hash'iyle üretildi diye sunmak doğru değildir.
+Yeni producer/timing alanları yalnız bu kodla gerçekten yapılacak yeni koşumlara
+aittir; arşivdeki eksik ağırlık/prediction dosyalarını veya provenance bağını
+geriye dönük olarak oluşturmaz.

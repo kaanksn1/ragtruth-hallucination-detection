@@ -1,5 +1,14 @@
 # RAGTruth Hallucination Detection — Project Handoff
 
+> **Review update — 2026-11-02:** This is a historical snapshot of a teammate's
+> session and machine. Its new-session scores are reported validation results;
+> the new predictions/weights are not present in this checkout. The shipped
+> calibration JSON contains global thresholds (55.00%), while 55.07% is a separate
+> joint experiment report. Original official-test results remain frozen.
+> Current commands/modes are in [CALIBRATION.md](docs/CALIBRATION.md).
+> This repository has Git; the "no Git" statements below refer to the session's
+> delivered working folder. Member confirmation of personal reports remains separate.
+
 **Last updated:** 2026-11-01, end of the model-optimization session described below.
 **Audience:** another developer or AI coding assistant continuing this work without repeating completed experiments.
 
@@ -25,10 +34,10 @@ CRF false-positive risk, CRF/Transformer rare-class and overfitting issues) have
 investigated with real evidence and partially fixed. A full, real ModernBERT-base baseline
 has been trained from scratch this session and calibrated. CRF has been fully retrained this
 session with a new joint-threshold-optimization layer. **No model has reached the 80%
-detection-F1 long-term target; the gap is real and, for one category (Subtle Conflict), may
-not be closeable by threshold or loss-weighting tricks alone (see §8).**
+detection-F1 long-term target; these trials establish neither an architectural
+ceiling nor that one rare category alone explains the detection-F1 gap (see §8).**
 
-**Current best validated model:** ModernBERT-base, checkpoint `epoch-2`, **joint-threshold
+**Best reported validation candidate:** ModernBERT-base, checkpoint `epoch-2`, **joint-threshold
 configuration, detection F1 = 55.07%** on the full 2,240-response validation split (this
 session, real — see §4).
 
@@ -187,14 +196,17 @@ controlled single-seed guarantee of superiority).
 
 ---
 
-## 5. Best validated model and current F1
+## 5. Reported validation candidate and F1
 
 **ModernBERT-base**, checkpoint `outputs/transformer_full_train_run1/checkpoints/epoch-2`,
 **joint threshold configuration** (thresholds: Evident Conflict 0.2, Subtle Conflict 0.6
 [never fires], Evident Baseless Info 0.2, Subtle Baseless Info 0.15).
 
-**Detection F1 = 55.07%** (validation, this session, real). This is the number to beat in any
-future experiment — not the frozen historical 54.05%, not the CPU pilot's meaningless ~5%.
+**Reported detection F1 = 55.07%** (validation, this session's joint experiment).
+The committed normal calibration artifact still contains global 0.2 thresholds
+and reports 55.00%; the joint candidate was not exported there. New-session
+predictions are needed for independent rescoring. Neither value is a new
+official-test result or proof of generalization beyond this reused dev set.
 
 ---
 
@@ -279,13 +291,14 @@ evidence behind every number in this document and do not require re-running anyt
 
 ## 8. Known limitations
 
-- **Subtle Conflict is likely not fixable by threshold/loss tricks.** Real probability
+- **Subtle Conflict remained unresolved in these trials.** Reported probability
   probing shows essentially zero score separation between gold and non-gold characters
   (mean 0.0013 vs 0.0008) — not a calibration problem. Qualitative inspection of real gold
   spans (`"for four days"`, `"The 12-episode miniseries"`, `"appear social and casual"`)
-  suggests this type requires cross-document numeric/semantic fact-checking that a per-token
-  classification head trained on 145 examples may not be able to learn at all, independent of
-  loss weighting. Document this; don't keep chasing it with the same architecture.
+  suggests numeric/semantic relations deserve further study. This single recipe does
+  not prove that alternative losses or architectures cannot learn the class. Its 830
+  dev gold characters are only about 0.81% of the any-character gold; failure on this
+  type alone cannot explain detection F1 near 55% or prove an 80% ceiling.
 - **Subtle Baseless Info has real, recoverable signal** (confidence separation ~10x,
   per-type-only optimum F1 21.61% vs the shipped 16.34%) — this is the most promising lever
   for further gains, likely via loss weighting or a smarter joint-search variant that doesn't
@@ -298,9 +311,10 @@ evidence behind every number in this document and do not require re-running anyt
   and better-justified by the confidence-distribution evidence above.
 - **The reported 55.07%/55.00%/39.22% numbers are validation-selected, not independent
   estimates.** Checkpoint choice, configuration choice, and threshold choice all reuse the
-  same 2,240 validation responses with no separate held-out dev split. This is a structural
-  limitation (no 3-way split exists for this), not a bug — it's why the project reserves a
-  separate official test set, which has **not** been touched this session.
+  same 2,240 validation responses. These are selection-set measurements. The project
+  already saw its official-test results before this session, so they are not a new
+  blind holdout. Full V1 training also includes the separate V2 study's carved
+  holdout, which cannot serve as unseen evaluation for this full-V1 model.
 - **The 1% precision floor is reasonable but not perfectly tight.** Measured: a 0.5% floor
   would let Subtle Conflict recover a trivial amount of signal (F1 0.84% instead of 0%, at a
   1.88x ratio) — not worth it on its own, but worth knowing it's a real, measured sensitivity,
@@ -378,5 +392,5 @@ In priority order, each changes one factor from the current 55.07% baseline:
 5. Do **not** repeat blanket 4-type positive weighting — already tried historically, already
    failed on the primary metric.
 
-None of these are guaranteed to reach 80% detection F1 — Subtle Conflict's near-zero signal
-(§8) may be a hard ceiling for this architecture regardless of threshold/loss tuning.
+None of these are guaranteed to reach 80% detection F1. The observed low rare-class
+signal does not establish a hard ceiling for this architecture or the primary any-F1.

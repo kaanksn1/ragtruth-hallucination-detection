@@ -33,11 +33,19 @@ def weighted_summary():
 
 
 class CompletionSelectionTests(unittest.TestCase):
-    def test_experiment_selection_any_then_macro_then_exact_tie_base(self):
+    def test_historical_experiment_selection_stays_macro_then_any(self):
         self.assertEqual(pipeline.choose_experiment(artifact(), artifact()), "base")  # exact tie keeps base
-        self.assertEqual(pipeline.choose_experiment(artifact(.3, .9), artifact(.31, .1)), "base")  # higher any wins despite lower macro
-        self.assertEqual(pipeline.choose_experiment(artifact(.3, .5), artifact(.3, .51)), "weighted")  # equal macro: any F1 breaks the tie
-        self.assertEqual(pipeline.choose_experiment(artifact(.4, .2), artifact(.3, .9)), "weighted")  # higher any outranks higher macro
+        self.assertEqual(pipeline.choose_experiment(artifact(.3, .9), artifact(.31, .1)), "weighted")
+        self.assertEqual(pipeline.choose_experiment(artifact(.3, .5), artifact(.3, .51)), "weighted")
+        self.assertEqual(pipeline.choose_experiment(artifact(.4, .2), artifact(.3, .9)), "base")
+
+    def test_successor_any_first_comparison_requires_explicit_mode(self):
+        self.assertEqual(pipeline.choose_experiment(artifact(.3, .9), artifact(.31, .1),
+                         selection_metric="detection_f1_then_macro_f1_types"), "base")
+        self.assertEqual(pipeline.choose_experiment(artifact(.4, .2), artifact(.3, .9),
+                         selection_metric="detection_f1_then_macro_f1_types"), "weighted")
+        with self.assertRaisesRegex(ValueError, "policy mismatch"):
+            pipeline.choose_experiment(artifact(), dict(artifact(), selection_metric="detection_f1_then_macro_f1_types"))
 
     def test_calibration_identity_order_and_finite_metric_guards(self):
         for change in ({"data_sha256": {"other": "data"}}, {"label_types": list(reversed(LABEL_TYPES))},
@@ -45,6 +53,42 @@ class CompletionSelectionTests(unittest.TestCase):
             candidate = dict(artifact(), **change)
             with self.subTest(change=change), self.assertRaises(ValueError):
                 pipeline.choose_experiment(artifact(), candidate)
+
+    def test_central_calibration_job_retains_a_compatible_explicit_historical_mode(self):
+        from scripts import calibrate_transformer as calibration
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            weighted = root / "outputs/weighted"
+            weighted.mkdir(parents=True)
+            summary = weighted_summary()
+            (weighted / "transformer_summary.json").write_text(json.dumps(summary), encoding="utf-8")
+            (weighted / "positive_weighting.json").write_text(json.dumps(summary["positive_weighting"]), encoding="utf-8")
+            for epoch in (1, 2):
+                checkpoint = weighted / "checkpoints" / f"epoch-{epoch}"
+                checkpoint.mkdir(parents=True)
+                (checkpoint / "checkpoint.json").write_text("{}", encoding="utf-8")
+            policy = {"schema_version": 1, "split": "validation", "selection_metric": "macro_f1_types",
+                      "threshold_grid": [.1, .5], "max_checkpoint_candidates": 3,
+                      "training_config": "configs/transformer_weighted.json"}
+            policy_path = root / "configs/calibration_weighted_policy.json"
+            policy_path.parent.mkdir()
+            policy_path.write_text(json.dumps(policy), encoding="utf-8")
+            work = root / "outputs/work"
+            work.mkdir()
+            captured = {}
+            def config(name, command, inputs, outputs):
+                captured.update(command=command, inputs=inputs)
+                return root / "job.json"
+            supervisor = SimpleNamespace(root=root, work=work, config=config,
+                files=lambda path: [path.relative_to(root).as_posix() + "/checkpoint.json"],
+                job=lambda job, stage, gpu: job)
+            with patch.object(pipeline, "git", return_value=policy_path.read_bytes()):
+                pipeline.Pipeline.calibration(supervisor, weighted)
+            generated = json.loads((work / "weighted_calibration_config.json").read_text(encoding="utf-8"))
+            requested = captured["command"][captured["command"].index("--selection-mode") + 1]
+            self.assertEqual(calibration.selection_mode(generated, requested), "legacy_macro")
+            self.assertEqual(len(generated["checkpoints"]), 2)
+            self.assertIn("configs/calibration_weighted_policy.json", captured["inputs"])
 
     def test_weighted_summary_requires_full_train_only_consistent_support(self):
         original = weighted_summary()

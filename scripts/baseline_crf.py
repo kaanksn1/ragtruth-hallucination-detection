@@ -23,6 +23,7 @@ from __future__ import annotations
 import argparse
 import itertools
 import json
+import math
 import platform
 import re
 import shutil
@@ -246,6 +247,9 @@ def threshold_tags(probs: list, threshold: float) -> list:
 
 def decode(examples: list, run: dict, decoding: dict) -> tuple[dict, dict]:
     """Spans per response for one decoding, with the count of I tags that start a span."""
+    validate_decoding(decoding)
+    if decoding["name"] == "posterior_by_type":
+        return decode_per_type(examples, run, decoding["thresholds_by_type"])
     spans, invalid = {}, {t: 0 for t in LABEL_TYPES}
     for ex in examples:
         if decoding["name"] == "viterbi":
@@ -276,9 +280,9 @@ type with false positives can still report a nonzero (if tiny) F1 for that
 type and would otherwise be preferred over predicting nothing at all -- the
 exact failure this floor exists to block. A threshold predicting zero
 characters is always eligible regardless of precision (it cannot be a false
-positive flood). If no grid threshold clears the floor for a type, the
-highest (most conservative) threshold is kept instead of the nominal best-F1
-one, so a degenerate flood is never selected merely for a marginal F1 gain.
+positive flood). If no grid threshold clears the floor, selection fails closed;
+the highest grid point is not automatically safe. This constraint applies to
+per-type/joint candidates, not the historical global/default diagnostics.
 """
 
 
@@ -299,9 +303,50 @@ def _predicted_char_sets(examples: list, run: dict, label_type: str, grid: list)
 
 
 def _eligible_thresholds(rows: list, grid: list, min_precision: float) -> list:
-    """Grid points clearing the false-positive floor; the single most conservative one if none do."""
+    """Only grid points clearing the floor; refuse an unsafe fallback."""
     eligible = [row["threshold"] for row in rows if row["predicted_chars"] == 0 or row["precision"] >= min_precision]
-    return eligible if eligible else [max(sorted(grid))]
+    if not eligible:
+        raise ValueError("no posterior threshold satisfies the precision floor; declare a more conservative grid")
+    return eligible
+
+
+def validate_type_thresholds(thresholds):
+    if (not isinstance(thresholds, dict) or set(thresholds) != set(LABEL_TYPES)
+            or any(type(t) not in (int, float) or not math.isfinite(t) or not 0 < t <= 1
+                   for t in thresholds.values())):
+        raise ValueError("posterior thresholds must name all four types with finite values in (0, 1]")
+
+
+def validate_decoding(decoding):
+    if not isinstance(decoding, dict) or not isinstance(decoding.get("name"), str):
+        raise ValueError("saved CRF decoding must identify its strategy")
+    if decoding["name"] == "viterbi":
+        return
+    if decoding["name"] == "posterior_by_type":
+        validate_type_thresholds(decoding.get("thresholds_by_type"))
+        return
+    threshold = decoding.get("threshold")
+    if (not decoding["name"].startswith("posterior_") or type(threshold) not in (int, float)
+            or not math.isfinite(threshold) or not 0 < threshold <= 1):
+        raise ValueError("saved CRF posterior decoding needs a finite threshold in (0, 1]")
+
+
+def validate_threshold_search(examples, run, gold, grid, min_precision):
+    if (not isinstance(grid, (list, tuple)) or not grid
+            or any(type(t) not in (int, float) or not math.isfinite(t) or not 0 < t <= 1 for t in grid)
+            or len(set(grid)) != len(grid)):
+        raise ValueError("posterior search grid must contain distinct finite thresholds in (0, 1]")
+    if type(min_precision) not in (int, float) or not math.isfinite(min_precision) or not 0 <= min_precision <= 1:
+        raise ValueError("precision floor must be finite and between zero and one")
+    ids = [ex["id"] for ex in examples]
+    if not ids or len(set(ids)) != len(ids) or set(ids) != set(gold) or set(ids) != set(run.get("probs", {})):
+        raise ValueError("threshold search requires identical nonempty response ID sets")
+    for ex in examples:
+        columns = run["probs"][ex["id"]]
+        if (set(columns) != set(LABEL_TYPES) or any(len(p) != len(ex["offsets"])
+                or any(type(v) not in (int, float) or not math.isfinite(v) or not 0 <= v <= 1 for v in p)
+                for p in columns.values())):
+            raise ValueError("posterior probabilities must align with tokens and be finite values in [0, 1]")
 
 
 def tune_type_thresholds(examples: list, run: dict, gold: dict, grid: list,
@@ -313,6 +358,7 @@ def tune_type_thresholds(examples: list, run: dict, gold: dict, grid: list,
     posterior grid on its own predicted/gold characters, with false positives
     monitored and bounded by ``min_precision``.
     """
+    validate_threshold_search(examples, run, gold, grid, min_precision)
     gold_chars = {rid: {t: _chars(spans, t) for t in LABEL_TYPES} for rid, spans in gold.items()}
     selected, table = {}, {}
     for label_type in LABEL_TYPES:
@@ -343,8 +389,9 @@ def tune_joint_thresholds(examples: list, run: dict, gold: dict, grid: list,
     of thresholds -- restricted to each type's own false-positive-floor-eligible values, so a
     flooding threshold is never admitted just because some combination nominally helps the
     union -- and keeps the combination with the highest combined 'any' F1. Ties prefer the
-    combination with the higher macro F1, then the earliest in grid order.
+    combination with the higher macro F1, then the higher threshold tuple.
     """
+    validate_threshold_search(examples, run, gold, grid, min_precision)
     gold_any = {rid: _chars(spans) for rid, spans in gold.items()}
     gold_by_type = {rid: {t: _chars(spans, t) for t in LABEL_TYPES} for rid, spans in gold.items()}
     char_sets, eligible = {}, {}
@@ -404,6 +451,10 @@ def select_best_configuration(candidates: dict) -> str:
     """
     if not candidates:
         raise ValueError("no configurations to select from")
+    for metrics in candidates.values():
+        values = (metrics.get("any", {}).get("f1"), metrics.get("macro_f1_types"))
+        if any(type(v) not in (int, float) or not math.isfinite(v) or not 0 <= v <= 1 for v in values):
+            raise ValueError("configuration selection requires finite F1 values in [0, 1]")
     order = list(candidates)  # earliest-declared wins ties
     return max(order, key=lambda name: (candidates[name]["any"]["f1"], candidates[name]["macro_f1_types"],
                                         -order.index(name)))
@@ -411,6 +462,7 @@ def select_best_configuration(candidates: dict) -> str:
 
 def decode_per_type(examples: list, run: dict, thresholds_by_type: dict) -> tuple[dict, dict]:
     """Spans per response using one independently-tuned threshold for each type."""
+    validate_type_thresholds(thresholds_by_type)
     spans, invalid = {}, {t: 0 for t in LABEL_TYPES}
     for ex in examples:
         tags = {t: threshold_tags(run["probs"][ex["id"]][t], thresholds_by_type[t]) for t in LABEL_TYPES}
@@ -685,11 +737,14 @@ def cmd_train(args, pycrfsuite) -> dict:
         "default": char_scores(gold, default_spans), "global": best["validation"],
         "per_type": summary["selected_per_type"]["validation"], "joint": summary["selected_joint"]["validation"],
     }
-    summary["best_configuration"] = {
-        "winner": select_best_configuration(configuration_metrics),
-        "rule": "highest validation detection ('any') F1, then macro F1, then earliest-declared on an exact tie",
-        "candidates": {name: metrics["any"]["f1"] for name, metrics in configuration_metrics.items()},
-    }
+    summary["best_configuration"] = export_selected_configuration(
+        out, validation, runs[best["name"]], best, identity, use_source, window,
+        configuration_metrics, {
+            "default": {"name": "posterior_0.5", "threshold": 0.5},
+            "global": best["decoding"],
+            "per_type": {"name": "posterior_by_type", "thresholds_by_type": per_type_thresholds},
+            "joint": {"name": "posterior_by_type", "thresholds_by_type": joint_thresholds},
+        })
 
     # 2) response-only control: same setting, decoding, split and budget; no source features
     if use_source and config.get("response_only_control", True):
@@ -714,6 +769,7 @@ def cmd_train(args, pycrfsuite) -> dict:
 
 def save_models(src_dir: Path, dst_dir: Path, use_source: bool, window: int, chosen: dict, identity: dict) -> None:
     """Copy the chosen four models with the settings ``predict`` needs to reproduce them."""
+    validate_decoding(chosen["decoding"])
     dst_dir.mkdir(parents=True, exist_ok=True)
     hashes = {}
     for label_type in LABEL_TYPES:
@@ -726,6 +782,24 @@ def save_models(src_dir: Path, dst_dir: Path, use_source: bool, window: int, cho
         "setting": chosen["setting"], "decoding": chosen["decoding"],
         "models_sha256": hashes, "data": identity,
     }, indent=2) + "\n", encoding="utf-8")
+
+
+def export_selected_configuration(out, examples, run, best, identity, use_source, window, metrics, decoders):
+    """Export the new winner separately from the unchanged historical global output."""
+    winner = select_best_configuration(metrics)
+    decoding = decoders[winner]
+    spans, _ = decode(examples, run, decoding)
+    model_dir = Path("models/source_selected")
+    predictions = Path("validation_predictions_selected.jsonl")
+    save_models(out / "grid" / best["name"], out / model_dir, use_source, window,
+                dict(best, decoding=decoding), identity)
+    write_predictions(out / predictions, examples, spans)
+    return {"winner": winner,
+            "rule": "highest validation detection ('any') F1, then macro F1, then earliest-declared on an exact tie",
+            "candidates": {name: value["any"]["f1"] for name, value in metrics.items()},
+            "decoding": decoding, "model_dir": model_dir.as_posix(), "predictions": predictions.as_posix(),
+            "historical_global_model_dir": "models/source",
+            "historical_global_predictions": "validation_predictions.jsonl"}
 
 
 def cmd_predict(args, pycrfsuite) -> int:
@@ -747,6 +821,7 @@ def cmd_predict(args, pycrfsuite) -> int:
     model_config = json.loads((args.model_dir / "model_config.json").read_text(encoding="utf-8"))
     if model_config.get("schema_version") != 1 or model_config.get("label_types") != list(LABEL_TYPES):
         raise ValueError("saved model metadata has an unsupported label schema")
+    validate_decoding(model_config.get("decoding"))
     expected = {f"{type_slug(t)}.crfsuite" for t in LABEL_TYPES}
     if set(model_config.get("models_sha256", {})) != expected or any(
             sha256_file(args.model_dir / name) != value for name, value in model_config["models_sha256"].items()):
@@ -826,6 +901,10 @@ def render_report(summary: dict) -> str:
             marker = " **(seçilen)**" if name == best_cfg["winner"] else ""
             lines.append(f"| {name} | {f1:.3f}{marker} |")
         lines += ["", f"Kural: {best_cfg['rule']}.", ""]
+        if "model_dir" in best_cfg:
+            lines += [f"Yeniden yüklenebilir seçili model: `{best_cfg['model_dir']}`; "
+                      f"eşleşen dev tahmini: `{best_cfg['predictions']}`. "
+                      "Tarihsel global çıktı ayrı korunur.", ""]
     if "response_only_control" in summary:
         control = summary["response_only_control"]
         lines += ["## Kaynak özelliklerinin katkısı (aynı ayar ve çözümleme, aynı veri)", "", head,

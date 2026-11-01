@@ -251,7 +251,9 @@ geçmedi (en yüksek: tür başına Subtle Baseless Info 3.26x).
 
 **Subtle Conflict: eşik sorunu değil.** Zaten eğitilmiş modelle (yeniden eğitim
 yok) gerçek 155 validation gold token'ının üzerindeki en yüksek P(B/I)
-olasılığı **0.0036**'dır (ortalama 0.0004) — eşik ne olursa olsun yakalanamaz.
+olasılığı **0.0036**'dır (ortalama 0.0004); yapılandırılmış ızgaradaki eşikler
+bu örnekleri yakalayamıyor. Bu, bütün olası eşikler veya CRF modelleri için
+imkânsızlık kanıtı değildir.
 0.001 gibi aşırı düşük bir eşikte (yapılandırılmış ızgaranın altında, hiçbir
 seçim mantığı tarafından önerilmez) FP patlaması gerçekten gözlenir: 830 gold
 karaktere karşı 136.693 tahmin (**164.69x**, F1 %0.07) — projenin orijinal
@@ -265,11 +267,34 @@ validation'a hiç taşımıyor (ortalama 0.0004) — klasik ezberleme, `top_weig
 içindeki aşırı özgül kelimelerle (`feminist`, `vegetarian`, `misleading`)
 tutarlı. Çok daha az regularizasyon denemesi (`c1=0,c2=0.001,minfreq=1`,
 88.347 özellik) **daha da kötü** sonuç verdi (train'de bile ortalama P=0.0004):
-aynı 150 iterasyon sınırıyla bu kadar çok özellik yakınsamıyor. Sonuç: sorun
-regularizasyon gücü değil; 160 train örneği bu özellik kümesiyle genelleyen
-bir sinyal üretmiyor. Daha fazla teknik aynı anda denenmedi.
+aynı 150 iterasyon sınırıyla yakınsama doğrulanmadı. Bu tek deneme,
+regularizasyonun bütünüyle elendiğini göstermez; özellikler, az veri ve
+optimizasyon bütçesinin etkileri birbirinden ayrılmadı.
 
-**Sonuç:** CRF mimarisi Subtle Conflict'i güvenilir şekilde öğrenemiyor; bu
-sınırlama burada belgeleniyor, puan yapay olarak şişirilmiyor. Transformer bu
-türde sıfır olmayan (küçük de olsa) F1 üretiyor; nihai sistemde bu tür için
-Transformer'a öncelik verilmesi önerilir.
+**Sonuç:** Bu koşum/özellik kümesi Subtle Conflict'i güvenilir biçimde
+öğrenemedi. Bütün CRF mimarileri için bir başarı tavanı kanıtlanmadı. Eski V1
+dev'de Transformer bu tür için küçük, sıfır olmayan F1 üretmişti; yeni oturumun
+joint Transformer raporunda ve eski resmî testte bu türün F1'ı sıfırdır.
+
+## Seçilen decoder'ın yeniden yüklenmesi — 2 Kasım 2026
+
+Yeni eğitimler dört yapılandırmanın kazananını ayrıca
+`models/source_selected/model_config.json` içinde kaydeder. Tür başına eşikler
+`posterior_by_type` stratejisiyle standart `predict` komutunca uygulanır.
+Eşleşen dev çıktısı `validation_predictions_selected.jsonl`; yollar
+`crf_summary.json` içindeki `best_configuration` alanında belirtilir.
+
+```text
+python scripts/baseline_crf.py predict --model-dir RUN_DIR/models/source_selected --split validation --output outputs/NEW_SELECTED.jsonl
+```
+
+Tarihsel global `models/source` ve `validation_predictions.jsonl` dosyalarının
+anlamı korunur. Yeni export, eskiden eğitilmiş dosyaları veya resmî test
+sonuçlarını değiştirmez; geçmiş session raporundan yeni bir model uydurulmaz.
+Yalnız-cevap kontrolü eski global decoder'ı kullanmaya devam eder; onu yeni
+selected kaynaklı modelle tek-değişkenli ablation gibi kıyaslamayın.
+
+Per-type/joint aramada hiçbir grid eşiği precision koşulunu sağlamıyorsa
+artık hata verilir; en yüksek eşik otomatik olarak güvenli kabul edilmez.
+%1 precision tabanı yalnız bu aday aramalarının kısıtıdır; default/global
+diagnostic adaylarına veya bütün gelecekteki verilere yanlış-alarm garantisi değildir.

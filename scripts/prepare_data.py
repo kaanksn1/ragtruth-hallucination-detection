@@ -4,8 +4,8 @@
     python scripts/prepare_data.py           # manifest check, train/validation files, report
 
 Writes
-    data/processed/{train,validation}.jsonl       shared records (docs/DATA_FORMAT.md), git-ignored
-    data/processed/crf_{train,validation}.jsonl   word tokens + O/B/I tags for the CRF, git-ignored
+    data/processed/{train,validation}.jsonl       shared records (docs/DATA_FORMAT.md), committed delivery
+    data/processed/crf_{train,validation}.jsonl   word tokens + O/B/I tags for the CRF, committed delivery
     data/splits/split_manifest_v1.csv             source_id -> split, committed (source of truth)
     data/splits/split_summary_v1.json             counts, seed, input/output hashes, committed
     data/samples/*.jsonl                          a few train/validation examples, committed

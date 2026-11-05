@@ -8,3 +8,6 @@
 configs/calibration_weighted_policy.json -text
 configs/jobs/transformer_calibration.json -text
 configs/transformer_weighted.json -text
+# Dataset identity is byte-based. Do not rewrite line endings on Windows.
+data/raw/* -text
+data/processed/*.jsonl -text

@@ -23,7 +23,12 @@ python -m unittest discover -s tests -v
 İndirme, `configs/source.json`daki sabit upstream commit'ini ve SHA-256'ları
 kullanır. Mevcut doğru dosyayı yeniden indirmez; yanlış dosyanın üstüne yazmaz.
 `--check-only` ağa çıkmaz. Ham veriyi parse etmez veya test etiketini incelemez.
-Ham veri ve upstream LICENSE yerel `data/raw/`dadır ve Git dışında kalır.
+**5 Kasım 2026 teslim güncellemesi:** Ham veri ve upstream LICENSE
+`data/raw/` altında; hazır train/validation/test gösterimleri `data/processed/`
+altında Git'e dahil edilir. Önceki sürümlerde bu dizinler yereldi.
+`python scripts/verify_submission_data.py` teslim edilen dosyaların sabit
+hash'lerini kontrol eder. Köken, lisans ve tekrar üretim bilgileri
+[veri dizini rehberinde](../data/README.md) açıklanır.
 
 ## Bizim GPU ortamında kayıtlı sentetik kontrol
 

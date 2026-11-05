@@ -1,0 +1,63 @@
+{
+  "format": "ragtruth-data-delivery-v1",
+  "delivery_date": "2026-11-05",
+  "description": "Previously local original/prepared RAGTruth files added after grading feedback; existing bytes and frozen references preserved.",
+  "upstream_revision": "c103204b9ce28d6bbad859304bf30de72b8ed8fe",
+  "references_sha256": {
+    "configs/source.json": "4eeff7829d65dc2befe938f7686c009c1d9c566ac5dff59a638edc06ed5089b2",
+    "data/splits/split_summary_v1.json": "dcef97fb4275a21a62700cf8be9f30dad4305093771fbac8674470c8c10da7b1",
+    "data/splits/split_manifest_v1.csv": "7d292931c9337c9a4e30e9a62c7f09e72e8e8c51e31bc22b0522515aa3248a5f",
+    "docs/FINAL_PROTOCOL.json": "19c1c169f6563793fc7dae47856babc9915f98b8850df57cee4917efa39422f3",
+    "configs/final/final_evaluate.protocol.json": "1c602cad045a0ac3642822e7bab110f611f9c6b9e56559aafaac9d4986747dc8",
+    "configs/final/predict_crf_source.protocol.json": "253e100ded4ac1f0653a393c33707d7b2f28511d8fff3ada83743e904aaa1b6b"
+  },
+  "files": {
+    "data/raw/response.jsonl": {
+      "sha256": "e4c2e4ac24fff676d8984cc61c35d791612fadc58015335d97dd632375e18073",
+      "size_bytes": 21458735,
+      "line_count": 17790
+    },
+    "data/raw/source_info.jsonl": {
+      "sha256": "0dffc26ea9f3c1c3d7c7e8336b56ef1646e3cec876edffcca3c9c624d12d578b",
+      "size_bytes": 15117971,
+      "line_count": 2965
+    },
+    "data/raw/LICENSE": {
+      "sha256": "b7fd7d6bdfe0cbba63c63a310914beb4a4acb8bf08da73849219f45385f5b244",
+      "size_bytes": 1071,
+      "line_count": 21
+    },
+    "data/processed/train.jsonl": {
+      "sha256": "005def627fa45493e024e1b9e2295d289a0698ea475b888e8e2320d86151bb96",
+      "size_bytes": 82853559,
+      "line_count": 12828
+    },
+    "data/processed/crf_train.jsonl": {
+      "sha256": "4c0c4f4f32e3d14c4981a329c3f21eb49538a652069a2ab51f0faf484cefbad5",
+      "size_bytes": 91700227,
+      "line_count": 12828
+    },
+    "data/processed/validation.jsonl": {
+      "sha256": "d070d62056b2a7f11a58748291f6fd1881cceabc35e3db29435f1ae7d488c5ec",
+      "size_bytes": 14851037,
+      "line_count": 2262
+    },
+    "data/processed/crf_validation.jsonl": {
+      "sha256": "ed7cc3764240d2e8e9bea8040b8db8eba723007e747c65f2e19bcad278297a2e",
+      "size_bytes": 16549045,
+      "line_count": 2262
+    },
+    "data/processed/test.jsonl": {
+      "sha256": "adc19f475974e1326091d46cc8366e74e926540ee109898bbca79917ea34e607",
+      "size_bytes": 17205082,
+      "line_count": 2700
+    },
+    "data/processed/crf_test.jsonl": {
+      "sha256": "b90c829d320f128553d886d12b5352d93257f9dc1f5bad4cbda6fe2484fe862d",
+      "size_bytes": 18571719,
+      "line_count": 2700
+    }
+  },
+  "total_bytes": 278308446,
+  "test_policy": "Official-test files are hashed and line-counted as bytes only; this verifier does not parse labels, evaluate predictions or select models."
+}

@@ -1,5 +1,16 @@
-data/raw/
-data/processed/
+# Commit only the licensed, pinned research dataset and prepared split files.
+# Keep accidental downloads, caches and model weights out of Git.
+data/raw/*
+!data/raw/LICENSE
+!data/raw/response.jsonl
+!data/raw/source_info.jsonl
+data/processed/*
+!data/processed/train.jsonl
+!data/processed/validation.jsonl
+!data/processed/test.jsonl
+!data/processed/crf_train.jsonl
+!data/processed/crf_validation.jsonl
+!data/processed/crf_test.jsonl
 artifacts/
 outputs/
 .venv/

@@ -6,6 +6,11 @@ Bu proje, kaynak metne dayanarak üretilen LLM cevaplarında kaynakla çelişen 
 kaynakta desteklenmeyen bölümleri karakter düzeyinde bulur ve dört türe ayırır.
 Amaç genel bir doğruluk kontrolü değil, cevabın kaynağa bağlılığını ölçmektir.
 
+**5 Kasım 2026 teslim düzeltmesi:** Ham/işlenmiş veri teslimi, proje kodunun
+lisansı, dosya açıklamaları ve metrik gerekçesi [düzeltme kaydında](docs/SUBMISSION_FIXES_2026-11-05.md)
+izlenir. Sonradan eklenen baseline'lar ayrı bir ek çalışmadır; aşağıdaki tarihsel
+resmî test sonuçları değiştirilmez.
+
 ## Veri
 
 [RAGTruth](https://github.com/ParticleMedia/RAGTruth) ([ACL 2024](https://aclanthology.org/2024.acl-long.585/)),
@@ -13,7 +18,15 @@ Amaç genel bir doğruluk kontrolü değil, cevabın kaynağa bağlılığını 
 Evident Baseless Info ve Subtle Baseless Info.
 
 Train ve validation kaynak grubuna göre ayrıldı; aynı kaynak iki tarafta birden yer almaz.
-Ayrıntılar: [veri raporu](docs/DATA_REPORT.md).
+Ham kaynak dosyaları `data/raw/`, hazırlanmış kayıtlar `data/processed/` altında
+teslim edilir; verinin kökeni ve yeniden üretim adımları [veri dizini rehberinde](data/README.md)
+açıklanır. `python scripts/verify_submission_data.py` orijinal ve hazırlanmış
+dosyaların sabit SHA-256 değerlerini denetler.
+
+RAGTruth hazır ve insan tarafından etiketlenmiş bir araştırma veri setidir.
+Bizim katkımız veri birleştirme, kalite filtresi, offset doğrulama, sızıntısız
+bölümleme ve model girdisine hizalamadır; yeni bir corpus veya yeni insan
+anotasyonları üretildiği iddia edilmez. Ayrıntılar: [veri raporu](docs/DATA_REPORT.md).
 
 ## Yöntem
 
@@ -25,6 +38,27 @@ Ayrıntılar: [veri raporu](docs/DATA_REPORT.md).
 
 Dört bağımsız çıktı, farklı türdeki örtüşen etiketleri korur. Model ve eşik seçimi
 validation ile yapıldı; kararlar resmî testten önce [donduruldu](docs/FINAL_PROTOCOL.json).
+
+İlk teslimde ayrı klasik BERT, HMM, RNN ve CNN benchmark'ları bulunmuyordu.
+Bu modellerin geri bildirim sonrası uygulama/koşum durumu ve sınırlılıkları
+[teslim düzeltmesi kaydında](docs/SUBMISSION_FIXES_2026-11-05.md) açıklanır.
+ModernBERT'in BERT ailesinden olması, ayrı bir klasik BERT karşılaştırmasının
+yerini aldığı anlamına gelmez.
+
+## Metrik seçimi ve sınıf dengesizliği
+
+Eğitim verisindeki kelime tokenlarının yalnız yaklaşık %5,6'sı anotasyonludur;
+sürekli `O` tahmini yüksek accuracy verirken hatalı bölgeleri hiç bulmayabilir.
+Dört türün eğitim anotasyon sayıları da **4.017 / 160 / 4.654 / 2.006**'dır.
+Bu nedenle donmuş V1 seçiminde **dört türün character macro F1 ortalaması**
+birincil, **any-character micro F1** eşitlik bozucu ölçüttür. Macro her türe
+eşit ağırlık verir; nadir bir türün başarısızlığı çoğunluk içinde kaybolmaz.
+
+Any-character F1 genel bölge tespitini; exact typed-span F1 ise hem sınırın hem
+türün tam eşleşmesini ölçer. Precision/recall ve tür destekleri de raporlanır.
+Macro, az sayıdaki örneğe duyarlıdır; tek başına yüksek olması genel tespitin
+yüksek olduğu anlamına gelmez. Gerekçe ve formüller:
+[metrik gerekçesi](docs/METRIC_RATIONALE.md) · [değerlendirme sözleşmesi](docs/EVALUATION.md).
 
 ## Sonuçlar
 
@@ -76,6 +110,10 @@ python scripts/prepare_data.py
 ```
 
 Model bağımlılıkları `requirements-crf.txt` ve `requirements-transformer.txt` içindedir.
+Grafikler için `requirements-evaluation.txt`, RNN/CNN için
+[`requirements-baselines.txt`](requirements-baselines.txt) kullanılır; HMM standart
+kütüphane ile çalışır. Yeni baseline komutları: [HMM](docs/BASELINE_HMM.md),
+[RNN/CNN](docs/BASELINE_NEURAL.md), [klasik BERT](docs/BASELINE_BERT.md).
 Tam test kapsamı için bu bağımlılıkları uygun ortamda kurup
 `python -m unittest discover -s tests -v` çalıştırın. Bağımlılık bulunmayan ortamda
 bazı testler atlanır; yeşil sonuç bütün model kontrollerinin çalıştığı anlamına gelmez.
@@ -86,14 +124,34 @@ Eğitim ve değerlendirme adımları: [çalıştırma rehberi](docs/RUNNING.md) 
 
 | Yol | İçerik |
 |---|---|
+| [`AGENTS.md`](AGENTS.md) | Kodlama asistanları için sahiplik, veri/test politikası ve açık görev atamaları; model girdisi değildir |
+| [`PROJECT_HANDOFF.md`](PROJECT_HANDOFF.md) | Ayrı bir çalışma oturumunun tarihsel devir notu; başındaki kanıt sınırı ve güncelleme okunmalıdır |
+| [`.github/`](.github/) | Pull request şablonu ve Python/Transformer GitHub Actions test iş akışları |
+| [`evaluate.py`](evaluate.py) | Sabit tahminleri ortak karakter/span metrikleriyle karşılaştıran CLI; model eğitmez |
+| [`plot_results.py`](plot_results.py) | Ortak değerlendirme JSON'undan karşılaştırma grafikleri üretir |
+| [`transformer.py`](transformer.py) | ModernBERT token sınıflandırıcısı, konfigürasyon ve eğitim/tahmin yardımcıları; CLI `scripts/transformer.py` içindedir |
+| [`neural_baselines.py`](neural_baselines.py) | Geri bildirim sonrası eklenen kelime düzeyinde RNN/CNN, train-only sözlük ve modeli yeniden yükleme yardımcıları |
+| [`data/`](data/README.md) | Ham veri, hazırlanmış kayıtlar, kaynak gruplu manifest/hash'ler ve küçük örnekler |
 | `ragtruth_data/` | Veri şeması, bölümleme ve hizalama |
 | `ragtruth_eval/` | Ortak değerlendirme |
 | `scripts/` | Veri, eğitim, kalibrasyon ve analiz komutları |
 | `configs/` | Model, deney ve dondurulmuş koşum ayarları |
+| `docs/` | Veri/model sözleşmeleri, metrik gerekçesi, koşum ve teslim belgeleri |
 | `demo/` | Yerel sonuç görüntüleyici |
 | `results/` | Raporlar, metrikler ve grafikler |
 | `tests/` | Birim ve entegrasyon testleri |
 | `contributions/` | Üye katkı dosyaları |
+| `requirements-*.txt` | CRF, Transformer ve değerlendirme ortamlarının ayrı bağımlılık listeleri |
+| [`requirements-baselines.txt`](requirements-baselines.txt) | Ek RNN/CNN baseline'larının Torch bağımlılığı; HMM standart kütüphane kullanır |
+| [`.gitignore`](.gitignore) | Ağırlıklar, kişisel ortamlar, cache ve geçici çıktılar için hariç tutma kuralları; teslim veri dosyaları açıkça izinlidir |
+| [`.gitattributes`](.gitattributes) | Metin satır sonları ve donmuş veri/konfigürasyon byte'larının korunması |
+| [`LICENSE`](LICENSE) | Bu projenin kendi kaynak kodunun MIT lisansı; RAGTruth veri lisansından ayrıdır |
+
+`outputs/`, `artifacts/`, `.cache/`, `.venv/` ve `__pycache__/` çalışma anında
+oluşan yerel dizinlerdir; bunların tamamı Git teslimine dahil değildir. Küçük,
+doğrulanmış raporlar `results/` altında bulunur. Ağırlık dosyalarının Git'te
+bulunmaması, `data/raw/` ve `data/processed/` altındaki teslim dosyalarının
+bulunmadığı anlamına gelmez.
 
 ## Ekip
 
@@ -109,4 +167,9 @@ Ayrıntılar: [katkı dosyaları](contributions/README.md).
 
 ## Lisans
 
-RAGTruth veri seti MIT lisanslıdır: [lisans metni](docs/DATA_LICENSE.txt).
+**Proje kaynak kodu:** [MIT — LICENSE](LICENSE), © 2026 kaanksn1 and project contributors.
+
+**RAGTruth verisi:** Particle Media'nın ayrı MIT bildirimi
+[`data/raw/LICENSE`](data/raw/LICENSE) ve [kopyası](docs/DATA_LICENSE.txt).
+Ham ve türetilmiş veri bu köken/atfı korur. Önceden eğitilmiş model ağırlıkları
+burada yeniden lisanslanmaz veya Git'e eklenmez; kendi upstream koşullarına tabidir.

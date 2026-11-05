@@ -1,0 +1,90 @@
+{
+  "status": "PASS",
+  "commit": "43022368a0dd42852c9906f6ad08622e27f5f9e8",
+  "comparison_base": "734102b2dc4a6ddc42fdd58dde3a953387e9486b",
+  "git_blob_dataset_files": 9,
+  "dataset_bytes": 278308446,
+  "git_blob_identities": {
+    "data/raw/response.jsonl": {
+      "sha256": "e4c2e4ac24fff676d8984cc61c35d791612fadc58015335d97dd632375e18073",
+      "size_bytes": 21458735,
+      "line_count": 17790
+    },
+    "data/raw/source_info.jsonl": {
+      "sha256": "0dffc26ea9f3c1c3d7c7e8336b56ef1646e3cec876edffcca3c9c624d12d578b",
+      "size_bytes": 15117971,
+      "line_count": 2965
+    },
+    "data/raw/LICENSE": {
+      "sha256": "b7fd7d6bdfe0cbba63c63a310914beb4a4acb8bf08da73849219f45385f5b244",
+      "size_bytes": 1071,
+      "line_count": 21
+    },
+    "data/processed/train.jsonl": {
+      "sha256": "005def627fa45493e024e1b9e2295d289a0698ea475b888e8e2320d86151bb96",
+      "size_bytes": 82853559,
+      "line_count": 12828
+    },
+    "data/processed/crf_train.jsonl": {
+      "sha256": "4c0c4f4f32e3d14c4981a329c3f21eb49538a652069a2ab51f0faf484cefbad5",
+      "size_bytes": 91700227,
+      "line_count": 12828
+    },
+    "data/processed/validation.jsonl": {
+      "sha256": "d070d62056b2a7f11a58748291f6fd1881cceabc35e3db29435f1ae7d488c5ec",
+      "size_bytes": 14851037,
+      "line_count": 2262
+    },
+    "data/processed/crf_validation.jsonl": {
+      "sha256": "ed7cc3764240d2e8e9bea8040b8db8eba723007e747c65f2e19bcad278297a2e",
+      "size_bytes": 16549045,
+      "line_count": 2262
+    },
+    "data/processed/test.jsonl": {
+      "sha256": "adc19f475974e1326091d46cc8366e74e926540ee109898bbca79917ea34e607",
+      "size_bytes": 17205082,
+      "line_count": 2700
+    },
+    "data/processed/crf_test.jsonl": {
+      "sha256": "b90c829d320f128553d886d12b5352d93257f9dc1f5bad4cbda6fe2484fe862d",
+      "size_bytes": 18571719,
+      "line_count": 2700
+    }
+  },
+  "protected_files_unchanged": [
+    "configs/calibration.json",
+    "configs/calibration_weighted_policy.json",
+    "configs/crf.json",
+    "configs/final/final_evaluate.json",
+    "configs/final/final_evaluate.protocol.json",
+    "configs/final/predict_crf_response_only.json",
+    "configs/final/predict_crf_response_only.protocol.json",
+    "configs/final/predict_crf_source.json",
+    "configs/final/predict_crf_source.protocol.json",
+    "configs/final/predict_transformer.json",
+    "configs/final/predict_transformer.protocol.json",
+    "configs/jobs/transformer_calibration.json",
+    "configs/source.json",
+    "configs/transformer.json",
+    "configs/transformer_weighted.json",
+    "contributions/ADNAN_DEMIR_220911784_adnan-demir.md",
+    "contributions/KEMAL_ARIF_KARABACIOGLU_220911802_kemalarif.md",
+    "contributions/OZAN_SERHAN_DENIZHAN_220911758_serhandenizhan.md",
+    "contributions/README.md",
+    "contributions/SAMED_ORTAKAYA_210901024_SmtOrtakaya.md",
+    "contributions/SERDAR_KAAN_KESEN_220911810_kaanksn1.md",
+    "data/splits/split_manifest_v1.csv",
+    "data/splits/split_summary_v1.json",
+    "docs/FINAL_PROTOCOL.json",
+    "results/test_comparison.csv",
+    "results/test_comparison.json",
+    "results/test_comparison.md",
+    "results/validation_comparison.csv",
+    "results/validation_comparison.json",
+    "results/validation_comparison.md"
+  ],
+  "project_license_present": true,
+  "upstream_license_separate_and_preserved": true,
+  "workflow_check": "YAML parsed; dataset tracked verifier and unittest steps found",
+  "test_labels_parsed": false
+}

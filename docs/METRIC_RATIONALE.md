@@ -41,10 +41,18 @@ görülen türün tamamen başarısız olmasını tek bir toplam içinde gizleye
 Payda sıfırsa ilgili F1 sıfırdır; o tür ortalamadan çıkarılmaz. Farklı türlerin
 aynı karakterde örtüşmesi korunur, tek softmax sınıfına zorlanmaz.
 
-Bu, [FINAL_PROTOCOL.json](FINAL_PROTOCOL.json) içindeki **tarihsel V1 model
+Bu, [FINAL_PROTOCOL.json](FINAL_PROTOCOL.json) içindeki **tarihsel V1 Transformer
 seçiminin** birincil ölçütüdür. Seçim kuralı: validation typed macro F1,
 eşitlikte any-character F1; aileler tam eşitse temel/ağırlıksız model.
 Geri bildirim nedeniyle resmî test görüldükten sonra bu kural değiştirilmez.
+
+Tarihsel CRF hiperparametre/decoder taramasında seçim ölçütü any-character
+F1'dı; [CRF raporu](BASELINE_CRF.md) bu politikayı açıklar. Pozitif bölge F1'ı
+sorunsuz token çoğunluğuyla accuracy gibi yükselmez, fakat nadir hata türlerini
+eşit ağırlıklandırmaz. Bu nedenle CRF için de tür bazında ve macro F1 ayrıca
+gösterilir. Yeni RNN/CNN/BERT ekleri macro ardından any F1 kullanır; sabit
+ayarlı HMM için validation hiperparametre araması yapılmaz. Model aileleri
+arasında aynı seçim/arama bütçesi kullanılmış gibi bir iddia kurulmaz.
 
 Macro F1'ın bedeli vardır: az örnekli sınıfta birkaç tahmin büyük oynama
 yaratabilir. Dört sınıfa eşit ağırlık vermek, kullanım sıklığıyla ağırlık

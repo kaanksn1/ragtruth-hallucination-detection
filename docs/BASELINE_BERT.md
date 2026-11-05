@@ -11,6 +11,12 @@ Model source and pretrained-model license (Apache-2.0):
 The project MIT license does not replace the pretrained model's license.
 Pretrained and finetuned model weights are not stored in Git.
 
+The tokenizer can warn that a full input text exceeds 512 tokens while the
+adapter first counts its original tokens to construct windows. The encoder
+receives the subsequent response/source pairs capped at 512, not that full
+unwindowed text. This warning alone is not an indexing failure or evidence that
+long records were discarded.
+
 ## Fixed settings and scope
 
 `configs/supplementary/bert.json` reuses the tested shared four-sigmoid
@@ -20,14 +26,14 @@ annotation metadata never becomes input. Independent outputs retain overlapping
 types. Token predictions map to original Unicode character offsets.
 
 This resource-bounded baseline uses **one full training epoch**, FP32, seed42,
-AdamW at2e-5, effective batch8, maximum512 tokens. Training selects the best
+AdamW at 2e-5, effective batch 8, maximum 512 tokens. Training selects the best
 input-only source window per response chunk; validation aggregates all windows
 with the same `min` rule as the original Transformer pipeline. Long answers and
 sources are windowed, not silently dropped. A one-epoch baseline is not an
 equally tuned or compute-matched comparison against the original three-epoch,
 2,048-token ModernBERT experiment. Report these differences when comparing.
 
-The base threshold is0.5. A separately recorded validation-only per-type grid
+The base threshold is 0.5. A separately recorded validation-only per-type grid
 may be used with the historical macro-first calibration rule. There is no
 official test inference/evaluation or tuning in this supplementary run.
 

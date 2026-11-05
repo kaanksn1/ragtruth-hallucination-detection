@@ -6,9 +6,10 @@ değerlendirmesi tamamlandı. [Teknik rapor](../results/FINAL_REPORT.md),
 job/protokol çiftleri güncel teslimdir. Aşağıdaki tarihli ilk kontroller,
 yapıldıkları tarihteki durumu kaydeder.
 
-Bu katman yalnız veri indirme/doğrulama, komut çalıştırma ve kayıt tutmayı
-yapar. CRF, Transformer, veri hizalama ve ortak scorer ilgili üyelerden gelir.
-Tam model eğitimi henüz başlamadı. Nihai test protokolü hâlâ taslak.
+Bu katman veri indirme/doğrulama, komut çalıştırma ve kayıt tutmayı yapar.
+İlk kurulum sırasında eğitim başlamamış ve nihai protokol taslak durumundaydı;
+üstteki güncel durum, tamamlanmış tarihsel V1 çalışmasını gösterir. CRF,
+Transformer, veri hizalama ve ortak scorer'ın özgün üye sahipliği korunur.
 
 ## Veri ve testler
 

@@ -1,0 +1,67 @@
+{
+  "study": "post_feedback_supplement_2026-11-05",
+  "status": "complete",
+  "jobs": [
+    {
+      "stage": "cnn",
+      "command": [
+        "/opt/banking77-venv/bin/python",
+        "scripts/baseline_neural.py",
+        "--model",
+        "cnn",
+        "--output-dir",
+        "outputs/supplement_20261105/cnn",
+        "--device",
+        "cuda"
+      ],
+      "started_utc": "2026-11-05T18:37:55.194368+00:00",
+      "log": "outputs/supplement_20261105/cnn.log",
+      "status": "complete",
+      "pid": 395,
+      "exit_code": 0,
+      "finished_utc": "2026-11-05T18:38:59.127149+00:00"
+    },
+    {
+      "stage": "bert_train",
+      "command": [
+        "/opt/banking77-venv/bin/python",
+        "scripts/transformer.py",
+        "train",
+        "--config",
+        "configs/supplementary/bert.json",
+        "--output",
+        "outputs/supplementary_bert_20261105",
+        "--device",
+        "cuda"
+      ],
+      "started_utc": "2026-11-05T18:38:59.130230+00:00",
+      "log": "outputs/supplement_20261105/bert_train.log",
+      "status": "complete",
+      "pid": 2020,
+      "exit_code": 0,
+      "finished_utc": "2026-11-05T19:15:23.378248+00:00"
+    },
+    {
+      "stage": "bert_calibration",
+      "command": [
+        "/opt/banking77-venv/bin/python",
+        "scripts/calibrate_transformer.py",
+        "--config",
+        "configs/supplementary/bert_calibration.json",
+        "--selection-mode",
+        "legacy_macro",
+        "--output",
+        "outputs/supplementary_bert_calibration_20261105",
+        "--device",
+        "cuda"
+      ],
+      "started_utc": "2026-11-05T19:15:23.386257+00:00",
+      "log": "outputs/supplement_20261105/bert_calibration.log",
+      "status": "complete",
+      "pid": 2900,
+      "exit_code": 0,
+      "finished_utc": "2026-11-05T19:21:11.489442+00:00"
+    }
+  ],
+  "finished_utc": "2026-11-05T19:21:11.492922+00:00"
+}

@@ -13,7 +13,7 @@ toplama, yeni insan anotasyonu veya kapsamlı ham veri temizliği iddiası yoktu
 | Kendi kodumuza ait LICENSE yok | Kök [LICENSE](../LICENSE): MIT, © 2026 kaanksn1 and project contributors | Veri lisansından ayrı kod lisansı; upstream hak bildirimleri korunur |
 | Metrik seçimi sınıf dengesizliğiyle yeterince gerekçelendirilmemiş | [METRIC_RATIONALE.md](METRIC_RATIONALE.md) ve README'de görünür açıklama | Çoğunluk `O` örneği, dört türün desteği, macro/micro tercihi ve sınırlılıkları; eski protokol değiştirilmez |
 | README bazı dosyaları açıklamıyor | [README / Proje yapısı](../README.md#proje-yapısı) | `AGENTS.md`, `PROJECT_HANDOFF.md`, `.github/`, `evaluate.py`, `plot_results.py`, `transformer.py` ve diğer kök öğeler açıklanır |
-| Ayrı BERT, HMM, RNN ve CNN benchmark'ları yok | Geri bildirim sonrası tamamlayıcı baseline çalışması | İlk resmî karşılaştırmada bu modeller yoktu; tamamlanmış koşum raporu oluşmadan sonuç varmış gibi gösterilmez |
+| Ayrı BERT, HMM, RNN ve CNN benchmark'ları yok | [Tamamlanmış dört yeni baseline ve yedi model karşılaştırması](../results/supplement_2026-11-05/README.md) | Aynı 12.702 train / 2.240 validation; gerçek tahminler ve ölçülmüş skorlar teslim edilir; yeni resmî test sonucu değildir |
 
 ## Metrik gerekçesindeki tarihsel kanıt
 
@@ -63,6 +63,11 @@ Veri kimliği kontrolü: `python scripts/verify_submission_data.py`.
 Kod kontrolleri: `python -m unittest discover -s tests -v`.
 Bağımlılığı bulunmayan ortamda atlanan testler tam kapsam sayılmaz.
 
-Bu dosyadaki baseline ve kontrol durumu, gerçek koşum raporları ve GitHub
-kontrolleri tamamlandığında ilgili raporlara bağlanarak güncellenir. Sayı,
-süre, başarı veya tamamlanmış baseline sonucu ölçülmeden eklenmez.
+Dokuz veri dosyası / **278.308.446 byte**, hem yerel byte/hash kontrolünden hem
+gerçek Git blob denetiminden geçti. Dört yeni modelin gerçek kayıtları ve
+yedi modelin ortak değerlendirmesi [ek rapordadır](../results/supplement_2026-11-05/README.md).
+HMM/RNN/CNN metrikleri birebir yeniden üretildi; BERT'in tam kohortu, checkpoint
+hash'leri ve kalibrasyon metrikleri doğrulandı. Yerel iki ortamda **272 test**
+çalıştı: HF/CPU **269 geçti, 3 atlandı**; native/CRF **234 geçti, 38 atlandı**.
+İlk kod teslimi `4302236` için dört GitHub kontrolü geçti; güncel teslimin
+kontrolleri GitHub pull request kaydındadır.

@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "status": "selected_on_validation",
+  "validation_split": "validation",
+  "label_types": [
+    "Evident Conflict",
+    "Subtle Conflict",
+    "Evident Baseless Info",
+    "Subtle Baseless Info"
+  ],
+  "threshold_grid": [
+    0.005,
+    0.01,
+    0.02,
+    0.05,
+    0.1,
+    0.15,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6
+  ],
+  "checkpoint": "outputs/supplementary_bert_20261105/checkpoints/epoch-1",
+  "checkpoint_sha256": "be3fbf9ac73e5cfe5e9e2277d79000d5b3eb8d042a5b28ebb7ad6626a35db53a",
+  "data_sha256": {
+    "split_summary": "dcef97fb4275a21a62700cf8be9f30dad4305093771fbac8674470c8c10da7b1",
+    "split_manifest": "7d292931c9337c9a4e30e9a62c7f09e72e8e8c51e31bc22b0522515aa3248a5f",
+    "train.jsonl": "005def627fa45493e024e1b9e2295d289a0698ea475b888e8e2320d86151bb96",
+    "validation.jsonl": "d070d62056b2a7f11a58748291f6fd1881cceabc35e3db29435f1ae7d488c5ec"
+  },
+  "thresholds_by_type": {
+    "Evident Conflict": 0.2,
+    "Subtle Conflict": 0.005,
+    "Evident Baseless Info": 0.3,
+    "Subtle Baseless Info": 0.02
+  },
+  "selection_metric": "macro_f1_types",
+  "threshold_tie_break": "higher threshold",
+  "checkpoint_tie_break": "higher any character F1, then earlier declared checkpoint",
+  "selected_configuration": "per_type",
+  "selection_policy": {
+    "version": "legacy-per-type-macro-v1",
+    "mode": "legacy_macro",
+    "selection_metric": "macro_f1_types",
+    "minimum_validation_type_precision": 0.0,
+    "empty_prediction_allowed": true,
+    "no_eligible_threshold": "reject configuration; no maximum-grid fallback",
+    "configuration_order": [
+      "per_type"
+    ]
+  },
+  "producer": {
+    "code_sha256": {
+      "scripts/calibrate_transformer.py": "e164c6cadc6dccef7a3841a024043af151a0f8f2436546098c9a3f7adfc5db77",
+      "scripts/baseline_crf.py": "42f652a1c6ea104118638d63ec0e846d7a9399b6f29f2413284ebb8a2d12e790",
+      "scripts/transformer.py": "45da2bfd7e4e297deb60b1ef55f3e67043cdaa26947069f694b7b8e2ae2301a2",
+      "transformer.py": "cac6bc3fa3f6117cc3a63c8d89261db447c05aa4ab92bc508ac29c0cae923723",
+      "ragtruth_data/features.py": "c88d274ccd53b4f8e8bb0b8a28596a34d254cb36e9259b5dd313f0f8da0702ab",
+      "ragtruth_data/alignment.py": "a6b20d64c5ef35b445107c55ce6e9e914d2cba0e9c345592a471b89a9ecc8a6c",
+      "ragtruth_data/data.py": "08729f4bcdcb68306cd4c99a27abaebc4618a1df393cbc4da973734c1e8a0e58",
+      "ragtruth_data/schema.py": "7dd60680feaaac7d8938f3e668001ba61d3050794a61a1aab5f56b7d4e8a069c"
+    },
+    "git": {
+      "available": true,
+      "commit": "1bc716569057e27294ed769eab5b9c8eb16869fe",
+      "dirty": true,
+      "status_sha256": "82d8bbb8c3afd97743d62668fd39fc0791fd3a29b4dda425e21a376ef6bc36a1"
+    }
+  },
+  "validation_metrics": {
+    "any": {
+      "precision": 0.37377979297320124,
+      "recall": 0.458057459815238,
+      "f1": 0.4116493266576858,
+      "gold_chars": 102402
+    },
+    "Evident Conflict": {
+      "precision": 0.3563443730708267,
+      "recall": 0.33973594209814684,
+      "f1": 0.3478420195439739,
+      "gold_chars": 25146
+    },
+    "Subtle Conflict": {
+      "precision": 0.0013058239749281796,
+      "recall": 0.018072289156626505,
+      "f1": 0.0024356580336120804,
+      "gold_chars": 830
+    },
+    "Evident Baseless Info": {
+      "precision": 0.46923491115571003,
+      "recall": 0.33191371489906857,
+      "f1": 0.3888055161224903,
+      "gold_chars": 57762
+    },
+    "Subtle Baseless Info": {
+      "precision": 0.09852623939033488,
+      "recall": 0.5196724797958315,
+      "f1": 0.16564697906957038,
+      "gold_chars": 18808
+    },
+    "macro_f1_types": 0.22618254319241168
+  },
+  "official_test_evaluated": false
+}

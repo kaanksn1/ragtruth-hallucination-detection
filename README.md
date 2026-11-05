@@ -40,8 +40,9 @@ Dört bağımsız çıktı, farklı türdeki örtüşen etiketleri korur. Model 
 validation ile yapıldı; kararlar resmî testten önce [donduruldu](docs/FINAL_PROTOCOL.json).
 
 İlk teslimde ayrı klasik BERT, HMM, RNN ve CNN benchmark'ları bulunmuyordu.
-Bu modellerin geri bildirim sonrası uygulama/koşum durumu ve sınırlılıkları
-[teslim düzeltmesi kaydında](docs/SUBMISSION_FIXES_2026-11-05.md) açıklanır.
+Bu dört modelin tam veri koşumları tamamlandı; gerçek tahminler, skorlar ve
+sınırlılıklar [yedi modelin validation benchmark'ında](results/supplement_2026-11-05/README.md)
+ve [teslim düzeltmesi kaydında](docs/SUBMISSION_FIXES_2026-11-05.md) açıklanır.
 ModernBERT'in BERT ailesinden olması, ayrı bir klasik BERT karşılaştırmasının
 yerini aldığı anlamına gelmez.
 
@@ -50,9 +51,13 @@ yerini aldığı anlamına gelmez.
 Eğitim verisindeki kelime tokenlarının yalnız yaklaşık %5,6'sı anotasyonludur;
 sürekli `O` tahmini yüksek accuracy verirken hatalı bölgeleri hiç bulmayabilir.
 Dört türün eğitim anotasyon sayıları da **4.017 / 160 / 4.654 / 2.006**'dır.
-Bu nedenle donmuş V1 seçiminde **dört türün character macro F1 ortalaması**
+Bu nedenle donmuş V1 Transformer seçiminde **dört türün character macro F1 ortalaması**
 birincil, **any-character micro F1** eşitlik bozucu ölçüttür. Macro her türe
 eşit ağırlık verir; nadir bir türün başarısızlığı çoğunluk içinde kaybolmaz.
+
+Tarihsel CRF ayar seçimi any-character F1 kullanmıştı. Bu tercih ve farklı
+arama bütçeleri açıkça korunur; bütün modellerin aynı seçim kuralıyla eşit
+ölçüde optimize edildiği iddia edilmez.
 
 Any-character F1 genel bölge tespitini; exact typed-span F1 ise hem sınırın hem
 türün tam eşleşmesini ölçer. Precision/recall ve tür destekleri de raporlanır.
@@ -85,6 +90,11 @@ Ayrıntılar: [teknik rapor](results/FINAL_REPORT.md) · [Türkçe bulgular](res
 
 ## Son geliştirmeler
 
+- **Eksik baseline'lar tamamlandı:** Aynı 2.240 validation cevabında any-character
+  F1: HMM **%21,02**, RNN **%18,08**, CNN **%18,99**, klasik BERT **%41,16**.
+  Tarihsel CRF ve ModernBERT ile [ortak karşılaştırma](results/supplement_2026-11-05/README.md),
+  tahmin dosyaları ve koşum kimlikleri Git'tedir. Bunlar geri bildirim sonrası
+  validation ekleridir; eski resmî test tablosunun yerine geçmez.
 - **Yeni seçim deneyleri:** Ayrı oturumda any-F1 öncelikli seçim ve ortak eşik
   araması denendi. Raporlanan validation F1: Transformer %55,07, CRF %39,22.
   Bunlar bağımsız test sonucu değildir; yeni oturumun tahmin/ağırlıkları bu depoda yoktur.
@@ -129,7 +139,7 @@ Eğitim ve değerlendirme adımları: [çalıştırma rehberi](docs/RUNNING.md) 
 | [`.github/`](.github/) | Pull request şablonu ve Python/Transformer GitHub Actions test iş akışları |
 | [`evaluate.py`](evaluate.py) | Sabit tahminleri ortak karakter/span metrikleriyle karşılaştıran CLI; model eğitmez |
 | [`plot_results.py`](plot_results.py) | Ortak değerlendirme JSON'undan karşılaştırma grafikleri üretir |
-| [`transformer.py`](transformer.py) | ModernBERT token sınıflandırıcısı, konfigürasyon ve eğitim/tahmin yardımcıları; CLI `scripts/transformer.py` içindedir |
+| [`transformer.py`](transformer.py) | ModernBERT ve ek klasik BERT için ortak token sınıflandırıcısı, konfigürasyon ve eğitim/tahmin yardımcıları; CLI `scripts/transformer.py` içindedir |
 | [`neural_baselines.py`](neural_baselines.py) | Geri bildirim sonrası eklenen kelime düzeyinde RNN/CNN, train-only sözlük ve modeli yeniden yükleme yardımcıları |
 | [`data/`](data/README.md) | Ham veri, hazırlanmış kayıtlar, kaynak gruplu manifest/hash'ler ve küçük örnekler |
 | `ragtruth_data/` | Veri şeması, bölümleme ve hizalama |

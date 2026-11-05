@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "split": "validation",
+  "checkpoints": ["outputs/supplementary_bert_20261105/checkpoints/epoch-1"],
+  "threshold_grid": [0.005, 0.01, 0.02, 0.05, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6],
+  "selection_metric": "macro_f1_types",
+  "threshold_tie_break": "higher threshold",
+  "checkpoint_tie_break": "higher any character F1, then earlier declared checkpoint",
+  "note": "Post-feedback supplementary BERT baseline. Declared before full training/inference. One full training epoch; same V1 train/dev; historical macro-first validation selection; no official test evaluation."
+}

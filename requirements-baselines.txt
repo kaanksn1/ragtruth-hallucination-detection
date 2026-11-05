@@ -1,0 +1,3 @@
+# Install the existing CUDA/ROCm-specific torch build first. No Transformers
+# download is required for the supervised response-only RNN/CNN baselines.
+torch>=2.6,<3

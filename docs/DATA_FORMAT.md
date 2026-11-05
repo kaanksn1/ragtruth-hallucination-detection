@@ -2,6 +2,11 @@
 
 `docs/TEAM.md` içindeki "Hazırlanmış örnek" önerisinin uygulanmış hâli. Bütün modeller (CRF, bağlamlı Transformer) ve scorer bu dosyalardan okur.
 
+**Teslim güncellemesi — 5 Kasım 2026:** Önceki sürümlerde Git dışında olan ham
+ve işlenmiş veriler artık teslim edilir. [Veri dizini rehberi](../data/README.md)
+ve `python scripts/verify_submission_data.py` dosya kökenini/hash'lerini açıklar.
+Bu değişiklik hazır veriyi yeni/özgün corpus olarak yeniden tanımlamaz.
+
 ## Çalıştırma
 
 ```powershell
@@ -18,8 +23,10 @@ python -m unittest discover -s tests -v
 
 | Çıktı | Git | İçerik |
 |---|---|---|
-| `data/processed/{train,validation}.jsonl` | hayır | Kayıtlar (şema aşağıda) |
-| `data/processed/crf_{train,validation}.jsonl` | hayır | CRF için kelime token'ları ve etiketleri |
+| `data/processed/{train,validation}.jsonl` | evet (5 Kasım teslimi) | Kayıtlar (şema aşağıda) |
+| `data/processed/crf_{train,validation}.jsonl` | evet (5 Kasım teslimi) | CRF için kelime token'ları ve etiketleri |
+| `data/processed/{test,crf_test}.jsonl` | evet (5 Kasım teslimi) | Donmuş V1 değerlendirmesinde kullanılan resmî test gösterimleri |
+| `data/raw/{response,source_info}.jsonl`, `data/raw/LICENSE` | evet (5 Kasım teslimi) | Değiştirilmemiş upstream dosyaları ve veri lisansı |
 | `data/splits/split_manifest_v1.csv` | evet | `source_id, group_id, task_type, source_dataset, official_split, split, n_responses` |
 | `data/splits/split_summary_v1.json` | evet | Sayılar, seed, ham ve işlenmiş dosya hash'leri |
 | `data/samples/*.jsonl` | evet | 8 örnek kayıt (train/validation) |
